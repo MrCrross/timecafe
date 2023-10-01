@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('desks', function (Blueprint $table) {
+        Schema::create('rooms_rates', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->boolean('VIP');
-            $table->unsignedInteger('capacity');
+            $table->string('name')->unique();
+            $table->unsignedInteger('price');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('desks');
+        Schema::dropIfExists('rooms_rates');
     }
 };

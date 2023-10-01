@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Desks;
+namespace App\Models\Rooms;
 
 use App\Models\Products\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,22 +9,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DesksOrder extends Model
+class RoomsOrder extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $table = 'desks_orders';
+    protected $table = 'rooms_orders';
     public $timestamps = true;
     protected $guarded = [];
 
-    public function desk(): BelongsTo
+    public function room(): BelongsTo
     {
-        return $this->belongsTo(Desk::class, 'desk_id', 'id');
+        return $this->belongsTo(Room::class, 'room_id', 'id');
     }
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'desks_orders_products', 'order_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'rooms_orders_products', 'order_id', 'product_id');
     }
 }

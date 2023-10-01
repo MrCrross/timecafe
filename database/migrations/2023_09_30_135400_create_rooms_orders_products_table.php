@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('desks_orders_products', function (Blueprint $table) {
+        Schema::create('rooms_orders_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
@@ -20,7 +20,7 @@ return new class extends Migration
 
             $table->unique(['order_id', 'product_id']);
 
-            $table->foreign('order_id')->on('desks_orders')->references('id');
+            $table->foreign('order_id')->on('rooms_orders')->references('id');
             $table->foreign('product_id')->on('products')->references('id');
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('desks_orders_products');
+        Schema::dropIfExists('rooms_orders_products');
     }
 };

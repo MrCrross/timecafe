@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Models\Desks;
+namespace App\Models\Rooms;
 
 use App\Models\Products\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DesksOrdersProduct extends Model
+class RoomsOrdersProduct extends Model
 {
     use HasFactory;
 
-    protected $table = 'desks_orders_products';
+    protected $table = 'rooms_orders_products';
     public $timestamps = true;
     protected $guarded = [];
 
     public function order(): BelongsTo
     {
-        return $this->belongsTo(DesksOrder::class, 'order_id', 'id');
+        return $this->belongsTo(RoomsOrder::class, 'order_id', 'id');
     }
 
     public function product(): BelongsTo
