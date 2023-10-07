@@ -4,10 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -47,8 +47,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function params(): BelongsToMany
+    public function params(): Collection
     {
-        return $this->belongsToMany(UsersParam::class, 'users_users_params', 'user_id', 'param_id');
+        return $this->belongsToMany(UsersParam::class, 'users_users_params', 'user_id', 'param_id')
+            ->pluck('name', 'name');
     }
 }

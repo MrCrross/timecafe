@@ -20,8 +20,8 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->unique()->jobTitle(),
             'price' => fake()->randomDigit(),
+            'image' => fake()->imageUrl,
             'type_id' => random_int(1, 10),
-            'status' => 1,
         ];
     }
 }

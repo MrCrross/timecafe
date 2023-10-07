@@ -5,6 +5,7 @@ namespace App\Models\Rooms;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,4 +33,8 @@ class Room extends Model
         return $this->belongsTo(RoomsRate::class, 'rate_id', 'id');
     }
 
+    public function images(): HasMany
+    {
+        return $this->hasMany(RoomsImage::class, 'id', 'room_id');
+    }
 }

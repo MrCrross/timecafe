@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('price');
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('type_id');
-            $table->boolean('status');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('type_id')->on('products_types')->references('id');
+            $table->foreign('type_id')
+                ->on('products_types')
+                ->references('id');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Modules\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\UsersParam;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -29,6 +30,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $request->user()->params = UsersParam::getByUserID($request->user()->id);
+
+        if ($request->user()->params->has('users_edit')) {
+            return redirect('/admin');
+        }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
