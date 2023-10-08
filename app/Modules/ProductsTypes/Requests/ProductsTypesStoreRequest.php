@@ -2,10 +2,7 @@
 
 namespace App\Modules\ProductsTypes\Requests;
 
-use App\Models\Products\ProductsType;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\File;
 
 class ProductsTypesStoreRequest extends FormRequest
 {

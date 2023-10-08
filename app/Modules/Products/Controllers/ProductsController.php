@@ -4,10 +4,10 @@ namespace App\Modules\Products\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
-use App\Models\Products\Product;
-use App\Models\Products\ProductsType;
-use App\Modules\Products\Requests\ProductsStoreRequest;
-use App\Modules\Products\Requests\ProductsUpdateRequest;
+use App\Modules\Products\Models\Product;
+use App\Modules\Rooms\Requests\ProductsStoreRequest;
+use App\Modules\Rooms\Requests\ProductsUpdateRequest;
+use App\Modules\ProductsTypes\Models\ProductsType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
@@ -15,6 +15,20 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProductsController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function welcome(): Response
+    {
+        $products = Product::with('type')
+            ->orderBy('name')
+            ->orderBy('type_id')
+            ->paginate(6);
+
+        return response()->view('products.welcome', [
+            'products' => $products
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -115,6 +129,12 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
+    /**
+     * @param int $productID
+     * @param UploadedFile $file
+     *
+     * @return void
+     */
     private function saveImage(int $productID, UploadedFile $file): void
     {
         $path = "/products/{$productID}/";

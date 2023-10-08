@@ -1,5 +1,6 @@
 @props([
-    'maxWidth' => 'xs'
+    'maxWidth' => 'xs',
+    'welcome' => false,
 ])
 @php
     $maxWidth = [
@@ -10,15 +11,22 @@
         'xl' => 'max-w-xl',
         '2xl' => 'max-w-2xl',
     ][$maxWidth];
+
+    $bgColor = 'bg-white dark:bg-gray-800';
+    $textColor = 'text-gray-800 dark:text-white';
+    if ($welcome) {
+        $bgColor = 'bg-gold dark:bg-dark';
+        $textColor = 'text-gray-800 dark:text-gold';
+    }
 @endphp
 <div
-    class="{{$maxWidth}} overflow-hidden bg-white mx-auto lg:mx-0 rounded-lg shadow-lg dark:bg-gray-800"
+    class="{{$maxWidth}} overflow-hidden mx-auto lg:mx-0 rounded-lg shadow-lg {{$bgColor}}"
 >
     <div
         class="px-4 py-2"
     >
         <h1
-            class="text-xl font-bold text-gray-800 uppercase dark:text-white"
+            class="text-xl font-bold uppercase {{$textColor}}"
         >
             {{$product->name}}
         </h1>
@@ -29,7 +37,7 @@
         </p>
     </div>
 
-    <a href="{{route('products.show', $product->id)}}">
+    <a href="{{$welcome ? '#menu' : route('products.show', $product->id)}}">
         <img
             class="object-cover w-full h-48 mt-2" src="{{$product->image}}"
             alt="{{$product->name}}"
@@ -57,12 +65,14 @@
                     </a>
                 @endif
             @endauth
-            <button
-                class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
-            duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-            >
-                Заказать
-            </button>
+            @guest
+                <button
+                    class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
+                duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                >
+                    Заказать
+                </button>
+            @endguest
         </div>
     </div>
 </div>

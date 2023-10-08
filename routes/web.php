@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilesController;
+use App\Http\Controllers\WelcomeController;
 use App\Modules\Profile\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
-
-Route::get('/admin', function () {
-    return view('admin');
-})->middleware(['auth']);
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/', [WelcomeController::class, 'get'])->name('welcome');
+Route::get('/admin', [WelcomeController::class, 'admin'])->middleware(['auth', 'param:isAdmin'])->name('admin.index');
 
 Route::get('{upload}', [FilesController::class, 'get'])->middleware(['auth'])->where('upload', '(upload\/)(.*)');
 
@@ -37,4 +29,4 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/products.php';
-require __DIR__ . '/products_types.php';
+require __DIR__ . '/rooms.php';

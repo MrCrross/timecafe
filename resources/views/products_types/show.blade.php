@@ -9,7 +9,7 @@
                     <img
                         class="max-w-lg"
                         src="{{$type->image}}"
-                        alt=""
+                        alt="{{$type->name}}"
                     >
 
                     <x-item-p label="Название: " value="{{$type->name}}"></x-item-p>

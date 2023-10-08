@@ -18,7 +18,19 @@ class ParamValidation
     public function handle(Request $request, Closure $next, string $param): Response
     {
         if ($request->user()) {
-            if ($request->user()->params()->has($param)) {
+            if ($param === 'isAdmin') {
+                $request->user()->isAdmin = false;
+                foreach ($request->user()->params() as $param) {
+                    if (str_contains($param, '_edit')) {
+                        $request->user()->isAdmin = true;
+                        break;
+                    }
+                }
+                if ($request->user()->isAdmin) {
+                    return $next($request);
+                }
+            }
+            if ($param !== 'isAdmin' && $request->user()->params()->has($param)) {
                 return $next($request);
             }
         }

@@ -3,5 +3,27 @@
 @tailwind utilities;
 
 @layer components {
+    .bg-gold {
+        @apply bg-[#CC9966];
+    }
 
+    .bg-dark {
+        @apply bg-[rgba(0,0,0,0.7)];
+    }
+
+    .text-gold {
+        @apply text-[#CC9966];
+    }
+
+    .fill-gold {
+        @apply fill-[#CC9966];
+    }
+
+    .stroke-gold {
+        @apply stroke-[#CC9966];
+    }
+
+    .select-gold option {
+        @apply text-gray-800 bg-gold dark:text-gold dark:bg-dark;
+    }
 }

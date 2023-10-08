@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('fio');
+            $table->string('email');
             $table->boolean('status');
             $table->unsignedTinyInteger('hours');
             $table->unsignedInteger('capacity');

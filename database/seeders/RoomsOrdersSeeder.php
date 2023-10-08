@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Rooms\RoomsOrder;
-use App\Models\Rooms\RoomsOrdersProduct;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Modules\RoomsOrders\Models\RoomsOrder;
+use App\Modules\RoomsOrders\Models\RoomsOrdersProduct;
 use Illuminate\Database\Seeder;
 
 class RoomsOrdersSeeder extends Seeder

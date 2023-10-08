@@ -5,23 +5,33 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('admin.index') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
                     </a>]
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Товары') }}
-                    </x-nav-link>
-                    @auth
-                        @if(Auth::user()->params()->has('products_types_view'))
-                            <x-nav-link :href="route('products_types.index')" :active="request()->routeIs('products_types.index')">
-                                {{ __('Типы товаров') }}
-                            </x-nav-link>
-                        @endif
-                    @endauth
+                    @if(Auth::user()->params()->has('products_view'))
+                        <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                            {{ __('Товары') }}
+                        </x-nav-link>
+                    @endif
+                    @if(Auth::user()->params()->has('products_types_view'))
+                        <x-nav-link :href="route('products_types.index')" :active="request()->routeIs('products_types.index')">
+                            {{ __('Типы товаров') }}
+                        </x-nav-link>
+                    @endif
+                    @if(Auth::user()->params()->has('rooms_rates_view'))
+                        <x-nav-link :href="route('rooms_rates.index')" :active="request()->routeIs('rooms_rates.index')">
+                            {{ __('Тарифы') }}
+                        </x-nav-link>
+                    @endif
+                    @if(Auth::user()->params()->has('rooms_view'))
+                        <x-nav-link :href="route('rooms.index')" :active="request()->routeIs('rooms.index')">
+                            {{ __('Комнаты') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -42,41 +52,28 @@
                                                                   d="M17 3a1 1 0 0 1 1 1 2 2 0 0 0 2 2 1 1 0 1 1 0 2 2 2 0 0 0-2 2 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 1 1 0-2 2 2 0 0 0 2-2 1 1 0 0 1 1-1Z"
                                                                   class="fill-sky-500"></path></svg></span>
                 </button>
-                @auth
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <x-dropdown-btn-trigger :title="Auth::user()->fio"></x-dropdown-btn-trigger>
-                        </x-slot>
+                <x-dropdown align="right" width="48">
+                    <x-slot name="trigger">
+                        <x-dropdown-btn-trigger :title="Auth::user()->fio"></x-dropdown-btn-trigger>
+                    </x-slot>
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('profile.edit')">
-                                {{ __('Профиль') }}
+                    <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Профиль') }}
+                        </x-dropdown-link>
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                             onclick="event.preventDefault();
+                                            this.closest('form').submit();">
+                                {{ __('Выйти') }}
                             </x-dropdown-link>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-
-                                <x-dropdown-link :href="route('logout')"
-                                                 onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                    {{ __('Выйти') }}
-                                </x-dropdown-link>
-                            </form>
-                        </x-slot>
-                    </x-dropdown>
-                @else
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('login')">
-                            {{ __('Войти') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('register')">
-                            {{ __('Зарегистрироваться') }}
-                        </x-nav-link>
-                    </div>
-                @endauth
+                        </form>
+                    </x-slot>
+                </x-dropdown>
             </div>
 
             <!-- Hamburger -->
@@ -98,53 +95,54 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
-                {{ __('welcome') }}
+            <x-responsive-nav-link :href="route('admin.index')" :active="request()->routeIs('admin.index')">
+                {{ __('Главная') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                {{ __('Товары') }}
-            </x-responsive-nav-link>
-            @auth
-
-            @endauth
+            @if(Auth::user()->params()->has('products_view'))
+                <x-responsive-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
+                    {{ __('Товары') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('products_types_view'))
+                <x-responsive-nav-link :href="route('products_types.index')" :active="request()->routeIs('products_types.index')">
+                    {{ __('Типы товаров') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('rooms_rates_view'))
+                <x-responsive-nav-link :href="route('rooms_rates.index')" :active="request()->routeIs('rooms_rates.index')">
+                    {{ __('Тарифы') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('rooms_view'))
+                <x-responsive-nav-link :href="route('rooms.index')" :active="request()->routeIs('rooms.index')">
+                    {{ __('Комнаты') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-            @auth
-                <div class="px-4">
-                    <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->fio }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->fio }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            </div>
 
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('profile.edit')">
-                        {{ __('Профиль') }}
+            <div class="mt-3 space-y-1">
+                <x-responsive-nav-link :href="route('profile.edit')">
+                    {{ __('Профиль') }}
+                </x-responsive-nav-link>
+
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-responsive-nav-link :href="route('logout')"
+                                           onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                        {{ __('Выйти') }}
                     </x-responsive-nav-link>
-
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-responsive-nav-link :href="route('logout')"
-                                               onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                            {{ __('Выйти') }}
-                        </x-responsive-nav-link>
-                    </form>
-                </div>
-            @endauth
-            @guest
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('login')">
-                        {{ __('Войти') }}
-                    </x-responsive-nav-link>
-
-                    <x-responsive-nav-link :href="route('register')">
-                        {{ __('Зарегистрироваться') }}
-                    </x-responsive-nav-link>
-                </div>
-            @endguest
+                </form>
+            </div>
         </div>
     </div>
 </nav>

@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        @include('products.partials.header')
+        <x-product-header/>
     </x-slot>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="max-w-lg flex flex-col justify-center items-center py-4 lg:max-w-none lg:p-6 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="max-w-lg flex flex-col justify-center items-center py-4 lg:max-w-none lg:p-6 bg-white dark:bg-gray-800 shadow-xl sm:rounded-lg">
                 <div class="flex flex-col justify-center items-start gap-2">
                     <img
                         class="max-w-lg"
                         src="{{$product->image}}"
-                        alt=""
+                        alt="{{$product->name}}"
                     >
                     <x-item-p label="Название: " value="{{$product->name}}"></x-item-p>
                     <x-item-p label="Стоимость: " value="{{$product->price}}"></x-item-p>

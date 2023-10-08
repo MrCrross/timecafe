@@ -4,7 +4,7 @@ namespace App\Modules\ProductsTypes\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
-use App\Models\Products\ProductsType;
+use App\Modules\ProductsTypes\Models\ProductsType;
 use App\Modules\ProductsTypes\Requests\ProductsTypesStoreRequest;
 use App\Modules\ProductsTypes\Requests\ProductsTypesUpdateRequest;
 use Illuminate\Http\RedirectResponse;

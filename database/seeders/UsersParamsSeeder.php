@@ -47,15 +47,19 @@ class UsersParamsSeeder extends Seeder
                 'man_name' => 'Создание учетных записей'
             ],
             [
-                'name' => 'rates_edit',
+                'name' => 'rooms_rates_view',
+                'man_name' => 'Просмотр тарифов'
+            ],
+            [
+                'name' => 'rooms_rates_edit',
                 'man_name' => 'Правки тарифов'
             ],
             [
-                'name' => 'orders_view',
+                'name' => 'rooms_orders_view',
                 'man_name' => 'Просмотр заказов'
             ],
             [
-                'name' => 'orders_edit',
+                'name' => 'rooms_orders_edit',
                 'man_name' => 'Работа с заказами'
             ],
         ];

@@ -2,7 +2,7 @@
     <x-slot
         name="header"
     >
-        @include('products.partials.header')
+        <x-product-header/>
     </x-slot>
     <div
         class="py-12"
@@ -85,7 +85,7 @@
 
                     <div class="py-4">
                         <x-input-label
-                            for="name"
+                            for="type_id"
                             :value="__('Тип товара')"
                         />
                         <x-select

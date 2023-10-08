@@ -31,9 +31,16 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $request->user()->params = UsersParam::getByUserID($request->user()->id);
+        $request->user()->isAdmin = false;
+        foreach ($request->user()->params as $param) {
+            if (str_contains($param, '_edit')) {
+                $request->user()->isAdmin = true;
+                break;
+            }
+        }
 
-        if ($request->user()->params->has('users_edit')) {
-            return redirect('/admin');
+        if ($request->user()->isAdmin) {
+            return redirect()->route('admin.index');
         }
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -43,12 +50,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $isAdmin = $request->user()->isAdmin;
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return $isAdmin ? redirect()->route('login') : redirect()->route('welcome');
     }
 }
