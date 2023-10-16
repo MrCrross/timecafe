@@ -120,6 +120,47 @@
                         @endif
                     </div>
                 </form>
+
+                <div class="my-4 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    <h1>{{ __('Дополнительные изображения:') }}</h1>
+                </div>
+                <x-images-preview
+                    :images="$room->images"
+                    route="rooms_images.delete"
+                />
+                <form
+                    action="{{ route('rooms_images.store', $room->id) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+                    @csrf
+                    <x-input-label
+                        for="image"
+                        :value="__('Добавить доп. изображение')"
+                    />
+                    <x-text-input
+                        id="images"
+                        name="images[]"
+                        type="file"
+                        accept="image/*"
+                        class="use-ImagesPreview my-2 block w-full"
+                        required
+                        multiple
+                    />
+                    <x-primary-button>
+                        {{ __('Добавить') }}
+                    </x-primary-button>
+
+                    @if (session('status') === 'room_image-created')
+                        <p
+                            x-data="{ show: true }"
+                            x-show="show"
+                            x-transition
+                            x-init="setTimeout(() => show = false, 5000)"
+                            class="text-sm text-gray-600 dark:text-gray-400"
+                        >{{ __('Добавлено.') }}</p>
+                    @endif
+                </form>
             </section>
         </div>
     </div>

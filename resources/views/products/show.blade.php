@@ -18,6 +18,7 @@
                     <div class="flex flex-row w-full justify-center items-center gap-2">
                         <x-primary-a :href="route('products.edit', $product->id)">{{__('Редактировать')}}</x-primary-a>
                         <x-danger-button
+                            type="submit"
                             x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'confirm-product-deletion')"
                         >
@@ -43,7 +44,7 @@
                     {{ __('Отмена') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3">
+                <x-danger-button class="ml-3" type="submit">
                     {{ __('Удалить') }}
                 </x-danger-button>
             </div>

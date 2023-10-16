@@ -16,6 +16,8 @@ Route::middleware(['auth'])->prefix('rooms')->group(function () {
         Route::post('/', [RoomsController::class, 'store'])->name('rooms.store');
         Route::patch('/{id}', [RoomsController::class, 'update'])->name('rooms.update')->whereNumber('id');
         Route::delete('/{id}', [RoomsController::class, 'destroy'])->name('rooms.destroy')->whereNumber('id');
+        Route::post('/{room_id}/images', [RoomsController::class, 'storeImage'])->name('rooms_images.store')->whereNumber('room_id');
+        Route::delete('/images/{image_id}', [RoomsController::class, 'deleteImage'])->name('rooms_images.delete')->whereNumber('image_id');
     });
 
     Route::prefix('rates')->group(function () {

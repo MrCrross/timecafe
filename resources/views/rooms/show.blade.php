@@ -17,7 +17,7 @@
 
                     <div class="flex flex-row w-full justify-center items-center gap-2">
                         <x-primary-a :href="route('rooms.edit', $room->id)">{{__('Редактировать')}}</x-primary-a>
-                        <x-danger-button
+                        <x-danger-button type="button"
                             x-data=""
                             x-on:click.prevent="$dispatch('open-modal', 'confirm-room-deletion')"
                         >
@@ -43,7 +43,7 @@
                     {{ __('Отмена') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3">
+                <x-danger-button class="ml-3" type="submit">
                     {{ __('Удалить') }}
                 </x-danger-button>
             </div>

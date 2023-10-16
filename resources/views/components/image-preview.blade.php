@@ -41,14 +41,17 @@
     </svg>
 </div>
 <x-modal id="modal_ImagePreview" name="modal_ImagePreview" focusable>
-    <img
-        {{
-            $attributes->merge([
-                'id' => 'modalImage_ImagePreview'
-            ])
-        }}
-    >
-    <div class="mt-6 flex justify-end">
+    <div class="flex flex-row justify-center items-center m-4">
+        <img
+            {{
+                $attributes->merge([
+                    'id' => 'modalImage_ImagePreview'
+                ])
+            }}
+        >
+    </div>
+
+    <div class="m-6 flex justify-end">
         <x-secondary-button x-on:click="$dispatch('close')">
             {{ __('Отмена') }}
         </x-secondary-button>

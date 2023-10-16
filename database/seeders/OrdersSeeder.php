@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Modules\RoomsOrders\Models\RoomsOrder;
-use App\Modules\RoomsOrders\Models\RoomsOrdersProduct;
+use App\Modules\Orders\Models\Order;
+use App\Modules\Orders\Models\OrdersProduct;
 use Illuminate\Database\Seeder;
 
-class RoomsOrdersSeeder extends Seeder
+class OrdersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -85,8 +85,8 @@ class RoomsOrdersSeeder extends Seeder
         foreach ($orders as $order) {
             $products = $order['products'];
             unset($order['products']);
-            RoomsOrder::insert($order);
-            RoomsOrdersProduct::insert($products);
+            Order::insert($order);
+            OrdersProduct::insert($products);
         }
     }
 }

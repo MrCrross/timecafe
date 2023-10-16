@@ -55,11 +55,11 @@ class UsersParamsSeeder extends Seeder
                 'man_name' => 'Правки тарифов'
             ],
             [
-                'name' => 'rooms_orders_view',
+                'name' => 'orders_view',
                 'man_name' => 'Просмотр заказов'
             ],
             [
-                'name' => 'rooms_orders_edit',
+                'name' => 'orders_edit',
                 'man_name' => 'Работа с заказами'
             ],
         ];

@@ -10,6 +10,7 @@
     </header>
 
     <x-danger-button
+        type="submit"
         x-data=""
         x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
     >{{ __('Удалить учетную запись') }}</x-danger-button>
@@ -46,7 +47,7 @@
                     {{ __('Отмена') }}
                 </x-secondary-button>
 
-                <x-danger-button class="ml-3">
+                <x-danger-button class="ml-3" type="submit">
                     {{ __('Удалить учетную запись') }}
                 </x-danger-button>
             </div>

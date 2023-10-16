@@ -6,7 +6,7 @@ class ImagePreview
     static modalSelector = '#modal_ImagePreview';
     static modalCanvasSelector = '#modalImage_ImagePreview';
 
-    constructor() {
+    constructor(multi) {
         ImagePreview.addListeners();
     }
 

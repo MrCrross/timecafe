@@ -2,7 +2,7 @@
 
 namespace App\Modules\Rooms\Models;
 
-use App\Modules\RoomsOrders\Models\RoomsOrder;
+use App\Modules\Orders\Models\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,7 +25,7 @@ class Room extends Model
 
     public function orders(): HasMany
     {
-        return $this->hasMany(RoomsOrder::class, 'id', 'room_id');
+        return $this->hasMany(Order::class, 'id', 'room_id');
     }
 
     public function rate(): BelongsTo
@@ -35,7 +35,7 @@ class Room extends Model
 
     public function images(): HasMany
     {
-        return $this->hasMany(RoomsImage::class, 'id', 'room_id');
+        return $this->hasMany(RoomsImage::class, 'room_id', 'id');
     }
 
     public static function restore(int $id, array $fields): int

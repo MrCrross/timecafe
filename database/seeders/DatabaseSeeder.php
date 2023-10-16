@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         RoomsReservationFactory::new()->count(10)->create();
 
         $this->call([
-            RoomsOrdersSeeder::class,
+            OrdersSeeder::class,
         ]);
     }
 }

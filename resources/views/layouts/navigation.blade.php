@@ -32,6 +32,11 @@
                             {{ __('Комнаты') }}
                         </x-nav-link>
                     @endif
+                    @if(Auth::user()->params()->has('orders_view'))
+                        <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                            {{ __('Заказы') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

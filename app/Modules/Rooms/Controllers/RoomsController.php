@@ -4,10 +4,10 @@ namespace App\Modules\Rooms\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
-use App\Modules\Products\Models\Product;
+use App\Modules\Rooms\Models\RoomsImage;
+use App\Modules\Rooms\Requests\RoomsImagesRequest;
 use App\Modules\Rooms\Requests\RoomsStoreRequest;
 use App\Modules\Rooms\Requests\RoomsUpdateRequest;
-use App\Modules\ProductsTypes\Models\ProductsType;
 use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsRate;
 use Illuminate\Http\RedirectResponse;
@@ -79,7 +79,7 @@ class RoomsController extends Controller
     public function edit(int $id): Response
     {
         $rates = RoomsRate::select('id as value', 'name as label')->get();
-        $room = Room::with('rate')->find($id);
+        $room = Room::with('rate', 'images')->find($id);
 
         return response()->view('rooms.edit', [
             'room' => $room,
@@ -90,7 +90,7 @@ class RoomsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoomsUpdateRequest $request, string $id): RedirectResponse
+    public function update(RoomsUpdateRequest $request, int $id): RedirectResponse
     {
         $fields = [
             'name' => $request->post('name'),
@@ -110,11 +110,48 @@ class RoomsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
         Room::deleteByID($id);
 
         return redirect()->route('rooms.index');
+    }
+
+    /**
+     * @param RoomsImagesRequest $request
+     * @param int $roomID
+     *
+     * @return RedirectResponse
+     */
+    public function storeImage(RoomsImagesRequest $request, int $roomID): RedirectResponse
+    {
+        $files = $request->file('images');
+        $countImages = RoomsImage::getCountImagesRoom($roomID);
+        foreach ($files as $file) {
+            $countImages++;
+            $path = "/rooms/{$roomID}/";
+            $fileName = "additional{$countImages}.{$file->clientExtension()}";
+            FilesModel::putFileAs($path, $file, $fileName);
+            RoomsImage::store([
+                'room_id' => $roomID,
+                'image' => FilesModel::getPathSave($path, $fileName),
+            ]);
+        }
+
+        return redirect()->route('rooms.edit', $roomID);
+    }
+
+    /**
+     * @param int $imageID
+     *
+     * @return RedirectResponse
+     */
+    public function deleteImage(int $imageID): RedirectResponse
+    {
+        $image = RoomsImage::find($imageID);
+        RoomsImage::deleteByID($imageID);
+
+        return redirect()->route('rooms.edit', $image->room_id);
     }
 
     /**
@@ -129,7 +166,7 @@ class RoomsController extends Controller
         $fileName = "main.{$file->clientExtension()}";
         FilesModel::putFileAs($path, $file, $fileName);
         Room::restore($roomID, [
-            'image' => FilesModel::getPathSave($path, $fileName)
+            'image' => FilesModel::getPathSave($path, $fileName),
         ]);
     }
 }

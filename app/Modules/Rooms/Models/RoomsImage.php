@@ -18,4 +18,23 @@ class RoomsImage extends Model
     {
         return $this->belongsTo(Room::class, 'room_id', 'id');
     }
+
+    public static function store(array $fields): void
+    {
+        self::query()->create($fields);
+    }
+
+    public static function deleteByID(int $imageID): void
+    {
+        self::query()
+            ->where('id', '=', $imageID)
+            ->delete();
+    }
+
+    public static function getCountImagesRoom(int $roomID): int
+    {
+        return self::query()
+            ->where('room_id', '=', $roomID)
+            ->count('id');
+    }
 }
