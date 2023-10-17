@@ -14,16 +14,13 @@ return new class extends Migration
         Schema::create('rooms_reservation', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('room_id');
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('fio');
             $table->string('email');
-            $table->boolean('status');
             $table->unsignedTinyInteger('hours');
             $table->unsignedInteger('capacity');
             $table->dateTime('date_reserve');
             $table->timestamps();
 
-            $table->foreign('user_id')->on('users')->references('id');
             $table->foreign('room_id')->on('rooms')->references('id');
         });
     }

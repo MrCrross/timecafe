@@ -25,7 +25,7 @@ class OrdersUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'integer', 'min:1', Rule::exists(Room::class, 'id')],
+            'room_id' => ['integer', 'min:1', Rule::exists(Room::class, 'id')],
             'products' => ['array'],
             'products.*' => ['required', 'array'],
             'products.*.id' => ['required', 'integer', 'min:1', Rule::exists(Product::class, 'id')],

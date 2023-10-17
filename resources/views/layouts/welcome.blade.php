@@ -75,6 +75,14 @@
                 </li>
                 <li class="inline-block mb-4 mx-4">
                     <a
+                        href="#room"
+                        class="tm-text-gold py-1 md:py-3 px-4"
+                    >
+                        Комнаты
+                    </a>
+                </li>
+                <li class="inline-block mb-4 mx-4">
+                    <a
                         href="#menu"
                         class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"
                     >

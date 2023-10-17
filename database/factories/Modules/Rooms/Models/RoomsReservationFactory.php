@@ -24,10 +24,8 @@ class RoomsReservationFactory extends Factory
     {
         return [
             'room_id' => Room::factory(),
-            'user_id' => null,
             'fio' => fake()->name,
             'email' => fake()->email,
-            'status' => random_int(0, 1),
             'hours' => random_int(1, 5),
             'capacity' => random_int(1, 5),
             'date_reserve' => fake()->dateTime,

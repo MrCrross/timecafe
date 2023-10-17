@@ -10,7 +10,6 @@ use App\Modules\Orders\Requests\OrdersUpdateRequest;
 use App\Modules\Products\Models\Product;
 use App\Modules\Rooms\Models\Room;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
@@ -121,18 +120,20 @@ class OrdersController extends Controller
     public function update(OrdersUpdateRequest $request, string $id): RedirectResponse
     {
         $fields = [
-            'room_id' => $request->post('room_id'),
             'status' => $request->post('status'),
         ];
 
+        if ($request->has('room_id')) {
+            $fields['room_id'] = $request->post('room_id');
+        }
+
         Order::restore($id, $fields);
 
-        $currentProducts = OrdersProduct::query()->select('id', 'product_id')
-            ->where('order_id', '=', $id)
-            ->pluck('id', 'product_id')
-            ->toArray();
-
         if ($request->has('products')) {
+            $currentProducts = OrdersProduct::query()->select('id', 'product_id')
+                ->where('order_id', '=', $id)
+                ->pluck('id', 'product_id')
+                ->toArray();
             foreach ($request->post('products') as $product) {
                 $orderProductID = 0;
                 $orderProductFields = [

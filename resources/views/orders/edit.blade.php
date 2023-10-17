@@ -13,6 +13,7 @@
             <section
                 class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
             >
+                <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
                 <form method="post" action="{{ route('orders.update', $order->id) }}">
                     @csrf
                     @method('patch')
@@ -55,11 +56,15 @@
                         />
                     </div>
                     <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Продукты</h1>
-                    <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
+
                     <div class="py-4 flex flex-col justify-items-stretch container-line-Order">
-                        @foreach($order->products as $key => $product)
-                            <x-order-product-card :type="$key" :key="$key" :productID="$product->product_id" :productCount="$product->count" :products="$products"></x-order-product-card>
-                        @endforeach
+                        @if($order->products->isNotEmpty())
+                            @foreach($order->products as $key => $product)
+                                <x-order-product-card :type="$key" :key="$key" :productID="$product->product_id" :productCount="$product->count" :products="$products"></x-order-product-card>
+                            @endforeach
+                        @else
+                            <x-order-product-card key="0" :products="$products"></x-order-product-card>
+                        @endif
                     </div>
 
                     <div

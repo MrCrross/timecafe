@@ -37,6 +37,16 @@
                             {{ __('Заказы') }}
                         </x-nav-link>
                     @endif
+                    @if(Auth::user()->params()->has('reservation_view'))
+                        <x-nav-link :href="route('reservation.index')" :active="request()->routeIs('reservation.index')">
+                            {{ __('Бронь') }}
+                        </x-nav-link>
+                    @endif
+                    @if(Auth::user()->params()->has('users_view'))
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                            {{ __('Пользователи') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -121,6 +131,21 @@
             @if(Auth::user()->params()->has('rooms_view'))
                 <x-responsive-nav-link :href="route('rooms.index')" :active="request()->routeIs('rooms.index')">
                     {{ __('Комнаты') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('orders_view'))
+                <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                    {{ __('Заказы') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('reservation_view'))
+                <x-responsive-nav-link :href="route('reservation.index')" :active="request()->routeIs('reservation.index')">
+                    {{ __('Бронь') }}
+                </x-responsive-nav-link>
+            @endif
+            @if(Auth::user()->params()->has('users_view'))
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                    {{ __('Пользователи') }}
                 </x-responsive-nav-link>
             @endif
         </div>

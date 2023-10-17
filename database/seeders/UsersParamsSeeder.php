@@ -62,6 +62,10 @@ class UsersParamsSeeder extends Seeder
                 'name' => 'orders_edit',
                 'man_name' => 'Работа с заказами'
             ],
+            [
+                'name' => 'reservation_view',
+                'man_name' => 'Просмотр брони'
+            ],
         ];
 
         foreach ($params as $param) {

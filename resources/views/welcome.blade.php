@@ -1,5 +1,56 @@
 <x-welcome-layout>
     <x-slot name="singlePageNav"></x-slot>
+    <!-- Cafe Room -->
+    <div
+        id="room"
+        class="parallax-window"
+        data-parallax="scroll"
+        data-image-src="{{asset('/img/welcome/antique-cafe-bg-02.jpg')}}"
+    >
+        <div class="container mx-auto tm-container py-24 sm:py-48">
+            <div class="text-center mb-16">
+                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">
+                    Наши комнаты
+                </h2>
+            </div>
+            <div class="flex flex-col lg:flex-row justify-around items-center">
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+                    @foreach($roomsLeft as $room)
+                        <div class="flex items-start mb-6 tm-menu-item">
+                            <img
+                                src="{{$room->image}}"
+                                alt="{{$room->name}}"
+                                class="rounded-md"
+                                width="160"
+                                height="120"
+                            >
+                            <div class="ml-3 sm:ml-6">
+                                <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{$room->name}}</h3>
+                                <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->capacity}} чел.</div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
+                    @foreach($roomsRight as $product)
+                        <div class="flex items-start justify-end mb-6 tm-menu-item-2">
+                            <div class="text-right mr-6">
+                                <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{$room->name}}</h3>
+                                <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->capacity}} чел.</div>
+                            </div>
+                            <img
+                                src="{{$room->image}}"
+                                alt="{{$room->name}}"
+                                width="160"
+                                height="120"
+                                class="rounded-md"
+                            >
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Cafe Menu -->
     <div
         id="menu"
@@ -131,7 +182,7 @@
                 </div>
                 <div class="flex-1 rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container">
                     <form
-                        action=""
+                        action="{{route('reservation.store')}}"
                         method="POST"
                         class="text-lg"
                     >
@@ -186,6 +237,15 @@
                             placeholder="Количество человек"
                             required
                         />
+                        <input
+                            type="datetime-local"
+                            name="date_reserve"
+                            class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                            placeholder="Дата бронирования"
+                            min="{{\Illuminate\Support\Carbon::now()->addHours(2)->format('Y-m-d H:i')}}"
+                            value="{{\Illuminate\Support\Carbon::now()->addHours(2)->format('Y-m-d H:i')}}"
+                            required
+                        >
                         <div class="text-right">
                             <button
                                 type="submit"
@@ -193,6 +253,15 @@
                             >Отправить
                             </button>
                         </div>
+                        @if (session('status') === 'reservation')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 5000)"
+                                class="text-sm text-gray-600 dark:text-gray-400"
+                            >{{ __('Форма отправлена.') }}</p>
+                        @endif
                     </form>
                 </div>
             </div>
