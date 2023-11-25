@@ -35,9 +35,13 @@ class UsersController extends Controller
      */
     public function create(): Response
     {
-        $params = UsersParam::selectRaw('id as value, CONCAT(man_name, " (", name, ")") as label')
+        $params = collect([(object)[
+            'value' => '0',
+            'label' => 'Не выбрано'
+        ]]);
+        $params = $params->merge(UsersParam::selectRaw('id as value, CONCAT(man_name, " (", name, ")") as label')
             ->orderBy('name')
-            ->get();
+            ->get());
 
         return response()->view('users.create', [
             'params' => $params,
@@ -60,7 +64,9 @@ class UsersController extends Controller
         $userID = User::restore(0, $fields);
 
         foreach ($request->post('params') as $param) {
-            User::addParam($userID, $param);
+            if ((int)$param !== 0) {
+                User::addParam($userID, $param);
+            }
         }
 
         return Redirect::route('users.create')->with('status', 'user-created');
@@ -93,9 +99,13 @@ class UsersController extends Controller
     {
         $user = User::with('userParams')
             ->find($id);
-        $params = UsersParam::selectRaw('id as value, CONCAT(man_name, " (", name, ")") as label')
+        $params = collect([(object)[
+            'value' => '0',
+            'label' => 'Не выбрано'
+        ]]);
+        $params = $params->merge(UsersParam::selectRaw('id as value, CONCAT(man_name, " (", name, ")") as label')
             ->orderBy('name')
-            ->get();
+            ->get());
 
         return response()->view('users.edit', [
             'user' => $user,
@@ -134,6 +144,7 @@ class UsersController extends Controller
         if ($request->has('params')) {
             $currentParams = User::getParams($id);
             $newParams = $request->post('params');
+            $newParams = array_diff($newParams, [0]);
             $addParams = array_diff($newParams, $currentParams);
             $deleteParams = array_diff($currentParams, $newParams);
 

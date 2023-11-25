@@ -9,13 +9,42 @@ use App\Modules\Orders\Requests\OrdersStoreRequest;
 use App\Modules\Orders\Requests\OrdersUpdateRequest;
 use App\Modules\Products\Models\Product;
 use App\Modules\Rooms\Models\Room;
+use App\Modules\Rooms\Models\RoomsReservation;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class OrdersController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function welcome(Request $request): Response
+    {
+        $orders = Order::with('room')
+            ->when($request->filled('room_id'), function ($query) use($request) {
+                $query->where('room_id', '=', $request->query('room_id'));
+            })
+            ->orderBy('date_order', 'desc')
+            ->paginate(6);
+        $rooms = collect([(object)[
+            'value' => '',
+            'label' => 'Не выбрано'
+        ]]);
+        $rooms = $rooms->merge(Room::select('id as value', 'name as label')
+            ->orderBy('name')
+            ->get());
+
+        return response()->view('orders.welcome', [
+            'orders' => $orders,
+            'rooms' => $rooms,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

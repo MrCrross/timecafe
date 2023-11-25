@@ -25,11 +25,13 @@
     <div
         class="px-4 py-2"
     >
-        <h1
-            class="text-xl font-bold uppercase {{$textColor}}"
-        >
-            {{$product->name}}
-        </h1>
+        <a href="{{$welcome ? '#menu' : route('products.show', $product->id)}}">
+            <h1
+                class="text-xl font-bold uppercase {{$textColor}}"
+            >
+                {{$product->name}}
+            </h1>
+        </a>
         <p
             class="mt-1 text-sm text-gray-600 dark:text-gray-400"
         >
@@ -37,12 +39,13 @@
         </p>
     </div>
 
-    <a href="{{$welcome ? '#menu' : route('products.show', $product->id)}}">
-        <img
-            class="object-cover w-full h-48 mt-2" src="{{$product->image}}"
-            alt="{{$product->name}}"
-        >
-    </a>
+
+    <img
+        class="object-contain w-full h-48 mt-2" src="{{$product->image}}"
+        x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'modal_Image{{$product->id}}')"
+        alt="{{$product->name}}"
+    >
 
 
     <div
@@ -65,14 +68,20 @@
                     </a>
                 @endif
             @endauth
-            @guest
-                <button
-                    class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
-                duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-                >
-                    Заказать
-                </button>
-            @endguest
         </div>
     </div>
 </div>
+<x-modal id="modal_Image{{$product->id}}" name="modal_Image{{$product->id}}" focusable>
+    <div class="flex flex-row justify-center items-center m-4">
+        <img
+            src="{{$product->image}}"
+            alt="{{$product->name}}"
+        >
+    </div>
+
+    <div class="m-6 flex justify-end">
+        <x-secondary-button x-on:click="$dispatch('close')">
+            {{ __('Отмена') }}
+        </x-secondary-button>
+    </div>
+</x-modal>

@@ -20,6 +20,8 @@
                             <img
                                 src="{{$room->image}}"
                                 alt="{{$room->name}}"
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'modal_ImageRoom{{$room->id}}')"
                                 class="rounded-md"
                                 width="160"
                                 height="120"
@@ -32,7 +34,7 @@
                     @endforeach
                 </div>
                 <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
-                    @foreach($roomsRight as $product)
+                    @foreach($roomsRight as $room)
                         <div class="flex items-start justify-end mb-6 tm-menu-item-2">
                             <div class="text-right mr-6">
                                 <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{$room->name}}</h3>
@@ -41,6 +43,8 @@
                             <img
                                 src="{{$room->image}}"
                                 alt="{{$room->name}}"
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'modal_ImageRoom{{$room->id}}')"
                                 width="160"
                                 height="120"
                                 class="rounded-md"
@@ -48,6 +52,14 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+            <div class="text-center mb-16">
+                <a
+                    href="{{route('rooms.welcome')}}"
+                    class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md"
+                >
+                    Полный список
+                </a>
             </div>
         </div>
     </div>
@@ -71,6 +83,8 @@
                             <img
                                 src="{{$product->image}}"
                                 alt="{{$product->name}}"
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'modal_ImageProduct{{$product->id}}')"
                                 class="rounded-md"
                                 width="160"
                                 height="120"
@@ -92,6 +106,8 @@
                             <img
                                 src="{{$product->image}}"
                                 alt="{{$product->name}}"
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'modal_ImageProduct{{$product->id}}')"
                                 width="160"
                                 height="120"
                                 class="rounded-md"
@@ -276,4 +292,68 @@
             </footer>
         </div>
     </div>
+    @foreach($roomsLeft as $room)
+        <x-modal id="modal_ImageRoom{{$room->id}}" name="modal_ImageRoom{{$room->id}}" focusable>
+            <div class="flex flex-row justify-center items-center m-4">
+                <img
+                    src="{{$room->image}}"
+                    alt="{{$room->name}}"
+                >
+            </div>
+
+            <div class="m-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Отмена') }}
+                </x-secondary-button>
+            </div>
+        </x-modal>
+    @endforeach
+    @foreach($roomsRight as $room)
+        <x-modal id="modal_ImageRoom{{$room->id}}" name="modal_ImageRoom{{$room->id}}" focusable>
+            <div class="flex flex-row justify-center items-center m-4">
+                <img
+                    src="{{$room->image}}"
+                    alt="{{$room->name}}"
+                >
+            </div>
+
+            <div class="m-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Отмена') }}
+                </x-secondary-button>
+            </div>
+        </x-modal>
+    @endforeach
+    @foreach($menuLeft as $product)
+        <x-modal id="modal_ImageProduct{{$product->id}}" name="modal_ImageProduct{{$product->id}}" focusable>
+            <div class="flex flex-row justify-center items-center m-4">
+                <img
+                    src="{{$product->image}}"
+                    alt="{{$product->name}}"
+                >
+            </div>
+
+            <div class="m-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Отмена') }}
+                </x-secondary-button>
+            </div>
+        </x-modal>
+    @endforeach
+    @foreach($menuRight as $product)
+        <x-modal id="modal_ImageProduct{{$product->id}}" name="modal_ImageProduct{{$product->id}}" focusable>
+            <div class="flex flex-row justify-center items-center m-4">
+                <img
+                    src="{{$product->image}}"
+                    alt="{{$product->name}}"
+                >
+            </div>
+
+            <div class="m-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Отмена') }}
+                </x-secondary-button>
+            </div>
+        </x-modal>
+    @endforeach
 </x-welcome-layout>

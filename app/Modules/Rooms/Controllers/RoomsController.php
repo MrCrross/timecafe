@@ -5,18 +5,66 @@ namespace App\Modules\Rooms\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
 use App\Modules\Rooms\Models\RoomsImage;
+use App\Modules\Rooms\Models\RoomsReservation;
 use App\Modules\Rooms\Requests\RoomsImagesRequest;
 use App\Modules\Rooms\Requests\RoomsStoreRequest;
 use App\Modules\Rooms\Requests\RoomsUpdateRequest;
 use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsRate;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class RoomsController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function welcome(Request $request): Response
+    {
+        $rooms = Room::with('rate')
+            ->when($request->has('name'), function ($query) use($request) {
+                $query->where('name', 'like', "%{$request->query('name')}%");
+            })
+            ->orderBy('name')
+            ->orderBy('rate_id')
+            ->paginate(6);
+
+        return response()->view('rooms.welcome', [
+            'rooms' => $rooms
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function welcomeReservations(Request $request): Response
+    {
+        $reservations = RoomsReservation::with('room')
+            ->where('email', '=', Auth::user()->email)
+            ->when($request->filled('room_id'), function ($query) use($request) {
+                $query->where('room_id', '=', $request->query('room_id'));
+            })
+            ->orderBy('date_reserve', 'desc')
+            ->paginate(6);
+        $rooms = collect([(object)[
+            'value' => '',
+            'label' => 'Не выбрано'
+        ]]);
+        $rooms = $rooms->merge(Room::select('id as value', 'name as label')
+            ->orderBy('name')
+            ->get());
+
+        return response()->view('rooms_reservation.welcome', [
+            'reservations' => $reservations,
+            'rooms' => $rooms,
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

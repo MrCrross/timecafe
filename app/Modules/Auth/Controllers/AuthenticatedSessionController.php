@@ -3,12 +3,14 @@
 namespace App\Modules\Auth\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\UsersParam;
 use App\Modules\Auth\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -26,6 +28,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $statusUser = (int)User::query()
+            ->select('status')
+            ->where('login', '=', $request->post('login'))
+            ->value('status');
+        if ($statusUser === 0) {
+            throw ValidationException::withMessages([
+                'login' => trans('auth.no_active'),
+            ]);
+        }
         $request->authenticate();
 
         $request->session()->regenerate();

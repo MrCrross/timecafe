@@ -1,5 +1,6 @@
 @props([
     'maxWidth' => 'xs',
+    'welcome' => false,
 ])
 @php
     $maxWidth = [
@@ -10,18 +11,27 @@
         'xl' => 'max-w-xl',
         '2xl' => 'max-w-2xl',
     ][$maxWidth];
+
+    $bgColor = 'bg-white dark:bg-gray-800';
+    $textColor = 'text-gray-800 dark:text-white';
+    if ($welcome) {
+        $bgColor = 'bg-gold dark:bg-dark';
+        $textColor = 'text-gray-800 dark:text-gold';
+    }
 @endphp
 <div
-    class="{{$maxWidth}} overflow-hidden mx-auto lg:mx-0 rounded-lg shadow-lg bg-white dark:bg-gray-800"
+    class="{{$maxWidth}} overflow-hidden mx-auto lg:mx-0 rounded-lg shadow-lg {{$bgColor}}"
 >
     <div
         class="px-4 py-2"
     >
-        <h1
-            class="text-xl font-bold uppercase text-gray-800 dark:text-white"
-        >
-            {{$room->name}}
-        </h1>
+        <a href="{{$welcome ? '#room' : route('rooms.show', $room->id)}}">
+            <h1
+                class="text-xl font-bold uppercase {{$textColor}}"
+            >
+                {{$room->name}}
+            </h1>
+        </a>
         <p
             class="mt-1 text-sm text-gray-600 dark:text-gray-400"
         >
@@ -29,12 +39,14 @@
         </p>
     </div>
 
-    <a href="{{route('rooms.show', $room->id)}}">
-        <img
-            class="object-cover w-full h-48 mt-2" src="{{$room->image}}"
-            alt="{{$room->name}}"
-        >
-    </a>
+
+    <img
+        class="object-cover w-full h-48 mt-2" src="{{$room->image}}"
+        x-data=""
+        x-on:click.prevent="$dispatch('open-modal', 'modal_Image{{$room->id}}')"
+        alt="{{$room->name}}"
+    >
+
 
     <div
         class="flex items-center justify-between px-4 py-2 bg-gray-900"
@@ -57,3 +69,17 @@
         </div>
     </div>
 </div>
+<x-modal id="modal_Image{{$room->id}}" name="modal_Image{{$room->id}}" focusable>
+    <div class="flex flex-row justify-center items-center m-4">
+        <img
+            src="{{$room->image}}"
+            alt="{{$room->name}}"
+        >
+    </div>
+
+    <div class="m-6 flex justify-end">
+        <x-secondary-button x-on:click="$dispatch('close')">
+            {{ __('Отмена') }}
+        </x-secondary-button>
+    </div>
+</x-modal>

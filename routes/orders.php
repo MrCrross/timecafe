@@ -4,6 +4,7 @@ use App\Modules\Orders\Controllers\OrdersController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->prefix('orders')->group(function () {
+    Route::get('/welcome', [OrdersController::class, 'welcome'])->name('orders.welcome');
     Route::middleware(['param:orders_view'])->group(function () {
         Route::get('/', [OrdersController::class, 'index'])->name('orders.index');
         Route::get('/{id}', [OrdersController::class, 'show'])->name('orders.show')->whereNumber('id');

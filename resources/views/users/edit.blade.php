@@ -19,56 +19,68 @@
                     @method('patch')
 
                     <div>
-                        <x-input-label for="fio" :value="__('ФИО')" />
-                        <x-text-input id="fio" name="fio" type="text" class="mt-1 block w-full" :value="old('fio', $user->fio)" required autofocus autocomplete="fio" />
-                        <x-input-error class="mt-2" :messages="$errors->get('fio')" />
+                        <x-input-label for="fio" :value="__('ФИО')"/>
+                        <x-text-input id="fio" name="fio" type="text" class="mt-1 block w-full"
+                                      :value="old('fio', $user->fio)" required autofocus autocomplete="fio"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('fio')"/>
                     </div>
 
                     <div>
-                        <x-input-label for="login" :value="__('Логин')" />
-                        <x-text-input id="login" name="login" type="text" class="mt-1 block w-full" :value="old('login', $user->login)" required autocomplete="login" />
-                        <x-input-error class="mt-2" :messages="$errors->get('login')" />
+                        <x-input-label for="login" :value="__('Логин')"/>
+                        <x-text-input id="login" name="login" type="text" class="mt-1 block w-full"
+                                      :value="old('login', $user->login)" required autocomplete="login"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('login')"/>
                     </div>
 
                     <div>
-                        <x-input-label for="email" :value="__('Адрес электронной почты')" />
-                        <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="email" />
-                        <x-input-error class="mt-2" :messages="$errors->get('email')" />
+                        <x-input-label for="email" :value="__('Адрес электронной почты')"/>
+                        <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
+                                      :value="old('email', $user->email)" required autocomplete="email"/>
+                        <x-input-error class="mt-2" :messages="$errors->get('email')"/>
                     </div>
 
                     <div>
-                        <x-input-label for="password" :value="__('Новый пароль')" />
-                        <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                        <x-input-label for="password" :value="__('Новый пароль')"/>
+                        <x-text-input id="password" name="password" type="password" class="mt-1 block w-full"/>
+                        <x-input-error :messages="$errors->get('password')" class="mt-2"/>
                     </div>
 
                     <div>
-                        <x-input-label for="password_confirmation" :value="__('Подтвердите пароль')" />
-                        <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full"/>
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        <x-input-label for="password_confirmation" :value="__('Подтвердите пароль')"/>
+                        <x-text-input id="password_confirmation" name="password_confirmation" type="password"
+                                      class="mt-1 block w-full"/>
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2"/>
                     </div>
 
-                    <div class="py-4 flex flex-row gap-2 items-center justify-start">
-                        <x-input-label
-                            for="status"
-                            :value="__('Активна')"
-                        />
-                        <x-text-input
+                    <div>
+                        <x-input-label for="status" :value="__('Статус')"/>
+                        <x-select
                             id="status"
                             name="status"
-                            type="checkbox"
-                            class="block p-2 input_checkbox"
-                            :checked="$user->status === 1"
-                            :value="$user->status"
+                            class="mt-1 block w-full"
                             required
-                        />
+                        >
+                            <x-slot name="options">
+                                <option
+                                    value="1"
+                                    @if($user->status === 1) selected @endif
+                                >Активна
+                                </option>
+                                <option
+                                    value="0"
+                                    @if($user->status === 0) selected @endif
+                                >Не активна
+                                </option>
+                            </x-slot>
+                        </x-select>
                     </div>
 
                     <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Права доступа</h1>
                     <div class="py-4 flex flex-col justify-items-stretch container-line-UserParam">
                         @if($user->userParams->isNotEmpty())
                             @foreach($user->userParams as $key => $param)
-                                <x-user-param-card :type="$key" :paramID="$param->id" :params="$params"></x-user-param-card>
+                                <x-user-param-card :type="$key" :paramID="$param->id"
+                                                   :params="$params"></x-user-param-card>
                             @endforeach
                         @else
                             <x-user-param-card :params="$params"></x-user-param-card>

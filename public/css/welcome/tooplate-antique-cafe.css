@@ -103,7 +103,7 @@ textarea::-ms-input-placeholder { /* Microsoft Edge */
 }
 
 #tm-nav {
-    z-index: 1000;
+    z-index: 40;
     transition: all 0.3s ease;
 }
 

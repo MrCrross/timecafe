@@ -9,6 +9,7 @@ use App\Modules\Products\Requests\ProductsStoreRequest;
 use App\Modules\Products\Requests\ProductsUpdateRequest;
 use App\Modules\ProductsTypes\Models\ProductsType;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
@@ -18,11 +19,14 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function welcome(): Response
+    public function welcome(Request $request): Response
     {
         $products = Product::with('type')
             ->orderBy('name')
             ->orderBy('type_id')
+            ->when($request->has('name'), function ($query) use($request) {
+                $query->where('name', 'like', "%{$request->query('name')}%");
+            })
             ->paginate(6);
 
         return response()->view('products.welcome', [
