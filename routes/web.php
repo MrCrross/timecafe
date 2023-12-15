@@ -31,6 +31,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('param:reservation_view')->group(function () {
         Route::get('/reservation', [ReservationController::class, 'index'])->name('reservation.index');
     });
+    Route::middleware('param:reservation_edit')->group(function () {
+        Route::get('/reservation/{id}/edit', [ReservationController::class, 'edit'])->name('reservation.edit');
+        Route::patch('/reservation/{id}', [ReservationController::class, 'update'])->name('reservation.update');
+        Route::delete('/reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
+    });
 });
 
 require __DIR__ . '/auth.php';

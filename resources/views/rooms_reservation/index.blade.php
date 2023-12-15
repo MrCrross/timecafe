@@ -13,6 +13,15 @@
                         <x-item-p label="Дата брони" value="{{\Illuminate\Support\Carbon::parse($reservation->date_reserve)->format('d.m.Y H:i:s')}}"></x-item-p>
                         <x-item-p label="Количество часов" value="{{$reservation->hours}}"></x-item-p>
                         <x-item-p label="Количество человек" value="{{$reservation->capacity}}"></x-item-p>
+                        @if(Auth::user()->params()->has('reservation_edit'))
+                            <a
+                                class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
+                duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                                href="{{route('reservation.edit', $reservation->id)}}"
+                            >
+                                Редактировать
+                            </a>
+                        @endif
                     </div>
                 @endforeach
             </div>

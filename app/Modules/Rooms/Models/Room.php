@@ -18,7 +18,7 @@ class Room extends Model
     public $timestamps = true;
     protected $guarded = [];
 
-    public function reservation(): HasMany
+    public function reservations(): HasMany
     {
         return $this->hasMany(RoomsReservation::class, 'id', 'room_id');
     }

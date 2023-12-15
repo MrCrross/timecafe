@@ -160,6 +160,7 @@ class RoomsController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
+        RoomsReservation::query()->where('room_id', '=', $id)->delete();
         Room::deleteByID($id);
 
         return redirect()->route('rooms.index');

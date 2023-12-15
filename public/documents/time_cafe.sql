@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 08 2023 г., 03:29
--- Версия сервера: 10.4.28-MariaDB
--- Версия PHP: 8.2.4
+-- Время создания: Дек 15 2023 г., 17:20
+-- Версия сервера: 10.4.32-MariaDB
+-- Версия PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- База данных: `time_cafe`
 --
+CREATE DATABASE IF NOT EXISTS `time_cafe` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `time_cafe`;
 
 -- --------------------------------------------------------
 
@@ -27,6 +29,7 @@ SET time_zone = "+00:00";
 -- Структура таблицы `failed_jobs`
 --
 
+DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` varchar(255) NOT NULL,
@@ -43,6 +46,7 @@ CREATE TABLE `failed_jobs` (
 -- Структура таблицы `migrations`
 --
 
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
@@ -67,7 +71,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (95, '2023_09_30_135348_create_rooms_reservation_table', 1),
 (96, '2023_09_30_135354_create_orders_table', 1),
 (97, '2023_09_30_135400_create_orders_products_table', 1),
-(98, '2023_10_07_230516_create_rooms_images_table', 1);
+(98, '2023_10_07_230516_create_rooms_images_table', 1),
+(99, '2023_12_15_154704_add_deleted_at_to_rooms_reservation_table', 2);
 
 -- --------------------------------------------------------
 
@@ -75,6 +80,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Структура таблицы `orders`
 --
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -100,6 +106,7 @@ INSERT INTO `orders` (`id`, `room_id`, `status`, `date_order`, `created_at`, `up
 -- Структура таблицы `orders_products`
 --
 
+DROP TABLE IF EXISTS `orders_products`;
 CREATE TABLE `orders_products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
@@ -130,6 +137,7 @@ INSERT INTO `orders_products` (`id`, `order_id`, `product_id`, `count`, `created
 -- Структура таблицы `password_reset_tokens`
 --
 
+DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -142,6 +150,7 @@ CREATE TABLE `password_reset_tokens` (
 -- Структура таблицы `personal_access_tokens`
 --
 
+DROP TABLE IF EXISTS `personal_access_tokens`;
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `tokenable_type` varchar(255) NOT NULL,
@@ -161,6 +170,7 @@ CREATE TABLE `personal_access_tokens` (
 -- Структура таблицы `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -194,6 +204,7 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `type_id`, `created_at`,
 -- Структура таблицы `products_types`
 --
 
+DROP TABLE IF EXISTS `products_types`;
 CREATE TABLE `products_types` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -225,6 +236,7 @@ INSERT INTO `products_types` (`id`, `name`, `image`, `created_at`, `updated_at`,
 -- Структура таблицы `rooms`
 --
 
+DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -245,7 +257,7 @@ INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`,
 (2, 'minima', 'https://via.placeholder.com/640x480.png/0011dd?text=ratione', 2, 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (3, 'tempora', 'https://via.placeholder.com/640x480.png/0011bb?text=eum', 3, 1, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (4, 'repellendus', 'https://via.placeholder.com/640x480.png/004499?text=accusantium', 4, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'aperiam', 'https://via.placeholder.com/640x480.png/00ccff?text=consectetur', 5, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(5, 'aperiam', 'https://via.placeholder.com/640x480.png/00ccff?text=consectetur', 5, 7, '2023-10-18 13:09:57', '2023-12-15 07:27:00', '2023-12-15 07:27:00'),
 (6, 'qui', 'https://via.placeholder.com/640x480.png/007755?text=ut', 6, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (7, 'rem', 'https://via.placeholder.com/640x480.png/009922?text=nesciunt', 7, 3, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (8, 'ea', 'https://via.placeholder.com/640x480.png/00bbee?text=omnis', 8, 10, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
@@ -257,7 +269,7 @@ INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`,
 (14, 'harum', 'https://via.placeholder.com/640x480.png/00cc55?text=odit', 14, 8, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (15, 'voluptas', 'https://via.placeholder.com/640x480.png/0011aa?text=voluptatum', 15, 9, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (16, 'eius', 'https://via.placeholder.com/640x480.png/007733?text=dolor', 16, 3, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(17, 'corrupti', 'https://via.placeholder.com/640x480.png/005555?text=dolore', 17, 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(17, 'corrupti', 'https://via.placeholder.com/640x480.png/005555?text=dolore', 17, 6, '2023-10-18 13:09:57', '2023-12-15 07:27:14', '2023-12-15 07:27:14'),
 (18, 'dolorum', 'https://via.placeholder.com/640x480.png/006677?text=qui', 18, 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (19, 'suscipit', 'https://via.placeholder.com/640x480.png/00ffee?text=laboriosam', 19, 10, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (20, 'recusandae', 'https://via.placeholder.com/640x480.png/009999?text=et', 20, 9, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
@@ -268,6 +280,7 @@ INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`,
 -- Структура таблицы `rooms_images`
 --
 
+DROP TABLE IF EXISTS `rooms_images`;
 CREATE TABLE `rooms_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -298,6 +311,7 @@ INSERT INTO `rooms_images` (`id`, `room_id`, `image`, `created_at`, `updated_at`
 -- Структура таблицы `rooms_rates`
 --
 
+DROP TABLE IF EXISTS `rooms_rates`;
 CREATE TABLE `rooms_rates` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -339,6 +353,7 @@ INSERT INTO `rooms_rates` (`id`, `name`, `price`, `created_at`, `updated_at`, `d
 -- Структура таблицы `rooms_reservation`
 --
 
+DROP TABLE IF EXISTS `rooms_reservation`;
 CREATE TABLE `rooms_reservation` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -348,24 +363,25 @@ CREATE TABLE `rooms_reservation` (
   `capacity` int(10) UNSIGNED NOT NULL,
   `date_reserve` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `rooms_reservation`
 --
 
-INSERT INTO `rooms_reservation` (`id`, `room_id`, `fio`, `email`, `hours`, `capacity`, `date_reserve`, `created_at`, `updated_at`) VALUES
-(1, 11, 'Майя Владимировна Силинаа', 'kovaleva.kseniy@grisina.org', 4, 2, '1983-08-19 07:07:51', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(2, 12, 'Абрам Фёдорович Виноградова', 'mariy.belousov@narod.ru', 4, 3, '1992-02-10 01:21:57', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(3, 13, 'Мирослав Алексеевич Орлова', 'zfilippova@gmail.com', 4, 4, '2020-09-28 13:43:39', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(4, 14, 'Горшковаа Елизавета Романовна', 'savelev.arsenii@strelkov.ru', 5, 2, '2017-09-30 15:51:09', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(5, 15, 'Исаев Сергей Сергеевич', 'denis97@ya.ru', 4, 2, '1996-12-24 10:16:14', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(6, 16, 'Лаврентьева Пётр Иванович', 'ksavina@bolsakova.ru', 3, 2, '1996-12-24 17:49:12', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(7, 17, 'Лаврентьева Доминика Романовна', 'voronov.yn@rambler.ru', 5, 1, '2002-06-22 09:27:32', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(8, 18, 'Кузьминаа Зинаида Львовна', 'hersova@yandex.ru', 1, 2, '2022-10-27 23:57:08', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(9, 19, 'Веселова Илларион Львович', 'pserbakov@bk.ru', 4, 2, '1999-06-16 10:53:55', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(10, 20, 'Любовь Львовна Афанасьеваа', 'tgusev@saskov.org', 2, 1, '1999-08-27 23:33:30', '2023-10-18 13:09:57', '2023-10-18 13:09:57');
+INSERT INTO `rooms_reservation` (`id`, `room_id`, `fio`, `email`, `hours`, `capacity`, `date_reserve`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 11, 'Майя Владимировна Силинаа', 'kovaleva.kseniy@grisina.org', 4, 2, '1983-08-19 07:07:51', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(2, 12, 'Абрам Фёдорович Виноградова', 'mariy.belousov@narod.ru', 4, 3, '1992-02-10 01:21:57', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(3, 13, 'Мирослав Алексеевич Орлова', 'zfilippova@gmail.com', 4, 4, '2020-09-28 13:43:39', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(4, 14, 'Горшковаа Елизавета Романовна', 'savelev.arsenii@strelkov.ru', 5, 2, '2017-09-30 15:51:09', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(5, 15, 'Исаев Сергей Сергеевич', 'denis97@ya.ru', 4, 2, '1996-12-24 10:16:14', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(6, 16, 'Лаврентьева Пётр Иванович', 'ksavina@bolsakova.ru', 3, 2, '1996-12-24 17:49:12', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(7, 17, 'Лаврентьева Доминика Романовна', 'voronov.yn@rambler.ru', 5, 1, '2002-06-22 09:27:32', '2023-10-18 13:09:57', '2023-10-18 13:09:57', '2023-12-15 07:51:41'),
+(8, 18, 'Кузьминаа Зинаида Львовна', 'hersova@yandex.ru', 2, 2, '2023-12-16 04:20:00', '2023-10-18 13:09:57', '2023-12-15 16:19:03', NULL),
+(9, 19, 'Веселова Илларион Львович', 'pserbakov@bk.ru', 4, 2, '1999-06-16 10:53:55', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
+(10, 20, 'Любовь Львовна Афанасьеваа', 'tgusev@saskov.org', 2, 1, '1999-08-27 23:33:30', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -373,6 +389,7 @@ INSERT INTO `rooms_reservation` (`id`, `room_id`, `fio`, `email`, `hours`, `capa
 -- Структура таблицы `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `fio` varchar(255) NOT NULL,
@@ -392,7 +409,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fio`, `login`, `status`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Администратор', 'admin', 1, 'admin@timecafe.ru', '2023-10-18 13:09:56', '$2y$10$cnT.ibfgnyAL7UaaUky4EenVQLgf83zdOS8LtD/syENVaOzNiEST2', 'EJ9lFRgxXYr7FDlAjbxuoBrqeLWuLTTmV0UFsNB4Pb3Bg00LkejBl4mBpN7O', NULL, NULL, NULL),
+(1, 'Администратор', 'admin', 1, 'admin@timecafe.ru', '2023-10-18 13:09:56', '$2y$10$cnT.ibfgnyAL7UaaUky4EenVQLgf83zdOS8LtD/syENVaOzNiEST2', 'lJ5qXs7HGj8BxlQYIqjSfPaXBWzw0CSfIU2YwUUVmvn2pbMXdEWEeTdCyHxn', NULL, NULL, NULL),
 (2, 'Гордеева Ксения Андреевна', 'karitonov.ru', 1, 'lysy.ykovleva@example.org', '2023-10-18 13:09:56', '$2y$10$U237mGBeA47mwjUAOY4nKepvmMUf8i3nnxpxlujIWC1YvUjQfnXD.', '7YO8Jtf4wO', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (3, 'Архипова Ананий Львович', 'molcanov.ru', 1, 'florentina.kulikova@example.org', '2023-10-18 13:09:56', '$2y$10$AWC95cRisuJObUA3daLEwOUvQ/pyW4Gia4crZbCofUho.rHE8Hdze', 'GUnMcD6FKS', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (4, 'Егор Алексеевич Харитонов', 'larionov.ru', 1, 'tkalinina@example.org', '2023-10-18 13:09:56', '$2y$10$VXUFIk9XJXnPmFIiloLt5.kForAyjLnK7Hg1dLwcbzXA2ntH1ct1y', 'k6ssUMp1d7', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
@@ -402,7 +419,8 @@ INSERT INTO `users` (`id`, `fio`, `login`, `status`, `email`, `email_verified_at
 (8, 'Стефан Фёдорович Горбачёв', 'alekseeva.ru', 1, 'donat.gurev@example.org', '2023-10-18 13:09:57', '$2y$10$rhSHG3TEJhJbwlVW/XGPFu2lr3UvIreh7.Av.JagChbHOk0aobHRm', 'JJj2hVzuVM', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (9, 'Спартак Евгеньевич Суханова', 'kudryvtev.net', 1, 'inga.bespalova@example.com', '2023-10-18 13:09:57', '$2y$10$n5fyBbEgkfYaRtXx8WQwo.yLbFNpW9bZ/Th4H1QIx9dmXl43GW3UO', 'dZgJ02dZaz', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
 (10, 'Антонина Романовна Барановаа', 'gordeev.ru', 1, 'sestakova.danila@example.org', '2023-10-18 13:09:57', '$2y$10$sBakkM/n0IqffgYsAdTps.79zcBGvyJyIq/VCGNmWblH3neOczlee', 'dhGYoWNYUv', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(11, 'Некрасова Данила Сергеевич', 'grisina.ru', 1, 'ignatii.blokina@example.org', '2023-10-18 13:09:57', '$2y$10$zy3oTM.A2u1fnCRfapeMGO9Z6jL37EcPPCT8Xn/zL2TFQ4gPebauO', 'ZayLf331ko', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+(11, 'Некрасова Данила Сергеевич', 'grisina.ru', 0, 'ignatii.blokina@example.org', '2023-10-18 13:09:57', '$2y$10$yioMhtWH9owDqYXs0E1ZrO0fuQzFa0ROH8c1Lsu9aahb8JFzPu.7S', 'ZayLf331ko', '2023-10-18 13:09:57', '2023-11-25 14:23:55', NULL),
+(12, 'qwe qwe qwe', 'qweqweqweqwe', 1, 'qweqwee123123@qweqw.ru', NULL, '$2y$10$oO9YcGnZCtkMONO/gfKNHOmxZEra4NCZzyQCjx2HiGFhbAxTGVR3i', NULL, '2023-11-25 15:31:24', '2023-11-25 15:31:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -410,6 +428,7 @@ INSERT INTO `users` (`id`, `fio`, `login`, `status`, `email`, `email_verified_at
 -- Структура таблицы `users_params`
 --
 
+DROP TABLE IF EXISTS `users_params`;
 CREATE TABLE `users_params` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -435,7 +454,8 @@ INSERT INTO `users_params` (`id`, `name`, `man_name`, `created_at`, `updated_at`
 (10, 'rooms_rates_edit', 'Правки тарифов', NULL, NULL),
 (11, 'orders_view', 'Просмотр заказов', NULL, NULL),
 (12, 'orders_edit', 'Работа с заказами', NULL, NULL),
-(13, 'reservation_view', 'Просмотр брони', NULL, NULL);
+(13, 'reservation_view', 'Просмотр брони', NULL, NULL),
+(14, 'reservation_edit', 'Правки брони', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -443,6 +463,7 @@ INSERT INTO `users_params` (`id`, `name`, `man_name`, `created_at`, `updated_at`
 -- Структура таблицы `users_users_params`
 --
 
+DROP TABLE IF EXISTS `users_users_params`;
 CREATE TABLE `users_users_params` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `param_id` bigint(20) UNSIGNED NOT NULL
@@ -465,7 +486,9 @@ INSERT INTO `users_users_params` (`user_id`, `param_id`) VALUES
 (1, 10),
 (1, 11),
 (1, 12),
-(1, 13);
+(1, 13),
+(1, 14),
+(11, 12);
 
 --
 -- Индексы сохранённых таблиц
@@ -590,7 +613,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
@@ -650,13 +673,13 @@ ALTER TABLE `rooms_reservation`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `users_params`
 --
 ALTER TABLE `users_params`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -66,10 +66,14 @@ class UsersParamsSeeder extends Seeder
                 'name' => 'reservation_view',
                 'man_name' => 'Просмотр брони'
             ],
+            [
+                'name' => 'reservation_edit',
+                'man_name' => 'Правки брони'
+            ],
         ];
 
         foreach ($params as $param) {
-            UsersParam::insert($param);
+            UsersParam::create($param);
         }
     }
 }
