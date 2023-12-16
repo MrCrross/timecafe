@@ -78,8 +78,18 @@ class ReservationController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        RoomsReservation::query()->where('room_id', '=', $id)->delete();
+        RoomsReservation::query()->where('id', '=', $id)->delete();
 
         return redirect()->route('reservation.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroyWelcome(int $id): RedirectResponse
+    {
+        RoomsReservation::query()->where('id', '=', $id)->delete();
+
+        return redirect()->route('reservations.welcome');
     }
 }

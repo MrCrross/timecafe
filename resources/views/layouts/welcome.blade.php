@@ -74,40 +74,56 @@
                     </a>
                 </li>
                 <li class="inline-block mb-4 mx-4">
-                    <a
-                        href="#room"
-                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"
+                    <button
+                            type="button"
+                            onclick="event.preventDefault(); location.href='{{ route('rooms.welcome') }}#room';"
+                            class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"
                     >
                         Комнаты
-                    </a>
+                    </button>
+                    {{--                    <a--}}
+                    {{--                        href="#room"--}}
+                    {{--                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"--}}
+                    {{--                    >--}}
+                    {{--                        Комнаты--}}
+                    {{--                    </a>--}}
                 </li>
                 <li class="inline-block mb-4 mx-4">
-                    <a
-                        href="#menu"
-                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"
+                    <button
+                            type="button"
+                            onclick="event.preventDefault(); location.href='{{ route('products.welcome') }}#menu';"
+                            class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"
                     >
                         Меню
-                    </a>
+                    </button>
+{{--                    <a--}}
+{{--                        href="#menu"--}}
+{{--                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"--}}
+{{--                    >--}}
+{{--                        Меню--}}
+{{--                    </a>--}}
                 </li>
                 @auth
                     <li class="inline-block mb-4 mx-4">
                         <button
                             type="button"
-                            onclick="event.preventDefault(); location.href='{{ route('reservations.welcome') }}';"
+                            onclick="event.preventDefault(); location.href='{{ route('reservations.welcome') }}#reservations';"
                             class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('reservations.welcome')) current @endif"
                         >
                             Бронь
                         </button>
                     </li>
+                    @if(Auth::user()->params()->has('orders_view'))
                     <li class="inline-block mb-4 mx-4">
                         <button
                             type="button"
-                            onclick="event.preventDefault(); location.href='{{ route('orders.welcome') }}';"
+                            onclick="event.preventDefault(); location.href='{{ route('orders.welcome') }}#orders';"
                             class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('orders.welcome')) current @endif"
                         >
                             Заказы
                         </button>
                     </li>
+                    @endif
                 @endauth
                 <li class="inline-block mb-4 mx-4">
                     <a

@@ -57,15 +57,17 @@
             Вмещает: {{$room->capacity}} чел.
         </h1>
         <div class="flex flex-row justify-between items-center">
-            @if(Auth::user()->params()->has('rooms_edit'))
-                <a
-                    class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
-                duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
-                    href="{{route('rooms.edit', $room->id)}}"
-                >
-                    Редактировать
-                </a>
-            @endif
+            @auth
+                @if(Auth::user()->params()->has('rooms_edit'))
+                    <a
+                        class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors
+                    duration-300 transform bg-white rounded hover:bg-gray-200 focus:bg-gray-400 focus:outline-none"
+                        href="{{route('rooms.edit', $room->id)}}"
+                    >
+                        Редактировать
+                    </a>
+                @endif
+            @endauth
         </div>
     </div>
 </div>

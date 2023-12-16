@@ -11,30 +11,69 @@ use App\Modules\Rooms\Requests\RoomsStoreRequest;
 use App\Modules\Rooms\Requests\RoomsUpdateRequest;
 use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsRate;
+use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class RoomsController extends Controller
 {
+    use OrderTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function welcome(Request $request): Response
     {
         $rooms = Room::with('rate')
-            ->when($request->has('name'), function ($query) use($request) {
+            ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->query('name')}%");
             })
-            ->orderBy('name')
-            ->orderBy('rate_id')
+            ->when($request->filled('min_capacity'), function ($query) use ($request) {
+                $query->where('capacity', '>', $request->query('min_capacity'));
+            })
+            ->when($request->filled('max_capacity'), function ($query) use ($request) {
+                $query->where('capacity', '<', $request->query('max_capacity'));
+            })
+            ->when((int)$request->query('order_name') !== 0, function ($query) use ($request) {
+                $query->orderBy('name', (int)$request->query('order_name') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when((int)$request->query('order_rate') !== 0, function ($query) use ($request) {
+                $query->orderBy('rate_id', (int)$request->query('order_rate') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when((int)$request->query('order_capacity') !== 0, function ($query) use ($request) {
+                $query->orderBy('capacity', (int)$request->query('order_capacity') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when(
+                (int)$request->query('order_name') === 0 &&
+                (int)$request->query('order_rate') === 0 &&
+                (int)$request->query('order_capacity') === 0,
+                function ($query) use ($request) {
+                    $query->orderBy('name')
+                        ->orderBy('rate_id');
+                }
+            )
             ->paginate(6);
+        $filter = (object)[
+            'name' => $request->has('name') ? $request->query('name') : '',
+            'min_capacity' => $request->has('min_capacity') ? $request->query('min_capacity') : 1,
+            'max_capacity' => $request->has('max_capacity') ? $request->query('max_capacity') : '',
+        ];
+        $order = (object)[
+            'default' => self::getOrderDefault(),
+            'name' => $request->has('order_name') ? $request->query('order_name') : 0,
+            'rate' => $request->has('order_rate') ? $request->query('order_rate') : 0,
+            'capacity' => $request->has('order_capacity') ? $request->query('order_capacity') : 0,
+        ];
 
         return response()->view('rooms.welcome', [
-            'rooms' => $rooms
+            'rooms' => $rooms,
+            'filter' => $filter,
+            'order' => $order,
         ]);
     }
 
@@ -46,22 +85,46 @@ class RoomsController extends Controller
     {
         $reservations = RoomsReservation::with('room')
             ->where('email', '=', Auth::user()->email)
-            ->when($request->filled('room_id'), function ($query) use($request) {
+            ->when((int)$request->query('room_id') !== 0, function ($query) use ($request) {
                 $query->where('room_id', '=', $request->query('room_id'));
+            })
+            ->when($request->query('min_date', '') !== '', function ($query) use ($request) {
+                $query->where('date_reserve', '>', Carbon::parse($request->query('min_date'))->toDateTime());
+            })
+            ->when($request->query('max_date', '') !== '', function ($query) use ($request) {
+                $query->where('date_reserve', '<', Carbon::parse($request->query('max_date'))->toDateTime());
+            })
+            ->when((int)$request->query('order_room') !== 0, function ($query) use ($request) {
+                $query->orderBy('room_id', (int)$request->query('order_room') === 1 ? 'ASC' : 'DESC');
             })
             ->orderBy('date_reserve', 'desc')
             ->paginate(6);
-        $rooms = collect([(object)[
-            'value' => '',
-            'label' => 'Не выбрано'
-        ]]);
-        $rooms = $rooms->merge(Room::select('id as value', 'name as label')
-            ->orderBy('name')
-            ->get());
+        $rooms = collect([
+            (object)[
+                'value' => '',
+                'label' => 'Не выбрано'
+            ]
+        ]);
+        $rooms = $rooms->merge(
+            Room::select('id as value', 'name as label')
+                ->orderBy('name')
+                ->get()
+        );
+        $filter = (object)[
+            'room' => $request->has('room_id') ? $request->query('room_id') : 0,
+            'min_date' => $request->has('min_date') ? $request->query('min_date') : null,
+            'max_date' => $request->has('max_date') ? $request->query('max_date') : null,
+        ];
+        $order = (object)[
+            'default' => self::getOrderDefault(),
+            'room' => $request->has('order_room') ? $request->query('order_room') : 0,
+        ];
 
         return response()->view('rooms_reservation.welcome', [
             'reservations' => $reservations,
             'rooms' => $rooms,
+            'filter' => $filter,
+            'order' => $order,
         ]);
     }
 

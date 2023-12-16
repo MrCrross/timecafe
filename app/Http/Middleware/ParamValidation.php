@@ -34,6 +34,6 @@ class ParamValidation
                 return $next($request);
             }
         }
-        return redirect()->back();
+        return redirect(RouteServiceProvider::HOME);
     }
 }

@@ -40,11 +40,11 @@
                 >
                     Редактировать
                 </a>
-                <form method="post"  action="{{ route('orders.update', $order->id) }}">
-                    @csrf
-                    @method('patch')
-                    <x-primary-button name="status" value="2" type="submit">{{__('Закрыть')}}</x-primary-button>
-                </form>
+{{--                <form method="post"  action="{{ route('orders.update', $order->id) }}">--}}
+{{--                    @csrf--}}
+{{--                    @method('patch')--}}
+{{--                    <x-primary-button name="status" value="2" type="submit">{{__('Закрыть')}}</x-primary-button>--}}
+{{--                </form>--}}
             @endif
         </div>
     </div>

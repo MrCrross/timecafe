@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/reservation/{id}/edit', [ReservationController::class, 'edit'])->name('reservation.edit');
         Route::patch('/reservation/{id}', [ReservationController::class, 'update'])->name('reservation.update');
         Route::delete('/reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
+        Route::delete('/reservation/welcome/{id}', [ReservationController::class, 'destroyWelcome'])->name('reservation.destroyWelcome');
     });
 });
 

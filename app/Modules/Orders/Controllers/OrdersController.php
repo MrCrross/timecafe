@@ -10,6 +10,7 @@ use App\Modules\Orders\Requests\OrdersUpdateRequest;
 use App\Modules\Products\Models\Product;
 use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsReservation;
+use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class OrdersController extends Controller
 {
+    use OrderTrait;
     /**
      * @param Request $request
      * @return Response
@@ -26,8 +28,17 @@ class OrdersController extends Controller
     public function welcome(Request $request): Response
     {
         $orders = Order::with('room')
-            ->when($request->filled('room_id'), function ($query) use($request) {
+            ->when((int)$request->query('room_id') !== 0, function ($query) use ($request) {
                 $query->where('room_id', '=', $request->query('room_id'));
+            })
+            ->when($request->query('min_date', '') !== '', function ($query) use ($request) {
+                $query->where('date_order', '>', Carbon::parse($request->query('min_date'))->toDateTime());
+            })
+            ->when($request->query('max_date', '') !== '', function ($query) use ($request) {
+                $query->where('date_order', '<', Carbon::parse($request->query('max_date'))->toDateTime());
+            })
+            ->when((int)$request->query('order_room') !== 0, function ($query) use ($request) {
+                $query->orderBy('room_id', (int)$request->query('order_room') === 1 ? 'ASC' : 'DESC');
             })
             ->orderBy('date_order', 'desc')
             ->paginate(6);
@@ -38,10 +49,21 @@ class OrdersController extends Controller
         $rooms = $rooms->merge(Room::select('id as value', 'name as label')
             ->orderBy('name')
             ->get());
+        $filter = (object)[
+            'room' => $request->has('room_id') ? $request->query('room_id') : 0,
+            'min_date' => $request->has('min_date') ? $request->query('min_date') : null,
+            'max_date' => $request->has('max_date') ? $request->query('max_date') : null,
+        ];
+        $order = (object)[
+            'default' => self::getOrderDefault(),
+            'room' => $request->has('order_room') ? $request->query('order_room') : 0,
+        ];
 
         return response()->view('orders.welcome', [
             'orders' => $orders,
             'rooms' => $rooms,
+            'filter' => $filter,
+            'order' => $order,
         ]);
     }
 

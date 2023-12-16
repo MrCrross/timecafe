@@ -8,6 +8,7 @@ use App\Modules\Products\Models\Product;
 use App\Modules\Products\Requests\ProductsStoreRequest;
 use App\Modules\Products\Requests\ProductsUpdateRequest;
 use App\Modules\ProductsTypes\Models\ProductsType;
+use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -16,23 +17,61 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProductsController extends Controller
 {
+    use OrderTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function welcome(Request $request): Response
     {
         $products = Product::with('type')
-            ->orderBy('name')
-            ->orderBy('type_id')
-            ->when($request->has('name'), function ($query) use($request) {
+            ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->query('name')}%");
             })
+            ->when($request->filled('min_price'), function ($query) use ($request) {
+                $query->where('price', '>', $request->query('min_price'));
+            })
+            ->when($request->filled('max_price'), function ($query) use ($request) {
+                $query->where('price', '<', $request->query('max_price'));
+            })
+            ->when((int)$request->query('order_name') !== 0, function ($query) use ($request) {
+                $query->orderBy('name', (int)$request->query('order_name') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when((int)$request->query('order_type') !== 0, function ($query) use ($request) {
+                $query->orderBy('type_id', (int)$request->query('order_type') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when((int)$request->query('order_price') !== 0, function ($query) use ($request) {
+                $query->orderBy('price', (int)$request->query('order_price') === 1 ? 'ASC' : 'DESC');
+            })
+            ->when(
+                (int)$request->query('order_name') === 0 &&
+                (int)$request->query('order_type') === 0 &&
+                (int)$request->query('order_price') === 0,
+                function ($query) use ($request) {
+                    $query->orderBy('name')
+                        ->orderBy('type_id');
+                }
+            )
             ->paginate(6);
+        $filter = (object)[
+            'name' => $request->has('name') ? $request->query('name') : '',
+            'min_price' => $request->has('min_price') ? $request->query('min_price') : 1,
+            'max_price' => $request->has('max_price') ? $request->query('max_price') : '',
+        ];
+        $order = (object)[
+            'default' => self::getOrderDefault(),
+            'name' => $request->has('order_name') ? $request->query('order_name') : 0,
+            'type' => $request->has('order_type') ? $request->query('order_type') : 0,
+            'price' => $request->has('order_price') ? $request->query('order_price') : 0,
+        ];
 
         return response()->view('products.welcome', [
-            'products' => $products
+            'products' => $products,
+            'filter' => $filter,
+            'order' => $order,
         ]);
     }
+
     /**
      * Display a listing of the resource.
      */
