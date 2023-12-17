@@ -99,13 +99,13 @@ class RoomsController extends Controller
             })
             ->orderBy('date_reserve', 'desc')
             ->paginate(6);
-        $rooms = collect([
+        $roomsAutocomplete = collect([
             (object)[
                 'value' => '',
                 'label' => 'Не выбрано'
             ]
         ]);
-        $rooms = $rooms->merge(
+        $roomsAutocomplete = $roomsAutocomplete->merge(
             Room::select('id as value', 'name as label')
                 ->orderBy('name')
                 ->get()
@@ -119,10 +119,14 @@ class RoomsController extends Controller
             'default' => self::getOrderDefault(),
             'room' => $request->has('order_room') ? $request->query('order_room') : 0,
         ];
+        $rooms = Room::with('rate')
+            ->orderBy('name')
+            ->get();
 
         return response()->view('rooms_reservation.welcome', [
             'reservations' => $reservations,
             'rooms' => $rooms,
+            'rooms_autocomplete' => $roomsAutocomplete,
             'filter' => $filter,
             'order' => $order,
         ]);

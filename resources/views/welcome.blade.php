@@ -171,18 +171,18 @@
                     <p class="mb-10 text-lg">
                     <span class="block mb-2">Телефон:
                         <a
-                            href="tel:89640000000"
+                            href="tel:89842709031"
                             class="hover:text-yellow-600 transition"
                         >
-                            8-964-000-00-00
+                            8-984-270-90-31
                         </a>
                     </span>
                         <span class="block">Email:
                         <a
-                            href="mailto:admin@timecafe.ru"
+                            href="mailto:alex.jentelmen@gmail.com"
                             class="hover:text-yellow-600 transition"
                         >
-                            admin@timecafe.ru
+                            alex.jentelmen@gmail.com
                         </a>
                     </span>
                     </p>

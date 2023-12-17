@@ -53,17 +53,17 @@
                     >
                         Редактировать
                     </a>
-                    <form method="post"  action="{{ route('users.update', $user->id) }}">
-                        @csrf
-                        @method('patch')
-                        @php
-                        $status = $user->status === 1 ? 0 : 1;
-                        $statusName = $user->status === 1 ? 'Отключить' : 'Включить';
-                        @endphp
-                        @if($user->status === 1)
-                        @endif
-                        <x-primary-button class="mx-2" name="status" :value="$status" type="submit">{{$statusName}}</x-primary-button>
-                    </form>
+{{--                    <form method="post"  action="{{ route('users.update', $user->id) }}">--}}
+{{--                        @csrf--}}
+{{--                        @method('patch')--}}
+{{--                        @php--}}
+{{--                        $status = $user->status === 1 ? 0 : 1;--}}
+{{--                        $statusName = $user->status === 1 ? 'Отключить' : 'Включить';--}}
+{{--                        @endphp--}}
+{{--                        @if($user->status === 1)--}}
+{{--                        @endif--}}
+{{--                        <x-primary-button class="mx-2" name="status" :value="$status" type="submit">{{$statusName}}</x-primary-button>--}}
+{{--                    </form>--}}
                 @endif
             @endauth
         </div>

@@ -64,7 +64,7 @@
             >
                 <i class="fas fa-2x fa-bars tm-text-gold"></i>
             </button>
-            <ul class="mb-3 md:mb-0 text-2xl font-normal flex justify-end flex-col md:flex-row">
+            <ul class="mb-3 md:mb-0 text-xl font-normal flex justify-end flex-col md:flex-row">
                 <li class="inline-block mb-4 mx-4">
                     <a
                         href="/#intro"
@@ -140,6 +140,15 @@
                     >
                         Контакты
                     </a>
+
+                <li class="inline-block mb-4 mx-4">
+                    <button
+                            type="button"
+                            onclick="event.preventDefault(); location.href='{{asset('/documents/help.docx')}}';"
+                            class="tm-text-gold pb-1 md:pb-3 px-4"
+                    >
+                        Помощь
+                    </button>
                 </li>
                 @if (Route::has('login'))
                     @guest

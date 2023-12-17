@@ -22,7 +22,7 @@
                                 id="room_id"
                                 name="room_id"
                                 class="mt-1 block w-full"
-                                :data="$rooms"
+                                :data="$rooms_autocomplete"
                                 :selected="$filter->room ?? 0"
                         />
                     </div>
@@ -135,6 +135,134 @@
                 </div>
             @endif
             <x-paginate :paginator="$reservations" tag="#reservations"></x-paginate>
+        </div>
+    </div>
+    <div
+            id="contact"
+            class="parallax-window relative"
+            data-parallax="scroll"
+            data-image-src="{{asset('/img/welcome/antique-cafe-bg-04.jpg')}}"
+    >
+        <div class="container mx-auto tm-container pt-24 pb-48 sm:py-48">
+            <div class="flex flex-col lg:flex-row justify-around items-center lg:items-stretch">
+                <div class="flex-1 rounded-xl px-10 py-12 m-5 bg-white bg-opacity-80 tm-item-container">
+                    <h2 class="text-3xl mb-6 tm-text-green">Контакты</h2>
+                    <p class="mb-6 text-lg leading-8">
+                        Работаем для вас с 8:30 до 21:00 без выходных!
+                    </p>
+                    <p class="mb-10 text-lg">
+                    <span class="block mb-2">Телефон:
+                        <a
+                                href="tel:89842709031"
+                                class="hover:text-yellow-600 transition"
+                        >
+                            8-984-270-90-31
+                        </a>
+                    </span>
+                        <span class="block">Email:
+                        <a
+                                href="mailto:alex.jentelmen@gmail.com"
+                                class="hover:text-yellow-600 transition"
+                        >
+                            alex.jentelmen@gmail.com
+                        </a>
+                    </span>
+                    </p>
+                    <div class="text-center">
+                        <a
+                                href="https://yandex.ru/maps/63/irkutsk/house/ulitsa_lenina_5a/ZUkCaAVoSEYBXUJvYWJzeX9iYAA=/?ll=104.281361%2C52.283148&z=17.64"
+                                class="inline-block text-white text-2xl pl-10 pr-12 py-6 rounded-lg transition tm-bg-green"
+                        >
+                            <i class="fas fa-map-marked-alt mr-8"></i>
+                            Открыть карту
+                        </a>
+                    </div>
+                </div>
+                <div class="flex-1 rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container">
+                    <form
+                            action="{{route('reservation.store')}}"
+                            method="POST"
+                            class="text-lg"
+                    >
+                        @csrf
+                        <input
+                                type="text"
+                                name="fio"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder="ФИО"
+                                required
+                        />
+                        <input
+                                type="email"
+                                name="email"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder="Почта"
+                                required
+                        />
+                        <select
+                                name="room_id"
+                                class="select-gold input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                required
+                        >
+                            <option
+                                    value=""
+                                    disabled
+                                    selected
+                            >
+                                Комната
+                            </option>
+                            @foreach($rooms as $room)
+                                <option
+                                        value="{{$room->id}}"
+                                >
+                                    {{$room->name . ' ' . $room->rate->price . ' руб/час'}}
+                                </option>
+                            @endforeach
+                        </select>
+                        <input
+                                type="number"
+                                name="hours"
+                                min="1"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder="Количество часов"
+                                required
+                        />
+                        <input
+                                type="number"
+                                name="capacity"
+                                min="1"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder="Количество человек"
+                                required
+                        />
+                        <input
+                                type="datetime-local"
+                                name="date_reserve"
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder="Дата бронирования"
+                                min="{{\Illuminate\Support\Carbon::now()->addHours(2)->format('Y-m-d H:i')}}"
+                                value="{{\Illuminate\Support\Carbon::now()->addHours(2)->format('Y-m-d H:i')}}"
+                                required
+                        >
+                        <div class="text-right">
+                            <button
+                                    type="submit"
+                                    class="text-white hover:text-yellow-500 transition"
+                            >Отправить
+                            </button>
+                        </div>
+                        @if (session('status') === 'reservation')
+                            <p
+                                    x-data="{ show: true }"
+                                    x-show="show"
+                                    x-transition
+                                    x-init="setTimeout(() => show = false, 5000)"
+                                    class="text-sm text-gray-600 dark:text-gray-400"
+                            >{{ __('Форма отправлена.') }}</p>
+                        @endif
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </x-welcome-layout>
