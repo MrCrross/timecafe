@@ -4,6 +4,7 @@ namespace App\Modules\Rooms\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
+use App\Modules\Rooms\Export\RoomsExport;
 use App\Modules\Rooms\Models\RoomsImage;
 use App\Modules\Rooms\Models\RoomsReservation;
 use App\Modules\Rooms\Requests\RoomsImagesRequest;
@@ -19,6 +20,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class RoomsController extends Controller
 {
@@ -284,5 +287,13 @@ class RoomsController extends Controller
         Room::restore($roomID, [
             'image' => FilesModel::getPathSave($path, $fileName),
         ]);
+    }
+
+    /**
+     * @return BinaryFileResponse
+     */
+    public function export(): BinaryFileResponse
+    {
+        return Excel::download(new RoomsExport(), 'rooms.xlsx');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Modules\Products\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
+use App\Modules\Products\Export\ProductsExport;
 use App\Modules\Products\Models\Product;
 use App\Modules\Products\Requests\ProductsStoreRequest;
 use App\Modules\Products\Requests\ProductsUpdateRequest;
@@ -14,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProductsController extends Controller
 {
@@ -186,5 +189,13 @@ class ProductsController extends Controller
         Product::restore($productID, [
             'image' => FilesModel::getPathSave($path, $fileName)
         ]);
+    }
+
+    /**
+     * @return BinaryFileResponse
+     */
+    public function export(): BinaryFileResponse
+    {
+        return Excel::download(new ProductsExport(), 'products.xlsx');
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('products')->group(function () {
     Route::get('/welcome', [ProductsController::class, 'welcome'])->name('products.welcome');
+    Route::get('/export', [ProductsController::class, 'export'])->name('products.export');
 
     Route::middleware(['auth'])->group(function () {
         Route::middleware(['param:products_view'])->group(function () {

@@ -16,5 +16,8 @@
                 @endif
             </div>
         @endauth
+        @if($attributes['welcome'])
+            <a href="{{route('products.export')}}">Экспорт</a>
+        @endif
     </div>
 </h2>

@@ -16,5 +16,8 @@ if (isset($attributes['welcome'])) {
                 @endif
             </div>
         @endauth
+        @if($attributes['welcome'])
+            <a href="{{route('rooms.export')}}">Экспорт</a>
+        @endif
     </div>
 </h2>

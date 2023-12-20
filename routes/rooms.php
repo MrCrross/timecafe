@@ -5,6 +5,7 @@ use App\Modules\Rooms\Controllers\RoomsRatesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/welcome', [RoomsController::class, 'welcome'])->name('rooms.welcome');
+Route::get('/export', [RoomsController::class, 'export'])->name('rooms.export');
 Route::middleware(['auth'])->prefix('rooms')->group(function () {
     Route::get('/reservations/welcome', [RoomsController::class, 'welcomeReservations'])->name('reservations.welcome');
     Route::middleware(['param:rooms_view'])->group(function () {
