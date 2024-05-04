@@ -152,6 +152,13 @@
                     <i class="far fa-comments mr-4"></i>
                     Контакты
                 </a>
+                <a
+                    href="{{ route('reviews.welcome') }}#reviews"
+                    class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 rounded-md"
+                >
+                    <i class="far fa-comments mr-4"></i>
+                    Отзывы
+                </a>
             </div>
         </div>
     </div>

@@ -57,15 +57,15 @@
         id="tm-nav"
         class="fixed w-full"
     >
-        <div class="tm-container mx-auto px-2 md:py-6 text-right">
+        <div class="container mx-auto px-2 md:py-6 text-right">
             <button
                 class="md:hidden py-2 px-2"
                 id="menu-toggle"
             >
                 <i class="fas fa-2x fa-bars tm-text-gold"></i>
             </button>
-            <ul class="mb-3 md:mb-0 text-xl font-normal flex justify-end flex-col md:flex-row">
-                <li class="inline-block mb-4 mx-4">
+            <ul class="mb-3 md:mb-0 text-xl font-normal flex justify-center flex-col md:flex-row">
+                <li class="inline-block mb-4 mx-1">
                     <a
                         href="/#intro"
                         class="tm-text-gold py-1 md:py-3 px-4"
@@ -73,7 +73,7 @@
                         Главная
                     </a>
                 </li>
-                <li class="inline-block mb-4 mx-4">
+                <li class="inline-block mb-4 mx-1">
                     <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{ route('rooms.welcome') }}#room';"
@@ -81,14 +81,8 @@
                     >
                         Комнаты
                     </button>
-                    {{--                    <a--}}
-                    {{--                        href="#room"--}}
-                    {{--                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"--}}
-                    {{--                    >--}}
-                    {{--                        Комнаты--}}
-                    {{--                    </a>--}}
                 </li>
-                <li class="inline-block mb-4 mx-4">
+                <li class="inline-block mb-4 mx-1">
                     <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{ route('products.welcome') }}#menu';"
@@ -103,8 +97,17 @@
 {{--                        Меню--}}
 {{--                    </a>--}}
                 </li>
+                <li class="inline-block mb-4 mx-1">
+                    <button
+                        type="button"
+                        onclick="event.preventDefault(); location.href='{{ route('stocks.welcome') }}#stocks';"
+                        class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('stocks.welcome')) current @endif"
+                    >
+                        Акции
+                    </button>
+                </li>
                 @auth
-                    <li class="inline-block mb-4 mx-4">
+                    <li class="inline-block mb-4 mx-1">
                         <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{ route('reservations.welcome') }}#reservations';"
@@ -114,7 +117,7 @@
                         </button>
                     </li>
                     @if(Auth::user()->params()->has('orders_view'))
-                    <li class="inline-block mb-4 mx-4">
+                    <li class="inline-block mb-4 mx-1">
                         <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{ route('orders.welcome') }}#orders';"
@@ -125,7 +128,7 @@
                     </li>
                     @endif
                 @endauth
-                <li class="inline-block mb-4 mx-4">
+                <li class="inline-block mb-4 mx-1">
                     <a
                         href="/#about"
                         class="tm-text-gold py-1 md:py-3 px-4"
@@ -133,15 +136,32 @@
                         О нас
                     </a>
                 </li>
-                <li class="inline-block mb-4 mx-4">
+                <li class="inline-block mb-4 mx-1">
                     <a
                         href="/#contact"
                         class="tm-text-gold py-1 md:py-3 px-4"
                     >
                         Контакты
                     </a>
-
-                <li class="inline-block mb-4 mx-4">
+                </li>
+                <li class="inline-block mb-4 mx-1">
+                    <button
+                        type="button"
+                        onclick="event.preventDefault(); location.href='{{ route('reviews.welcome') }}#reviews';"
+                        class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('reviews.welcome')) current @endif"
+                    >
+                        Отзывы
+                    </button>
+                </li>
+                <li class="inline-block mb-4 mx-1">
+                    <a
+                        href="{{ route('welcome.rules') }}#rules"
+                        class="tm-text-gold py-1 md:py-3 px-4"
+                    >
+                        Правила
+                    </a>
+                </li>
+                <li class="inline-block mb-4 mx-1">
                     <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{asset('/documents/help.docx')}}';"
@@ -152,7 +172,7 @@
                 </li>
                 @if (Route::has('login'))
                     @guest
-                        <li class="inline-block mb-4 mx-4">
+                        <li class="inline-block mb-4 mx-1">
                             <button
                                 type="button"
                                 onclick="event.preventDefault(); location.href='{{ route('login') }}';"
@@ -162,7 +182,7 @@
                             </button>
                         </li>
                         @if (Route::has('register'))
-                            <li class="inline-block mb-4 mx-4">
+                            <li class="inline-block mb-4 mx-1">
                                 <button
                                     type="button"
                                     onclick="event.preventDefault(); location.href='{{ route('register') }}';"
@@ -173,7 +193,7 @@
                             </li>
                         @endif
                     @else
-                        <li class="inline-block mb-4 mx-4">
+                        <li class="inline-block mb-4 mx-1">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
                                     <button class="tm-text-gold pb-1 md:pb-3 px-4 inline-flex items-center border border-transparent rounded-md bg-transparent transition ease-in-out duration-150">

@@ -4,6 +4,7 @@ use App\Http\Controllers\FilesController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\WelcomeController;
 use App\Modules\Profile\Controllers\ProfileController;
+use App\Modules\Reviews\Controllers\ReviewsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,12 +19,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [WelcomeController::class, 'get'])->name('welcome');
+Route::get('/rules', [WelcomeController::class, 'rules'])->name('welcome.rules');
 Route::get('/admin', [WelcomeController::class, 'admin'])->middleware(['auth', 'param:isAdmin'])->name('admin.index');
+Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.welcome');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 
 Route::get('{upload}', [FilesController::class, 'get'])->middleware(['auth'])->where('upload', '(upload\/)(.*)');
 
 Route::middleware('auth')->group(function () {
+    Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -42,5 +46,6 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 require __DIR__ . '/products.php';
 require __DIR__ . '/rooms.php';
+require __DIR__ . '/stocks.php';
 require __DIR__ . '/orders.php';
 require __DIR__ . '/users.php';

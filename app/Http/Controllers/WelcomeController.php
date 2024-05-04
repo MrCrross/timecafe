@@ -38,4 +38,9 @@ class WelcomeController extends Controller
     {
         return response()->view('admin');
     }
+
+    public function rules(): Response
+    {
+        return response()->view('rules');
+    }
 }

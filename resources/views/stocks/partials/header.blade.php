@@ -6,18 +6,15 @@ if (isset($attributes['welcome'])) {
 ?>
 <h2 class="font-semibold text-xl {{ $textColor }} leading-tight">
     <div class="flex flex-row items-center justify-between">
-        <h1>{{ __('Комнаты') }}</h1>
+        <h1>{{ __('Акции') }}</h1>
         @auth
             <div class="flex flex-row items-center justify-between">
-                @if(Auth::user()->params()->has('rooms_edit'))
-                    <x-nav-link :href="route('rooms.create')" :active="request()->routeIs('rooms.create')">
+                @if(Auth::user()->params()->has('stocks_edit'))
+                    <x-nav-link :href="route('stocks.create')" :active="request()->routeIs('stocks.create')">
                         {{__('Добавить')}}
                     </x-nav-link>
                 @endif
             </div>
         @endauth
-        @if(isset($attributes['welcome']))
-            <a href="{{route('rooms.export')}}">Экспорт</a>
-        @endif
     </div>
 </h2>

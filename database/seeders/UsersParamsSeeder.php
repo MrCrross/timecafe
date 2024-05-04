@@ -70,6 +70,14 @@ class UsersParamsSeeder extends Seeder
                 'name' => 'reservation_edit',
                 'man_name' => 'Правки брони'
             ],
+            [
+                'name' => 'stocks_view',
+                'man_name' => 'Просмотр акций'
+            ],
+            [
+                'name' => 'stocks_edit',
+                'man_name' => 'Правки акций'
+            ],
         ];
 
         foreach ($params as $param) {
