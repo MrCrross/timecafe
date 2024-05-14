@@ -7,11 +7,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FilesController extends Controller
 {
-    /**
-     * Возвращаем файл
-     * @param Request $request
-     * @return BinaryFileResponse
-     */
     public function get(Request $request): BinaryFileResponse
     {
         $link = urldecode($request->getRequestUri());

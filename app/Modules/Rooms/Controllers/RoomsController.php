@@ -135,9 +135,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Response
     {
         $rooms = Room::with('rate')
@@ -150,9 +147,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): Response
     {
         $rates = RoomsRate::select('id as value', 'name as label')->get();
@@ -162,9 +156,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(RoomsStoreRequest $request): RedirectResponse
     {
         $fields = [
@@ -179,9 +170,6 @@ class RoomsController extends Controller
         return Redirect::route('rooms.create')->with('status', 'room-created');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id): Response
     {
         $room = Room::with('rate')->find($id);
@@ -191,9 +179,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(int $id): Response
     {
         $rates = RoomsRate::select('id as value', 'name as label')->get();
@@ -205,9 +190,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(RoomsUpdateRequest $request, int $id): RedirectResponse
     {
         $fields = [
@@ -225,9 +207,6 @@ class RoomsController extends Controller
         return Redirect::route('rooms.edit', $id)->with('status', 'room-updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(int $id): RedirectResponse
     {
         RoomsReservation::query()->where('room_id', '=', $id)->delete();
@@ -236,12 +215,6 @@ class RoomsController extends Controller
         return redirect()->route('rooms.index');
     }
 
-    /**
-     * @param RoomsImagesRequest $request
-     * @param int $roomID
-     *
-     * @return RedirectResponse
-     */
     public function storeImage(RoomsImagesRequest $request, int $roomID): RedirectResponse
     {
         $files = $request->file('images');
@@ -260,11 +233,6 @@ class RoomsController extends Controller
         return redirect()->route('rooms.edit', $roomID);
     }
 
-    /**
-     * @param int $imageID
-     *
-     * @return RedirectResponse
-     */
     public function deleteImage(int $imageID): RedirectResponse
     {
         $image = RoomsImage::find($imageID);
@@ -273,12 +241,6 @@ class RoomsController extends Controller
         return redirect()->route('rooms.edit', $image->room_id);
     }
 
-    /**
-     * @param int $roomID
-     * @param UploadedFile $file
-     *
-     * @return void
-     */
     private function saveMainImage(int $roomID, UploadedFile $file): void
     {
         $path = "/rooms/{$roomID}/";
@@ -289,9 +251,6 @@ class RoomsController extends Controller
         ]);
     }
 
-    /**
-     * @return BinaryFileResponse
-     */
     public function export(): BinaryFileResponse
     {
         return Excel::download(new RoomsExport(), 'rooms.xlsx');

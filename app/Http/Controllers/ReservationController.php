@@ -57,9 +57,6 @@ class ReservationController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, int $id): RedirectResponse
     {
         $fields = [
@@ -73,9 +70,6 @@ class ReservationController extends Controller
         return Redirect::route('reservation.edit', $id)->with('status', 'reservation-updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(int $id): RedirectResponse
     {
         RoomsReservation::query()->where('id', '=', $id)->delete();
@@ -83,9 +77,6 @@ class ReservationController extends Controller
         return redirect()->route('reservation.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroyWelcome(int $id): RedirectResponse
     {
         RoomsReservation::query()->where('id', '=', $id)->delete();

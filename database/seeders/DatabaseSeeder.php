@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Database\Factories\Modules\Products\Models\ProductFactory;
 use Database\Factories\Modules\Reviews\Models\ReviewFactory;
 use Database\Factories\Modules\Rooms\Models\RoomsImageFactory;
@@ -13,9 +12,6 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->call([

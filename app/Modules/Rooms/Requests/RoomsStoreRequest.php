@@ -2,6 +2,7 @@
 
 namespace App\Modules\Rooms\Requests;
 
+use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsRate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -24,7 +25,7 @@ class RoomsStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique(Room::class, 'name')],
             'capacity' => ['required', 'integer'],
             'image' => ['required', 'image'],
             'rate_id' => ['required', 'integer', 'min:1', Rule::exists(RoomsRate::class, 'id')]

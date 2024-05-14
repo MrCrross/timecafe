@@ -2,28 +2,22 @@
 
 namespace App\Modules\ProductsTypes\Requests;
 
+use App\Modules\ProductsTypes\Models\ProductsType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductsTypesStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'image'],
+            'name' => ['required', 'string', 'max:255', Rule::unique(ProductsType::class, 'name')],
+            'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ];
     }
 }

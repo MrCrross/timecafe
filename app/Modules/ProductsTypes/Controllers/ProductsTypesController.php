@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class ProductsTypesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Response
     {
         $productTypes = ProductsType::orderBy('name')->get();
@@ -26,17 +23,11 @@ class ProductsTypesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): Response
     {
         return response()->view('products_types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(ProductsTypesStoreRequest $request): RedirectResponse
     {
         $fields = [
@@ -45,14 +36,13 @@ class ProductsTypesController extends Controller
 
         $id = ProductsType::restore(0, $fields);
 
-        $this->saveImage($id, $request->file('image'));
+        if ($request->hasFile('image')) {
+            $this->saveImage($id, $request->file('image'));
+        }
 
         return Redirect::route('products_types.create')->with('status', 'products_type-created');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id): Response
     {
         $type = ProductsType::find($id);
@@ -62,9 +52,6 @@ class ProductsTypesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(int $id): Response
     {
         $type = ProductsType::find($id);
@@ -74,9 +61,6 @@ class ProductsTypesController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(ProductsTypesUpdateRequest $request, string $id): RedirectResponse
     {
         $fields = [
@@ -92,12 +76,8 @@ class ProductsTypesController extends Controller
         return Redirect::route('products_types.edit', $id)->with('status', 'products_type-updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id): RedirectResponse
     {
-
         ProductsType::deleteByID($id);
 
         return redirect()->route('products_types.index');

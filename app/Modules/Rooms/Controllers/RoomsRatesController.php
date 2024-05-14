@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class RoomsRatesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(): Response
     {
         $roomRates = RoomsRate::orderBy('name')->get();
@@ -23,17 +20,11 @@ class RoomsRatesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): Response
     {
         return response()->view('rooms_rates.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(RoomsRatesRequest $request): RedirectResponse
     {
         $fields = [
@@ -46,9 +37,6 @@ class RoomsRatesController extends Controller
         return Redirect::route('rooms_rates.create')->with('status', 'rooms_rates-created');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id): Response
     {
         $rate = RoomsRate::find($id);
@@ -58,9 +46,6 @@ class RoomsRatesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(int $id): Response
     {
         $rate = RoomsRate::find($id);
@@ -70,9 +55,6 @@ class RoomsRatesController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(RoomsRatesRequest $request, string $id): RedirectResponse
     {
         $fields = [
@@ -84,9 +66,6 @@ class RoomsRatesController extends Controller
         return Redirect::route('rooms_rates.edit', $id)->with('status', 'rooms_rates-updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id): RedirectResponse
     {
         RoomsRate::deleteByID($id);

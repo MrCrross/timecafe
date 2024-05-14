@@ -8,9 +8,6 @@ use Illuminate\Database\Seeder;
 
 class UsersParamsSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $params = [

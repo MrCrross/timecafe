@@ -7,24 +7,13 @@ use App\Modules\Profile\Controllers\ProfileController;
 use App\Modules\Reviews\Controllers\ReviewsController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', [WelcomeController::class, 'get'])->name('welcome');
 Route::get('/rules', [WelcomeController::class, 'rules'])->name('welcome.rules');
 Route::get('/admin', [WelcomeController::class, 'admin'])->middleware(['auth', 'param:isAdmin'])->name('admin.index');
 Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.welcome');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 
-Route::get('{upload}', [FilesController::class, 'get'])->middleware(['auth'])->where('upload', '(upload\/)(.*)');
+Route::get('{upload}', [FilesController::class, 'get'])->where('upload', '(upload\/)(.*)');
 
 Route::middleware('auth')->group(function () {
     Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');

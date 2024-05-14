@@ -21,7 +21,7 @@ class RoomsExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
                 'rooms_rates.price as rate_price',
                 'rooms.capacity'
             )
-            ->join('rooms_rates', 'rooms_rates.id', '=', 'rooms.id')
+            ->join('rooms_rates', 'rooms_rates.id', '=', 'rooms.rate_id')
             ->get();
     }
 

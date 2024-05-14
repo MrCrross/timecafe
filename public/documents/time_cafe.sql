@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Дек 15 2023 г., 17:20
+-- Время создания: Май 14 2024 г., 18:13
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -20,25 +20,6 @@ SET time_zone = "+00:00";
 --
 -- База данных: `time_cafe`
 --
-CREATE DATABASE IF NOT EXISTS `time_cafe` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `time_cafe`;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `failed_jobs`
---
-
-DROP TABLE IF EXISTS `failed_jobs`;
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -46,7 +27,6 @@ CREATE TABLE `failed_jobs` (
 -- Структура таблицы `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(255) NOT NULL,
@@ -58,21 +38,23 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(85, '2014_10_12_000000_create_users_table', 1),
-(86, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(87, '2019_08_19_000000_create_failed_jobs_table', 1),
-(88, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(89, '2023_09_30_130110_create_products_types_table', 1),
-(90, '2023_09_30_130118_create_products_table', 1),
-(91, '2023_09_30_134312_create_users_params_table', 1),
-(92, '2023_09_30_134331_create_users_users_params_table', 1),
-(93, '2023_09_30_135322_create_rooms_rates_table', 1),
-(94, '2023_09_30_135333_create_rooms_table', 1),
-(95, '2023_09_30_135348_create_rooms_reservation_table', 1),
-(96, '2023_09_30_135354_create_orders_table', 1),
-(97, '2023_09_30_135400_create_orders_products_table', 1),
-(98, '2023_10_07_230516_create_rooms_images_table', 1),
-(99, '2023_12_15_154704_add_deleted_at_to_rooms_reservation_table', 2);
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2023_09_30_130110_create_products_types_table', 1),
+(6, '2023_09_30_130118_create_products_table', 1),
+(7, '2023_09_30_134312_create_users_params_table', 1),
+(8, '2023_09_30_134331_create_users_users_params_table', 1),
+(9, '2023_09_30_135322_create_rooms_rates_table', 1),
+(10, '2023_09_30_135333_create_rooms_table', 1),
+(11, '2023_09_30_135348_create_rooms_reservation_table', 1),
+(12, '2023_09_30_135354_create_orders_table', 1),
+(13, '2023_09_30_135400_create_orders_products_table', 1),
+(14, '2023_10_07_230516_create_rooms_images_table', 1),
+(15, '2023_12_15_154704_add_deleted_at_to_rooms_reservation_table', 1),
+(16, '2024_05_03_211231_create_reviews_table', 1),
+(17, '2024_05_03_211303_create_stocks_table', 1);
 
 -- --------------------------------------------------------
 
@@ -80,7 +62,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Структура таблицы `orders`
 --
 
-DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -91,14 +72,6 @@ CREATE TABLE `orders` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Дамп данных таблицы `orders`
---
-
-INSERT INTO `orders` (`id`, `room_id`, `status`, `date_order`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, '1986-06-13 10:38:04', NULL, NULL, NULL),
-(2, 2, 1, '1972-08-03 07:58:54', NULL, NULL, NULL),
-(3, 3, 1, '1996-02-04 13:11:52', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +79,6 @@ INSERT INTO `orders` (`id`, `room_id`, `status`, `date_order`, `created_at`, `up
 -- Структура таблицы `orders_products`
 --
 
-DROP TABLE IF EXISTS `orders_products`;
 CREATE TABLE `orders_products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
@@ -116,28 +88,12 @@ CREATE TABLE `orders_products` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Дамп данных таблицы `orders_products`
---
-
-INSERT INTO `orders_products` (`id`, `order_id`, `product_id`, `count`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, NULL, NULL),
-(2, 1, 2, 3, NULL, NULL),
-(3, 1, 3, 1, NULL, NULL),
-(4, 2, 1, 2, NULL, NULL),
-(5, 2, 2, 3, NULL, NULL),
-(6, 2, 3, 1, NULL, NULL),
-(7, 3, 1, 2, NULL, NULL),
-(8, 3, 2, 3, NULL, NULL),
-(9, 3, 3, 1, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
 -- Структура таблицы `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `email` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -147,30 +103,9 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `personal_access_tokens`
---
-
-DROP TABLE IF EXISTS `personal_access_tokens`;
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `products`
 --
 
-DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -186,17 +121,13 @@ CREATE TABLE `products` (
 -- Дамп данных таблицы `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `price`, `image`, `type_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Финансовый советник', 2, 'https://via.placeholder.com/640x480.png/00bbaa?text=placeat', 1, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(2, 'Писатель', 176502383, 'https://via.placeholder.com/640x480.png/00dd66?text=atque', 2, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 'Телефонистка', 706486, 'https://via.placeholder.com/640x480.png/00aaee?text=voluptatem', 3, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 'Чабан', 62, 'https://via.placeholder.com/640x480.png/000066?text=soluta', 4, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'Бестиарий (гладиатор)', 18879189, 'https://via.placeholder.com/640x480.png/007700?text=enim', 5, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(6, 'Телохранитель', 537829, 'https://via.placeholder.com/640x480.png/009922?text=dolorem', 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 'Гитарный мастер', 8780, 'https://via.placeholder.com/640x480.png/00ee66?text=omnis', 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(8, 'Абразивоструйщик', 94, '/upload/products/8/img.png', 8, '2023-10-18 13:09:57', '2023-10-23 14:43:55', NULL),
-(9, 'Ветеринар', 1, 'https://via.placeholder.com/640x480.png/0033aa?text=velit', 9, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 'Фотограф', 548075469, 'https://via.placeholder.com/640x480.png/00ddcc?text=cumque', 10, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+INSERT INTO `products` (`id`, `name`, `price`, `image`, `type_id`, `created_at`, `updated_at`) VALUES
+(22, 'Кальян средний', 600, '/upload/products/22/img.jpg', 24, '2024-01-14 19:47:03', '2024-01-14 19:47:03'),
+(24, 'Кальян легкий', 500, '/upload/products/24/img.jpg', 24, '2024-01-14 20:27:57', '2024-01-14 20:27:57'),
+(25, 'Кальян крепкий', 700, '/upload/products/25/img.jpg', 24, '2024-01-14 20:28:23', '2024-01-14 20:28:23'),
+(26, 'Капучино', 180, '/upload/products/26/img.jpg', 25, '2024-01-14 20:37:18', '2024-01-14 20:37:18'),
+(27, 'Латте', 200, '/upload/products/27/img.jpg', 25, '2024-01-14 20:38:30', '2024-01-14 20:38:30'),
+(28, 'Американо', 150, '/upload/products/28/img.jpg', 25, '2024-01-14 20:39:10', '2024-01-14 20:39:10');
 
 -- --------------------------------------------------------
 
@@ -204,7 +135,6 @@ INSERT INTO `products` (`id`, `name`, `price`, `image`, `type_id`, `created_at`,
 -- Структура таблицы `products_types`
 --
 
-DROP TABLE IF EXISTS `products_types`;
 CREATE TABLE `products_types` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -218,17 +148,39 @@ CREATE TABLE `products_types` (
 -- Дамп данных таблицы `products_types`
 --
 
-INSERT INTO `products_types` (`id`, `name`, `image`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'vel', 'https://via.placeholder.com/640x480.png/008800?text=in', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(2, 'necessitatibus', 'https://via.placeholder.com/640x480.png/00aa99?text=libero', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 'sit', 'https://via.placeholder.com/640x480.png/00aa11?text=consequatur', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 'similique', 'https://via.placeholder.com/640x480.png/007799?text=dolor', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'est', 'https://via.placeholder.com/640x480.png/00ff66?text=et', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(6, 'eligendi', 'https://via.placeholder.com/640x480.png/00dd22?text=praesentium', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 'non', 'https://via.placeholder.com/640x480.png/009944?text=est', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(8, 'beatae', 'https://via.placeholder.com/640x480.png/00bb88?text=animi', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(9, 'laborum', 'https://via.placeholder.com/640x480.png/00bbdd?text=deserunt', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 'assumenda', 'https://via.placeholder.com/640x480.png/008899?text=consequuntur', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+INSERT INTO `products_types` (`id`, `name`, `image`, `created_at`, `updated_at`) VALUES
+(24, 'кальян', '/upload/products_types/24/img.jpg', '2024-01-14 19:25:58', '2024-01-14 19:25:58'),
+(25, 'Кофе', '/upload/products_types/25/img.jpg', '2024-01-14 20:34:31', '2024-01-14 20:34:31');
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `rating` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `user_id`, `content`, `rating`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Ex voluptas minima quia in. Repudiandae odio minus sed nam sequi. Consectetur nesciunt doloribus soluta unde. Est laborum sit voluptates.', 1, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(2, 6, 'Et dignissimos blanditiis totam distinctio nisi amet fugiat. Quia ut id accusamus sit veritatis laboriosam. Rerum expedita autem eveniet.', 4, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(3, 1, 'Similique aut dolorem et harum molestias. Sapiente non rerum ea dolorem nam repudiandae. Error eos ducimus accusamus. Aut sit sit et ipsa commodi reiciendis.', 3, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(4, 2, 'Id deleniti corrupti voluptatem quia quisquam. Quia officiis officia alias a qui. A quia rerum qui adipisci. Consequatur et sunt quos quas doloribus qui magnam voluptatibus. Enim maiores id et.', 3, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(5, 8, 'Ipsum iste veritatis vel quasi consequatur autem voluptatem. Omnis excepturi voluptates beatae id accusamus minima. Ipsum quia dolores suscipit ad quod.', 0, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(6, 6, 'Ipsa quis repellat odit voluptates optio sint laudantium harum. Sunt omnis nulla ea ducimus et. Quae consequatur et illo labore. Ut autem deleniti perspiciatis repellendus ducimus facere ut.', 2, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(7, 8, 'Reiciendis asperiores velit reiciendis perspiciatis non nemo. Autem labore quidem exercitationem et minima cumque.', 4, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(8, 10, 'Ratione veniam consequatur aspernatur dolore quia eum. Est aut voluptate eum. Est deserunt dolores molestias omnis esse. Fugit dolor doloremque quis ut culpa doloremque aspernatur dolorem.', 1, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(9, 7, 'Officia sed ut ut. Quis exercitationem doloribus voluptatem dolorum officia sed suscipit sed. Recusandae porro dolorem voluptas numquam quasi.', 2, '2024-05-04 07:37:07', '2024-05-04 07:37:07'),
+(10, 3, 'Praesentium impedit qui quo occaecati. Dolores fugit quis aperiam non excepturi perferendis. Aut natus excepturi voluptatibus quos. Qui ut dolorum ab.', 2, '2024-05-04 07:37:07', '2024-05-04 07:37:07');
 
 -- --------------------------------------------------------
 
@@ -236,7 +188,6 @@ INSERT INTO `products_types` (`id`, `name`, `image`, `created_at`, `updated_at`,
 -- Структура таблицы `rooms`
 --
 
-DROP TABLE IF EXISTS `rooms`;
 CREATE TABLE `rooms` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -252,27 +203,10 @@ CREATE TABLE `rooms` (
 -- Дамп данных таблицы `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'nobis', 'https://via.placeholder.com/640x480.png/003322?text=adipisci', 1, 5, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(2, 'minima', 'https://via.placeholder.com/640x480.png/0011dd?text=ratione', 2, 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 'tempora', 'https://via.placeholder.com/640x480.png/0011bb?text=eum', 3, 1, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 'repellendus', 'https://via.placeholder.com/640x480.png/004499?text=accusantium', 4, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'aperiam', 'https://via.placeholder.com/640x480.png/00ccff?text=consectetur', 5, 7, '2023-10-18 13:09:57', '2023-12-15 07:27:00', '2023-12-15 07:27:00'),
-(6, 'qui', 'https://via.placeholder.com/640x480.png/007755?text=ut', 6, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 'rem', 'https://via.placeholder.com/640x480.png/009922?text=nesciunt', 7, 3, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(8, 'ea', 'https://via.placeholder.com/640x480.png/00bbee?text=omnis', 8, 10, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(9, 'nulla', 'https://via.placeholder.com/640x480.png/00ffaa?text=aut', 9, 4, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 'vero', 'https://via.placeholder.com/640x480.png/004488?text=quia', 10, 8, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(11, 'ut', 'https://via.placeholder.com/640x480.png/00ff55?text=sed', 11, 7, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(12, 'dolor', 'https://via.placeholder.com/640x480.png/007700?text=praesentium', 12, 4, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(13, 'occaecati', 'https://via.placeholder.com/640x480.png/00aabb?text=cum', 13, 8, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(14, 'harum', 'https://via.placeholder.com/640x480.png/00cc55?text=odit', 14, 8, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(15, 'voluptas', 'https://via.placeholder.com/640x480.png/0011aa?text=voluptatum', 15, 9, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(16, 'eius', 'https://via.placeholder.com/640x480.png/007733?text=dolor', 16, 3, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(17, 'corrupti', 'https://via.placeholder.com/640x480.png/005555?text=dolore', 17, 6, '2023-10-18 13:09:57', '2023-12-15 07:27:14', '2023-12-15 07:27:14'),
-(18, 'dolorum', 'https://via.placeholder.com/640x480.png/006677?text=qui', 18, 6, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(19, 'suscipit', 'https://via.placeholder.com/640x480.png/00ffee?text=laboriosam', 19, 10, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(20, 'recusandae', 'https://via.placeholder.com/640x480.png/009999?text=et', 20, 9, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`, `updated_at`) VALUES
+(35, 'Космическая пауза', '/upload/rooms/35/main.jpg', 22, 18, '2024-01-14 20:15:11', '2024-01-14 20:15:11'),
+(36, 'Кодекс комфорта', '/upload/rooms/36/main.jpg', 23, 20, '2024-01-14 20:18:58', '2024-01-14 20:18:58'),
+(37, 'Импульс Творчества', '/upload/rooms/37/main.jpg', 42, 24, '2024-01-14 20:27:22', '2024-01-14 20:27:22');
 
 -- --------------------------------------------------------
 
@@ -280,7 +214,6 @@ INSERT INTO `rooms` (`id`, `name`, `image`, `rate_id`, `capacity`, `created_at`,
 -- Структура таблицы `rooms_images`
 --
 
-DROP TABLE IF EXISTS `rooms_images`;
 CREATE TABLE `rooms_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -289,29 +222,12 @@ CREATE TABLE `rooms_images` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Дамп данных таблицы `rooms_images`
---
-
-INSERT INTO `rooms_images` (`id`, `room_id`, `image`, `created_at`, `updated_at`) VALUES
-(1, 1, 'https://via.placeholder.com/640x480.png/0055bb?text=eum', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(2, 2, 'https://via.placeholder.com/640x480.png/0055dd?text=omnis', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(3, 3, 'https://via.placeholder.com/640x480.png/0077aa?text=libero', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(4, 4, 'https://via.placeholder.com/640x480.png/0044cc?text=harum', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(5, 5, 'https://via.placeholder.com/640x480.png/00aa22?text=soluta', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(6, 6, 'https://via.placeholder.com/640x480.png/004433?text=sunt', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(7, 7, 'https://via.placeholder.com/640x480.png/002244?text=consequatur', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(8, 8, 'https://via.placeholder.com/640x480.png/00bb44?text=quod', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(9, 9, 'https://via.placeholder.com/640x480.png/00bb88?text=consequatur', '2023-10-18 13:09:57', '2023-10-18 13:09:57'),
-(10, 10, 'https://via.placeholder.com/640x480.png/0022dd?text=voluptatem', '2023-10-18 13:09:57', '2023-10-18 13:09:57');
-
 -- --------------------------------------------------------
 
 --
 -- Структура таблицы `rooms_rates`
 --
 
-DROP TABLE IF EXISTS `rooms_rates`;
 CREATE TABLE `rooms_rates` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -325,27 +241,10 @@ CREATE TABLE `rooms_rates` (
 -- Дамп данных таблицы `rooms_rates`
 --
 
-INSERT INTO `rooms_rates` (`id`, `name`, `price`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'id', 317, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(2, 'et', 131, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 'numquam', 637, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 'quo', 759, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'ab', 986, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(6, 'pariatur', 952, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 'quos', 819, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(8, 'quae', 933, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(9, 'dolorem', 310, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 'doloribus', 403, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(11, 'reprehenderit', 639, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(12, 'ullam', 489, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(13, 'provident', 116, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(14, 'aspernatur', 117, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(15, 'sint', 869, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(16, 'veniam', 360, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(17, 'delectus', 758, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(18, 'atque', 214, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(19, 'aut', 151, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(20, 'voluptatem', 878, '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+INSERT INTO `rooms_rates` (`id`, `name`, `price`, `created_at`, `updated_at`) VALUES
+(22, 'Эконом', 120, '2023-12-21 02:42:19', '2023-12-21 02:42:19'),
+(23, 'Бизнес', 180, '2023-12-21 02:43:13', '2023-12-21 02:43:13'),
+(42, 'VIP', 240, '2024-01-14 20:12:43', '2024-01-14 20:12:43');
 
 -- --------------------------------------------------------
 
@@ -353,7 +252,6 @@ INSERT INTO `rooms_rates` (`id`, `name`, `price`, `created_at`, `updated_at`, `d
 -- Структура таблицы `rooms_reservation`
 --
 
-DROP TABLE IF EXISTS `rooms_reservation`;
 CREATE TABLE `rooms_reservation` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
@@ -368,20 +266,33 @@ CREATE TABLE `rooms_reservation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `rooms_reservation`
+-- Структура таблицы `stocks`
 --
 
-INSERT INTO `rooms_reservation` (`id`, `room_id`, `fio`, `email`, `hours`, `capacity`, `date_reserve`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 11, 'Майя Владимировна Силинаа', 'kovaleva.kseniy@grisina.org', 4, 2, '1983-08-19 07:07:51', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(2, 12, 'Абрам Фёдорович Виноградова', 'mariy.belousov@narod.ru', 4, 3, '1992-02-10 01:21:57', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 13, 'Мирослав Алексеевич Орлова', 'zfilippova@gmail.com', 4, 4, '2020-09-28 13:43:39', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 14, 'Горшковаа Елизавета Романовна', 'savelev.arsenii@strelkov.ru', 5, 2, '2017-09-30 15:51:09', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 15, 'Исаев Сергей Сергеевич', 'denis97@ya.ru', 4, 2, '1996-12-24 10:16:14', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(6, 16, 'Лаврентьева Пётр Иванович', 'ksavina@bolsakova.ru', 3, 2, '1996-12-24 17:49:12', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 17, 'Лаврентьева Доминика Романовна', 'voronov.yn@rambler.ru', 5, 1, '2002-06-22 09:27:32', '2023-10-18 13:09:57', '2023-10-18 13:09:57', '2023-12-15 07:51:41'),
-(8, 18, 'Кузьминаа Зинаида Львовна', 'hersova@yandex.ru', 2, 2, '2023-12-16 04:20:00', '2023-10-18 13:09:57', '2023-12-15 16:19:03', NULL),
-(9, 19, 'Веселова Илларион Львович', 'pserbakov@bk.ru', 4, 2, '1999-06-16 10:53:55', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 20, 'Любовь Львовна Афанасьеваа', 'tgusev@saskov.org', 2, 1, '1999-08-27 23:33:30', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL);
+CREATE TABLE `stocks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `stocks`
+--
+
+INSERT INTO `stocks` (`id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'hic', 'Asperiores assumenda sit asperiores quae ad ipsum maiores velit. Inventore ullam dolor quaerat praesentium sunt. Nam vel quasi possimus rerum unde eius. Esse deleniti architecto sit quia.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(2, 'quo', 'Laudantium odio voluptatem pariatur quasi natus quia. Aut aliquam provident quo qui aut aut est. Autem expedita assumenda quaerat id.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(3, 'rerum', 'Ut explicabo illo et doloremque voluptatem accusamus. Dolorem repudiandae saepe quae reiciendis. Quidem labore sequi nostrum ipsum voluptas veritatis. Vitae praesentium at rerum similique aliquam.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(4, 'eveniet', 'Expedita sunt maiores aliquam ut maiores facere. Et molestiae eligendi quidem occaecati ut sunt id.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(5, 'quae', 'Modi in quas adipisci maxime repellendus ut. Optio veniam eaque iusto sint corrupti. Dolores cumque ut autem qui soluta quam aliquam. Minima culpa perferendis est vero ab.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(6, 'quidem', 'Labore eveniet ex qui voluptatem aliquam placeat quia. Et id maiores sunt nulla consectetur molestiae aliquam similique. Ratione ipsa ea debitis voluptatem deleniti omnis cum.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(7, 'cumque', 'Dolore possimus et totam voluptas. Est vel id eum perspiciatis. Deleniti ullam saepe nihil sint sit. Sapiente in architecto quia quis.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(8, 'omnis', 'Doloremque voluptate rerum consequuntur eum quibusdam dolorum cumque. Aut praesentium fuga quia facilis quo nemo numquam doloremque.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(9, 'in', 'Quo quia ratione vero qui in enim. Consequatur accusamus vero ea similique. Nisi sed voluptas sunt at in nihil dolor mollitia. Facere placeat officiis odio sint rerum dolorem voluptas.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
+(10, 'repudiandae', 'Aliquid accusantium qui voluptas modi suscipit totam. Ab excepturi magni provident est. Aut perferendis mollitia quibusdam. Sunt est ab quia quod.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -389,7 +300,6 @@ INSERT INTO `rooms_reservation` (`id`, `room_id`, `fio`, `email`, `hours`, `capa
 -- Структура таблицы `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `fio` varchar(255) NOT NULL,
@@ -409,18 +319,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `fio`, `login`, `status`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Администратор', 'admin', 1, 'admin@timecafe.ru', '2023-10-18 13:09:56', '$2y$10$cnT.ibfgnyAL7UaaUky4EenVQLgf83zdOS8LtD/syENVaOzNiEST2', 'lJ5qXs7HGj8BxlQYIqjSfPaXBWzw0CSfIU2YwUUVmvn2pbMXdEWEeTdCyHxn', NULL, NULL, NULL),
-(2, 'Гордеева Ксения Андреевна', 'karitonov.ru', 1, 'lysy.ykovleva@example.org', '2023-10-18 13:09:56', '$2y$10$U237mGBeA47mwjUAOY4nKepvmMUf8i3nnxpxlujIWC1YvUjQfnXD.', '7YO8Jtf4wO', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(3, 'Архипова Ананий Львович', 'molcanov.ru', 1, 'florentina.kulikova@example.org', '2023-10-18 13:09:56', '$2y$10$AWC95cRisuJObUA3daLEwOUvQ/pyW4Gia4crZbCofUho.rHE8Hdze', 'GUnMcD6FKS', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(4, 'Егор Алексеевич Харитонов', 'larionov.ru', 1, 'tkalinina@example.org', '2023-10-18 13:09:56', '$2y$10$VXUFIk9XJXnPmFIiloLt5.kForAyjLnK7Hg1dLwcbzXA2ntH1ct1y', 'k6ssUMp1d7', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(5, 'Соколова Викентий Романович', 'subin.ru', 1, 'rsitnikova@example.com', '2023-10-18 13:09:56', '$2y$10$fFkuNkqo5B39MBuU3XPCv.iMg833RyNdTQlqgIAqR9AnOl9SGCpeC', 'JBqbTpouHQ', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(6, 'Тимофей Борисович Савина', 'sysoev.ru', 1, 'melnikov.gennadii@example.org', '2023-10-18 13:09:56', '$2y$10$.tQJE/146hUPNRlec5CPzujbgyhiDZL4cpqoUWpp.0jCg1993NhQy', 'FvZVO750be', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(7, 'Сава Сергеевич Тарасова', 'subbotina.ru', 1, 'stefan.burov@example.net', '2023-10-18 13:09:57', '$2y$10$gs.k4pmV4bzfTIB.LSSU6.TtvDjKyBhLgR5NjEX4HMDTKNVWE8jWe', '8CoTViu8HX', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(8, 'Стефан Фёдорович Горбачёв', 'alekseeva.ru', 1, 'donat.gurev@example.org', '2023-10-18 13:09:57', '$2y$10$rhSHG3TEJhJbwlVW/XGPFu2lr3UvIreh7.Av.JagChbHOk0aobHRm', 'JJj2hVzuVM', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(9, 'Спартак Евгеньевич Суханова', 'kudryvtev.net', 1, 'inga.bespalova@example.com', '2023-10-18 13:09:57', '$2y$10$n5fyBbEgkfYaRtXx8WQwo.yLbFNpW9bZ/Th4H1QIx9dmXl43GW3UO', 'dZgJ02dZaz', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(10, 'Антонина Романовна Барановаа', 'gordeev.ru', 1, 'sestakova.danila@example.org', '2023-10-18 13:09:57', '$2y$10$sBakkM/n0IqffgYsAdTps.79zcBGvyJyIq/VCGNmWblH3neOczlee', 'dhGYoWNYUv', '2023-10-18 13:09:57', '2023-10-18 13:09:57', NULL),
-(11, 'Некрасова Данила Сергеевич', 'grisina.ru', 0, 'ignatii.blokina@example.org', '2023-10-18 13:09:57', '$2y$10$yioMhtWH9owDqYXs0E1ZrO0fuQzFa0ROH8c1Lsu9aahb8JFzPu.7S', 'ZayLf331ko', '2023-10-18 13:09:57', '2023-11-25 14:23:55', NULL),
-(12, 'qwe qwe qwe', 'qweqweqweqwe', 1, 'qweqwee123123@qweqw.ru', NULL, '$2y$10$oO9YcGnZCtkMONO/gfKNHOmxZEra4NCZzyQCjx2HiGFhbAxTGVR3i', NULL, '2023-11-25 15:31:24', '2023-11-25 15:31:24', NULL);
+(1, 'Ступаченко Александр Николаевич', 'admin', 1, 'admin@timecafe.ru', '2023-10-18 13:09:56', '$2y$10$cnT.ibfgnyAL7UaaUky4EenVQLgf83zdOS8LtD/syENVaOzNiEST2', 'SmRoBEkSKPR8qel0zUbRWCaEZXaDjbMn33KGCt2vBfhaN09tpQ2LoXqxHPur', NULL, '2023-12-21 02:37:00', NULL),
+(2, 'Димитров Сергей Николаевич', 'sergey', 1, 'dimitrov@gmail.com', '2023-10-18 13:09:56', '$2y$10$41ulqbaeQZIZAWPPYe4sfeGvyRsPG7lO0ylPMQ.f3MP9oBhV0uype', '7BOFnp0Ye2dWJU3iFob8XfQi7L3b53JckbUYwPFsYljpQ0WdvJGKzKyOhQ9o', '2023-10-18 13:09:57', '2024-01-14 16:41:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -428,7 +328,6 @@ INSERT INTO `users` (`id`, `fio`, `login`, `status`, `email`, `email_verified_at
 -- Структура таблицы `users_params`
 --
 
-DROP TABLE IF EXISTS `users_params`;
 CREATE TABLE `users_params` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -442,20 +341,22 @@ CREATE TABLE `users_params` (
 --
 
 INSERT INTO `users_params` (`id`, `name`, `man_name`, `created_at`, `updated_at`) VALUES
-(1, 'products_view', 'Просмотр товаров', NULL, NULL),
-(2, 'products_edit', 'Правки товаров', NULL, NULL),
-(3, 'products_types_view', 'Просмотр типов товаров', NULL, NULL),
-(4, 'products_types_edit', 'Правки типы товаров', NULL, NULL),
-(5, 'rooms_view', 'Просмотр комнат', NULL, NULL),
-(6, 'rooms_edit', 'Правки комнат', NULL, NULL),
-(7, 'users_view', 'Просмотр пользователей', NULL, NULL),
-(8, 'users_edit', 'Создание учетных записей', NULL, NULL),
-(9, 'rooms_rates_view', 'Просмотр тарифов', NULL, NULL),
-(10, 'rooms_rates_edit', 'Правки тарифов', NULL, NULL),
-(11, 'orders_view', 'Просмотр заказов', NULL, NULL),
-(12, 'orders_edit', 'Работа с заказами', NULL, NULL),
-(13, 'reservation_view', 'Просмотр брони', NULL, NULL),
-(14, 'reservation_edit', 'Правки брони', NULL, NULL);
+(1, 'products_view', 'Просмотр товаров', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(2, 'products_edit', 'Правки товаров', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(3, 'products_types_view', 'Просмотр типов товаров', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(4, 'products_types_edit', 'Правки типы товаров', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(5, 'rooms_view', 'Просмотр комнат', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(6, 'rooms_edit', 'Правки комнат', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(7, 'users_view', 'Просмотр пользователей', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(8, 'users_edit', 'Создание учетных записей', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(9, 'rooms_rates_view', 'Просмотр тарифов', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(10, 'rooms_rates_edit', 'Правки тарифов', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(11, 'orders_view', 'Просмотр заказов', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(12, 'orders_edit', 'Работа с заказами', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(13, 'reservation_view', 'Просмотр брони', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(14, 'reservation_edit', 'Правки брони', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(15, 'stocks_view', 'Просмотр акций', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(16, 'stocks_edit', 'Правки акций', '2024-05-04 07:37:06', '2024-05-04 07:37:06');
 
 -- --------------------------------------------------------
 
@@ -463,7 +364,6 @@ INSERT INTO `users_params` (`id`, `name`, `man_name`, `created_at`, `updated_at`
 -- Структура таблицы `users_users_params`
 --
 
-DROP TABLE IF EXISTS `users_users_params`;
 CREATE TABLE `users_users_params` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `param_id` bigint(20) UNSIGNED NOT NULL
@@ -488,18 +388,12 @@ INSERT INTO `users_users_params` (`user_id`, `param_id`) VALUES
 (1, 12),
 (1, 13),
 (1, 14),
-(11, 12);
+(1, 15),
+(1, 16);
 
 --
 -- Индексы сохранённых таблиц
 --
-
---
--- Индексы таблицы `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
 -- Индексы таблицы `migrations`
@@ -528,19 +422,13 @@ ALTER TABLE `orders_products`
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
 
---
--- Индексы таблицы `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Индексы таблицы `products`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `products_name_unique` (`name`),
   ADD KEY `products_type_id_foreign` (`type_id`);
 
 --
@@ -551,10 +439,17 @@ ALTER TABLE `products_types`
   ADD UNIQUE KEY `products_types_name_unique` (`name`);
 
 --
+-- Индексы таблицы `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `rooms`
 --
 ALTER TABLE `rooms`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `rooms_name_unique` (`name`),
   ADD KEY `rooms_rate_id_foreign` (`rate_id`);
 
 --
@@ -577,6 +472,12 @@ ALTER TABLE `rooms_rates`
 ALTER TABLE `rooms_reservation`
   ADD PRIMARY KEY (`id`),
   ADD KEY `rooms_reservation_room_id_foreign` (`room_id`);
+
+--
+-- Индексы таблицы `stocks`
+--
+ALTER TABLE `stocks`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `users`
@@ -604,16 +505,10 @@ ALTER TABLE `users_users_params`
 --
 
 --
--- AUTO_INCREMENT для таблицы `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT для таблицы `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `orders`
@@ -626,13 +521,7 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `orders_products`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT для таблицы `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
+  
 --
 -- AUTO_INCREMENT для таблицы `products`
 --
@@ -643,6 +532,12 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT для таблицы `products_types`
 --
 ALTER TABLE `products_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT для таблицы `reviews`
+--
+ALTER TABLE `reviews`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
@@ -670,16 +565,22 @@ ALTER TABLE `rooms_reservation`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT для таблицы `stocks`
+--
+ALTER TABLE `stocks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `users_params`
 --
 ALTER TABLE `users_params`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
