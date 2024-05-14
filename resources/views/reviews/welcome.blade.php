@@ -7,6 +7,7 @@
     >
         <div
             class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6 rounded-xl shadow bg-gray-100 dark:bg-gray-800 p-4 flex flex-col">
+            @auth
             <form action="{{ route('reviews.store') }}" method="POST" class="flex flex-col gap-4">
                 @csrf
                 <div class="flex flex-row gap-4">
@@ -32,6 +33,7 @@
                 </div>
                 <x-green-button type="submit" class="w-28">Сохранить</x-green-button>
             </form>
+            @endauth
             @foreach($reviews as $review)
                 <div class="flex flex-row gap-2 rounded dark:bg-gray-600 bg-gray-200 p-5">
                     <div class="w-1/4 text-gray-700 dark:text-gray-400">
