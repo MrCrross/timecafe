@@ -47,6 +47,11 @@
                             {{ __('Пользователи') }}
                         </x-nav-link>
                     @endif
+                    @if(Auth::user()->params()->hasAny(['reports_attendance', 'reports_profits']))
+                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.index')">
+                            {{ __('Отчетность') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

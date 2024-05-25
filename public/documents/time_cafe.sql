@@ -54,7 +54,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2023_10_07_230516_create_rooms_images_table', 1),
 (15, '2023_12_15_154704_add_deleted_at_to_rooms_reservation_table', 1),
 (16, '2024_05_03_211231_create_reviews_table', 1),
-(17, '2024_05_03_211303_create_stocks_table', 1);
+(17, '2024_05_03_211303_create_stocks_table', 1),
+(18, '2024_05_26_021749_create_users_authorization_table', 1);
 
 -- --------------------------------------------------------
 
@@ -391,6 +392,17 @@ INSERT INTO `users_users_params` (`user_id`, `param_id`) VALUES
 (1, 15),
 (1, 16);
 
+create table users_authorization
+(
+    id         bigint unsigned auto_increment
+        primary key,
+    user_id    bigint unsigned                        not null,
+    is_admin   tinyint(1) default 0                   not null,
+    created_at timestamp  default current_timestamp() not null on update current_timestamp(),
+    constraint users_authorization_user_id_foreign
+        foreign key (user_id) references users (id)
+)
+    collate = utf8mb4_unicode_ci;
 --
 -- Индексы сохранённых таблиц
 --
@@ -521,7 +533,7 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `orders_products`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-  
+
 --
 -- AUTO_INCREMENT для таблицы `products`
 --

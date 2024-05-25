@@ -149,15 +149,29 @@
                     href="#contact"
                     class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 rounded-md"
                 >
-                    <i class="far fa-comments mr-4"></i>
+                    <i class="fa fa-phone mr-4"></i>
                     Контакты
                 </a>
                 <a
-                    href="{{ route('reviews.welcome') }}#reviews"
+                    href="{{ route('welcome.loyalty') }}#loyalty"
                     class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 rounded-md"
                 >
-                    <i class="far fa-comments mr-4"></i>
+                    <i class="fa fa-info mr-4"></i>
+                    Программа лояльности
+                </a>
+                <a
+                    href="{{ route('reviews.welcome') }}#reviews"
+                    class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 mt-2 rounded-md"
+                >
+                    <i class="fa fa-comments mr-4"></i>
                     Отзывы
+                </a>
+                <a
+                    href="{{ route('welcome.rules') }}#rules"
+                    class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 mt-2 rounded-md"
+                >
+                    <i class="fa fa-book mr-4"></i>
+                    Правила
                 </a>
             </div>
         </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'get'])->name('welcome');
 Route::get('/rules', [WelcomeController::class, 'rules'])->name('welcome.rules');
+Route::get('/loyalty', [WelcomeController::class, 'loyalty'])->name('welcome.loyalty');
 Route::get('/admin', [WelcomeController::class, 'admin'])->middleware(['auth', 'param:isAdmin'])->name('admin.index');
 Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.welcome');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
@@ -38,3 +39,4 @@ require __DIR__ . '/rooms.php';
 require __DIR__ . '/stocks.php';
 require __DIR__ . '/orders.php';
 require __DIR__ . '/users.php';
+require __DIR__ . '/reports.php';

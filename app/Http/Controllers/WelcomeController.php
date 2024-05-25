@@ -43,4 +43,9 @@ class WelcomeController extends Controller
     {
         return response()->view('rules');
     }
+
+    public function loyalty(): Response
+    {
+        return response()->view('loyalty');
+    }
 }

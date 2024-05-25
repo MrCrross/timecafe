@@ -146,23 +146,6 @@
                 </li>
                 <li class="inline-block mb-4 mx-1">
                     <button
-                        type="button"
-                        onclick="event.preventDefault(); location.href='{{ route('reviews.welcome') }}#reviews';"
-                        class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('reviews.welcome')) current @endif"
-                    >
-                        Отзывы
-                    </button>
-                </li>
-                <li class="inline-block mb-4 mx-1">
-                    <a
-                        href="{{ route('welcome.rules') }}#rules"
-                        class="tm-text-gold py-1 md:py-3 px-4"
-                    >
-                        Правила
-                    </a>
-                </li>
-                <li class="inline-block mb-4 mx-1">
-                    <button
                             type="button"
                             onclick="event.preventDefault(); location.href='{{asset('/documents/help.docx')}}';"
                             class="tm-text-gold pb-1 md:pb-3 px-4"

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Modules\Orders\Models\Order;
 use App\Modules\Orders\Models\OrdersProduct;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class OrdersSeeder extends Seeder
 {
@@ -14,7 +15,7 @@ class OrdersSeeder extends Seeder
             [
                 'room_id' => 1,
                 'status' => 1,
-                'date_order' => fake()->dateTime,
+                'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [
                     [
                         'order_id' => 1,
@@ -36,7 +37,7 @@ class OrdersSeeder extends Seeder
             [
                 'room_id' => 2,
                 'status' => 1,
-                'date_order' => fake()->dateTime,
+                'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [
                     [
                         'order_id' => 2,
@@ -58,7 +59,7 @@ class OrdersSeeder extends Seeder
             [
                 'room_id' => 3,
                 'status' => 1,
-                'date_order' => fake()->dateTime,
+                'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [
                     [
                         'order_id' => 3,
