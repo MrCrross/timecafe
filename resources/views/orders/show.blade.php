@@ -11,6 +11,18 @@
                     <x-item-p label="Дата" value="{{\Illuminate\Support\Carbon::parse($order->date_order)->format('d.m.Y H:i')}}"></x-item-p>
                     <x-item-p label="Статус" value="{{$order->status_name}}"></x-item-p>
                     <x-item-p label="Комната" value="{{$order->room->name}}"></x-item-p>
+                    <div class="text-gray-800">
+                        <p class="font-bold">Состав:</p>
+                        @php $orderPrice = 0; @endphp
+                        @foreach($order->products as $product)
+                            <p>
+                                @php $productPrice = $product->product->price * $product->count; @endphp
+                                {{$product->count}} x {{$product->product->name}} = {{$productPrice}}руб.
+                            </p>
+                            @php $orderPrice += $productPrice; @endphp
+                        @endforeach
+                        <span id="order_price" class="pt-5">Итого: {{$orderPrice}}</span><span class="pt-5"> руб.</span>
+                    </div>
                     <div class="flex flex-row w-full justify-center items-center gap-2">
                         @if(Auth::user()->params()->has('orders_edit'))
                         <x-primary-a :href="route('orders.edit', $order->id)">{{__('Редактировать')}}</x-primary-a>

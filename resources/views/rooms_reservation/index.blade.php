@@ -13,6 +13,20 @@
                         <x-item-p label="Дата брони" value="{{\Illuminate\Support\Carbon::parse($reservation->date_reserve)->format('d.m.Y H:i:s')}}"></x-item-p>
                         <x-item-p label="Количество часов" value="{{$reservation->hours}}"></x-item-p>
                         <x-item-p label="Количество человек" value="{{$reservation->capacity}}"></x-item-p>
+                        @if(!empty($reservation->order))
+                        <div class="text-gray-800 dark:text-gray-200">
+                            <p class="font-bold">Товары/Услуги:</p>
+                            @php $orderPrice = 0; @endphp
+                            @foreach($reservation->order->products as $product)
+                                <p>
+                                    @php $productPrice = $product->product->price * $product->count; @endphp
+                                    {{$product->count}} x {{$product->product->name}} = {{$productPrice}}руб.
+                                </p>
+                                @php $orderPrice += $productPrice; @endphp
+                            @endforeach
+                            <span id="order_price" class="pt-5">Итого товаров/услуг: {{$orderPrice}}</span><span class="pt-5"> руб.</span>
+                        </div>
+                        @endif
                         @if(Auth::user()->params()->has('reservation_edit'))
                             <a
                                 class="mx-2 px-2 py-1 text-xs font-semibold text-gray-900 uppercase transition-colors

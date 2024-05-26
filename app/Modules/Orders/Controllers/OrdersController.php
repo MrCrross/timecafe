@@ -133,7 +133,7 @@ class OrdersController extends Controller
     public function show(int $id): Response
     {
         $order = Order::selectRaw('orders.*, IF(status = 1, "Выполняется", IF(status = 2, "Выполнен", "Удален")) as status_name')
-            ->with('room')
+            ->with('room', 'products.product')
             ->find($id);
 
         return response()->view('orders.show', [

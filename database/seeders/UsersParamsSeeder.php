@@ -83,6 +83,14 @@ class UsersParamsSeeder extends Seeder
                 'name' => 'reports_profits',
                 'man_name' => 'Отчетность о прибыли'
             ],
+            [
+                'name' => 'rules_edit',
+                'man_name' => 'Изменение страницы правил поведения'
+            ],
+            [
+                'name' => 'loyalty_edit',
+                'man_name' => 'Изменение страницы программы лояльности'
+            ],
         ];
 
         foreach ($params as $param) {

@@ -80,4 +80,27 @@ class OrderForm {
         count.setAttribute('name', "products[" + OrderForm.keyLine + "][count]");
         return clone;
     }
+
+    static addProductsReservation(event)
+    {
+        const reservationProductsContainer = document.querySelector('#reservationProductsContainer');
+        const container = document.querySelector(OrderForm.containerLineSelector);
+        const productsIds = container.querySelectorAll('#product_id')
+        const productsCount = container.querySelectorAll('#count')
+        const emptyHiddenInput = document.createElement('input')
+        emptyHiddenInput.setAttribute('hidden', 'hidden')
+        reservationProductsContainer.innerHTML = '';
+        productsIds.forEach((line) => {
+            const cloneEmptyInput = emptyHiddenInput.cloneNode(true)
+            cloneEmptyInput.setAttribute('name', line.getAttribute('name'))
+            cloneEmptyInput.value = line.value
+            reservationProductsContainer.append(cloneEmptyInput)
+        })
+        productsCount.forEach((line) => {
+            const cloneEmptyInput = emptyHiddenInput.cloneNode(true)
+            cloneEmptyInput.setAttribute('name', line.getAttribute('name'))
+            cloneEmptyInput.value = line.value
+            reservationProductsContainer.append(cloneEmptyInput)
+        })
+    }
 }

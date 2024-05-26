@@ -4,6 +4,7 @@ namespace App\Modules\Rooms\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
+use App\Modules\Orders\Models\Order;
 use App\Modules\Rooms\Export\RoomsExport;
 use App\Modules\Rooms\Models\RoomsImage;
 use App\Modules\Rooms\Models\RoomsReservation;
@@ -102,6 +103,13 @@ class RoomsController extends Controller
             })
             ->orderBy('date_reserve', 'desc')
             ->paginate(6);
+        foreach ($reservations as $reservation) {
+            $reservation->order = Order::query()
+                ->with('products.product')
+                ->where('room_id', '=', $reservation->room_id)
+                ->where('date_order', '=', $reservation->date_reserve)
+                ->first();
+        }
         $roomsAutocomplete = collect([
             (object)[
                 'value' => '',

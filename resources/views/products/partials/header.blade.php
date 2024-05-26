@@ -6,7 +6,7 @@
 ?>
 <h2 class="font-semibold text-xl {{ $textColor }} leading-tight">
     <div class="flex flex-row items-center justify-between">
-        <h1>{{ __('Товары') }}</h1>
+        <h1>{{ __('Товары/Услуги') }}</h1>
         @auth
             <div class="flex flex-row items-center justify-between">
                 @if(Auth::user()->params()->has('products_edit'))

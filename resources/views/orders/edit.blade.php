@@ -55,7 +55,7 @@
                             required
                         />
                     </div>
-                    <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Продукты</h1>
+                    <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Товары/Услуги</h1>
 
                     <div class="py-4 flex flex-col justify-items-stretch container-line-Order">
                         @if($order->products->isNotEmpty())

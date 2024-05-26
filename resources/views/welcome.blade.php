@@ -283,6 +283,15 @@
                             value="{{\Illuminate\Support\Carbon::now()->addHours(2)->format('Y-m-d H:i')}}"
                             required
                         >
+                        <a
+                            type="button"
+                            class="inline-block text-white text-xl px-4 py-4 rounded-lg transition tm-bg-green"
+                            x-data=""
+                            x-on:click.prevent="$dispatch('open-modal', 'modal_reservationProducts')"
+                        >
+                            Предзаказ товаров/услуг
+                        </a>
+                        <div id="reservationProductsContainer"></div>
                         <div class="text-right">
                             <button
                                 type="submit"
@@ -304,6 +313,32 @@
             </div>
         </div>
     </div>
+    <x-modal id="modal_reservationProducts" name="modal_reservationProducts" focusable>
+        <div class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+            <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
+            <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Товары/Услуги</h1>
+
+            <div class="py-4 flex flex-col justify-items-stretch container-line-Order">
+                <x-order-product-card key="0" :products="$products"></x-order-product-card>
+            </div>
+        </div>
+
+        <div class="m-6 flex justify-end">
+            <x-primary-button type="button" class="mx-2" id="reservationProductsSubmit" x-on:click="$dispatch('close')">
+                {{ __('Добавить') }}
+            </x-primary-button>
+            <x-secondary-button x-on:click="$dispatch('close')">
+                {{ __('Отмена') }}
+            </x-secondary-button>
+        </div>
+    </x-modal>
+    <script src="{{asset('/js/OrderForm.js')}}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new OrderForm();
+            document.querySelector('#reservationProductsSubmit').addEventListener('click', OrderForm.addProductsReservation)
+        })
+    </script>
     @foreach($roomsLeft as $room)
         <x-modal id="modal_ImageRoom{{$room->id}}" name="modal_ImageRoom{{$room->id}}" focusable>
             <div class="flex flex-row justify-center items-center m-4">

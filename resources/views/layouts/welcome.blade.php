@@ -75,27 +75,27 @@
                 </li>
                 <li class="inline-block mb-4 mx-1">
                     <button
-                            type="button"
-                            onclick="event.preventDefault(); location.href='{{ route('rooms.welcome') }}#room';"
-                            class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"
+                        type="button"
+                        onclick="event.preventDefault(); location.href='{{ route('rooms.welcome') }}#room';"
+                        class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('rooms.welcome')) current @endif"
                     >
                         Комнаты
                     </button>
                 </li>
                 <li class="inline-block mb-4 mx-1">
                     <button
-                            type="button"
-                            onclick="event.preventDefault(); location.href='{{ route('products.welcome') }}#menu';"
-                            class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"
+                        type="button"
+                        onclick="event.preventDefault(); location.href='{{ route('products.welcome') }}#menu';"
+                        class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"
                     >
                         Меню
                     </button>
-{{--                    <a--}}
-{{--                        href="#menu"--}}
-{{--                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"--}}
-{{--                    >--}}
-{{--                        Меню--}}
-{{--                    </a>--}}
+                    {{--                    <a--}}
+                    {{--                        href="#menu"--}}
+                    {{--                        class="tm-text-gold py-1 md:py-3 px-4 @if(request()->routeIs('products.welcome')) current @endif"--}}
+                    {{--                    >--}}
+                    {{--                        Меню--}}
+                    {{--                    </a>--}}
                 </li>
                 <li class="inline-block mb-4 mx-1">
                     <button
@@ -117,15 +117,15 @@
                         </button>
                     </li>
                     @if(Auth::user()->params()->has('orders_view'))
-                    <li class="inline-block mb-4 mx-1">
-                        <button
-                            type="button"
-                            onclick="event.preventDefault(); location.href='{{ route('orders.welcome') }}#orders';"
-                            class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('orders.welcome')) current @endif"
-                        >
-                            Заказы
-                        </button>
-                    </li>
+                        <li class="inline-block mb-4 mx-1">
+                            <button
+                                type="button"
+                                onclick="event.preventDefault(); location.href='{{ route('orders.welcome') }}#orders';"
+                                class="tm-text-gold pb-1 md:pb-3 px-4 @if(request()->routeIs('orders.welcome')) current @endif"
+                            >
+                                Заказы
+                            </button>
+                        </li>
                     @endif
                 @endauth
                 <li class="inline-block mb-4 mx-1">
@@ -146,9 +146,9 @@
                 </li>
                 <li class="inline-block mb-4 mx-1">
                     <button
-                            type="button"
-                            onclick="event.preventDefault(); location.href='{{asset('/documents/help.docx')}}';"
-                            class="tm-text-gold pb-1 md:pb-3 px-4"
+                        type="button"
+                        onclick="event.preventDefault(); location.href='{{asset('/documents/help.docx')}}';"
+                        class="tm-text-gold pb-1 md:pb-3 px-4"
                     >
                         Помощь
                     </button>
@@ -179,19 +179,24 @@
                         <li class="inline-block mb-4 mx-1">
                             <x-dropdown align="right" width="48">
                                 <x-slot name="trigger">
-                                    <button class="tm-text-gold pb-1 md:pb-3 px-4 inline-flex items-center border border-transparent rounded-md bg-transparent transition ease-in-out duration-150">
+                                    <button
+                                        class="tm-text-gold pb-1 md:pb-3 px-4 inline-flex items-center border border-transparent rounded-md bg-transparent transition ease-in-out duration-150">
                                         <div>{{ Auth::user()->login }}</div>
 
                                         <div class="ml-1">
-                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd"
+                                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                      clip-rule="evenodd"/>
                                             </svg>
                                         </div>
                                     </button>
                                 </x-slot>
 
                                 <x-slot name="content">
-                                    <x-dropdown-link class="cursor-pointer" onclick="event.preventDefault(); location.href='{{ route('profile.edit') }}';">
+                                    <x-dropdown-link class="cursor-pointer"
+                                                     onclick="event.preventDefault(); location.href='{{ route('profile.edit') }}';">
                                         {{ __('Профиль') }}
                                     </x-dropdown-link>
 
@@ -213,6 +218,22 @@
             </ul>
         </div>
     </nav>
+    <div class="tm-container mx-auto pt-20 flex justify-end">
+        <div class="flex flex-row justify-end z-50">
+            <a
+                href="https://vk.com"
+                class="bg-black bg-opacity-70 rounded-lg px-3 py-1 mr-3 font-semibold tm-text-2xl tm-text-gold hover:text-gray-200"
+            >
+                <i class="fab fa-vk"></i>
+            </a>
+            <a
+                href="https://t.me/Alex_STN"
+                class="bg-black bg-opacity-70 rounded-lg px-3 py-1 mr-3 font-semibold tm-text-2xl tm-text-gold hover:text-gray-200"
+            >
+                <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+    </div>
     <div class="container mx-auto px-2 tm-intro-width">
         <div class="sm:pb-60 sm:pt-48 py-20">
             <div class="bg-black bg-opacity-70 p-12 mb-5 text-center">

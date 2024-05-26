@@ -14,17 +14,12 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if(Auth::user()->params()->has('products_view'))
                         <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                            {{ __('Товары') }}
+                            {{ __('Товары/Услуги') }}
                         </x-nav-link>
                     @endif
                     @if(Auth::user()->params()->has('products_types_view'))
                         <x-nav-link :href="route('products_types.index')" :active="request()->routeIs('products_types.index')">
-                            {{ __('Типы товаров') }}
-                        </x-nav-link>
-                    @endif
-                    @if(Auth::user()->params()->has('rooms_rates_view'))
-                        <x-nav-link :href="route('rooms_rates.index')" :active="request()->routeIs('rooms_rates.index')">
-                            {{ __('Тарифы') }}
+                            {{ __('Типы товаров/услуг') }}
                         </x-nav-link>
                     @endif
                     @if(Auth::user()->params()->has('rooms_view'))
@@ -37,24 +32,19 @@
                             {{ __('Заказы') }}
                         </x-nav-link>
                     @endif
+                    @if(Auth::user()->params()->has('rooms_rates_view'))
+                        <x-nav-link :href="route('rooms_rates.index')" :active="request()->routeIs('rooms_rates.index')">
+                            {{ __('Тарифы') }}
+                        </x-nav-link>
+                    @endif
                     @if(Auth::user()->params()->has('reservation_view'))
                         <x-nav-link :href="route('reservation.index')" :active="request()->routeIs('reservation.index')">
                             {{ __('Бронь') }}
                         </x-nav-link>
                     @endif
-                    @if(Auth::user()->params()->has('stocks_view'))
-                        <x-nav-link :href="route('stocks.index')" :active="request()->routeIs('stocks.index')">
-                            {{ __('Акции') }}
-                        </x-nav-link>
-                    @endif
                     @if(Auth::user()->params()->has('users_view'))
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Пользователи') }}
-                        </x-nav-link>
-                    @endif
-                    @if(Auth::user()->params()->hasAny(['reports_attendance', 'reports_profits']))
-                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.index')">
-                            {{ __('Отчетность') }}
                         </x-nav-link>
                     @endif
                 </div>

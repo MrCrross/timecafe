@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TextEditorController;
 use App\Http\Controllers\WelcomeController;
 use App\Modules\Profile\Controllers\ProfileController;
 use App\Modules\Reviews\Controllers\ReviewsController;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [WelcomeController::class, 'get'])->name('welcome');
 Route::get('/rules', [WelcomeController::class, 'rules'])->name('welcome.rules');
 Route::get('/loyalty', [WelcomeController::class, 'loyalty'])->name('welcome.loyalty');
+Route::get('/service', [WelcomeController::class, 'service'])->name('welcome.service');
 Route::get('/admin', [WelcomeController::class, 'admin'])->middleware(['auth', 'param:isAdmin'])->name('admin.index');
 Route::get('/reviews', [ReviewsController::class, 'index'])->name('reviews.welcome');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
@@ -31,6 +33,15 @@ Route::middleware('auth')->group(function () {
         Route::delete('/reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
         Route::delete('/reservation/welcome/{id}', [ReservationController::class, 'destroyWelcome'])->name('reservation.destroyWelcome');
     });
+    Route::get('/editor/rules', [TextEditorController::class, 'rulesIndex'])->name('rules.index');
+    Route::get('/editor/rules/edit', [TextEditorController::class, 'rulesEdit'])->name('rules.edit');
+    Route::post('/editor/rules', [TextEditorController::class, 'rulesSave'])->name('rules.save');
+    Route::get('/editor/loyalty', [TextEditorController::class, 'loyaltyIndex'])->name('loyalty.index');
+    Route::get('/editor/loyalty/edit', [TextEditorController::class, 'loyaltyEdit'])->name('loyalty.edit');
+    Route::post('/editor/loyalty', [TextEditorController::class, 'loyaltySave'])->name('loyalty.save');
+    Route::get('/editor/service', [TextEditorController::class, 'serviceIndex'])->name('service.index');
+    Route::get('/editor/service/edit', [TextEditorController::class, 'serviceEdit'])->name('service.edit');
+    Route::post('/editor/service', [TextEditorController::class, 'serviceSave'])->name('service.save');
 });
 
 require __DIR__ . '/auth.php';
