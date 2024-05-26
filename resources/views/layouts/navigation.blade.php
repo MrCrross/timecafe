@@ -42,6 +42,11 @@
                             {{ __('Бронь') }}
                         </x-nav-link>
                     @endif
+                    @if(Auth::user()->params()->has('stocks_view'))
+                        <x-nav-link :href="route('stocks.index')" :active="request()->routeIs('stocks.index')">
+                            {{ __('Акции') }}
+                        </x-nav-link>
+                    @endif
                     @if(Auth::user()->params()->has('users_view'))
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Пользователи') }}
