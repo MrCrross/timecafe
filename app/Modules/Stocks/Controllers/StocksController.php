@@ -3,12 +3,15 @@
 namespace App\Modules\Stocks\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Stocks\Requests\StocksStoreRequest;
+use App\Modules\Stocks\Requests\StocksUpdateRequest;
 use App\Modules\Stocks\Models\Stock;
 use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 
 class StocksController extends Controller
 {
@@ -68,14 +71,12 @@ class StocksController extends Controller
     {
         $fields = [
             'name' => $request->post('name'),
-            'capacity' => $request->post('capacity'),
-            'rate_id' => $request->post('rate_id'),
+            'description' => $request->post('description'),
         ];
 
-        $id = Stock::restore(0, $fields);
-        $this->saveMainImage($id, $request->file('image'));
+        Stock::query()->create($fields)->id;
 
-        return Redirect::route('stocks.create')->with('status', 'Stock-created');
+        return Redirect::route('stocks.create')->with('status', 'stock-created');
     }
 
     /**
@@ -107,19 +108,16 @@ class StocksController extends Controller
      */
     public function update(StocksUpdateRequest $request, int $id): RedirectResponse
     {
+        $request->validate(['name' => Rule::unique(Stock::class, 'name')->ignore($id)]);
+
         $fields = [
             'name' => $request->post('name'),
-            'capacity' => $request->post('capacity'),
-            'rate_id' => $request->post('rate_id'),
+            'description' => $request->post('description'),
         ];
 
-        Stock::restore($id, $fields);
+        Stock::query()->find($id)->update($fields);
 
-        if ($request->hasFile('image')) {
-            $this->saveMainImage($id, $request->file('image'));
-        }
-
-        return Redirect::route('stocks.edit', $id)->with('status', 'Stock-updated');
+        return Redirect::route('stocks.edit', $id)->with('status', 'stock-updated');
     }
 
     /**

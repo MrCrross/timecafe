@@ -2,7 +2,7 @@
     <x-slot
         name="header"
     >
-        @include('rooms.partials.header')
+        @include('stocks.partials.header')
     </x-slot>
     <div
         class="py-12"
@@ -13,29 +13,8 @@
             <section
                 class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
             >
-                <form method="post" action="{{ route('rooms.store') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('stocks.store') }}">
                     @csrf
-                    <div
-                        class="py-4"
-                    >
-                        <x-image-preview/>
-                        <x-input-label
-                            for="image"
-                            :value="__('Изображение')"
-                        />
-                        <x-text-input
-                            id="image"
-                            name="image"
-                            type="file"
-                            accept="image/*"
-                            class="use-ImagePreview mt-1 block w-full"
-                            required
-                        />
-                        <x-input-error
-                            class="mt-2"
-                            :messages="$errors->get('image')"
-                        />
-                    </div>
                     <div
                         class="py-4"
                     >
@@ -61,39 +40,18 @@
                         class="py-4"
                     >
                         <x-input-label
-                            for="capacity"
-                            :value="__('Вместительность (чел.)')"
+                            for="description"
+                            :value="__('Описание')"
                         />
-                        <x-text-input
-                            id="capacity"
-                            name="capacity"
-                            type="number"
+                        <x-textarea
+                            id="description"
+                            name="description"
                             class="mt-1 block w-full"
-                            min="1"
-                            required
-                            autofocus
-                        />
-                        <x-input-error
-                            class="mt-2"
-                            :messages="$errors->get('capacity')"
-                        />
-                    </div>
-
-                    <div class="py-4">
-                        <x-input-label
-                            for="rate_id"
-                            :value="__('Тариф')"
-                        />
-                        <x-select
-                            id="rate_id"
-                            name="rate_id"
-                            class="mt-1 block w-full"
-                            :data="$rates"
                             required
                         />
                         <x-input-error
                             class="mt-2"
-                            :messages="$errors->get('rate_id')"
+                            :messages="$errors->get('description')"
                         />
                     </div>
 
@@ -104,7 +62,7 @@
                             {{ __('Сохранить') }}
                         </x-primary-button>
 
-                        @if (session('status') === 'room-created')
+                        @if (session('status') === 'stock-created')
                             <p
                                 x-data="{ show: true }"
                                 x-show="show"

@@ -49,9 +49,8 @@
                             id="description"
                             name="description"
                             class="mt-1 block w-full"
-                            value="{{$stock->description}}"
                             required
-                        />
+                        >{{$stock->description}}</x-textarea>
                         <x-input-error
                             class="mt-2"
                             :messages="$errors->get('capacity')"
