@@ -398,11 +398,10 @@ create table users_authorization
         primary key,
     user_id    bigint unsigned                        not null,
     is_admin   tinyint(1) default 0                   not null,
-    created_at timestamp  default current_timestamp() not null on update current_timestamp(),
+    created_at timestamp  default current_timestamp() not null,
     constraint users_authorization_user_id_foreign
         foreign key (user_id) references users (id)
-)
-    collate = utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 --
 -- Индексы сохранённых таблиц
 --
