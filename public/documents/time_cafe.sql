@@ -357,7 +357,10 @@ INSERT INTO `users_params` (`id`, `name`, `man_name`, `created_at`, `updated_at`
 (13, 'reservation_view', 'Просмотр брони', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
 (14, 'reservation_edit', 'Правки брони', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
 (15, 'stocks_view', 'Просмотр акций', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
-(16, 'stocks_edit', 'Правки акций', '2024-05-04 07:37:06', '2024-05-04 07:37:06');
+(16, 'stocks_edit', 'Правки акций', '2024-05-04 07:37:06', '2024-05-04 07:37:06'),
+(17, 'reports_attendance', 'Отчетность о посещении', '2024-05-26 02:39:23', '2024-05-26 02:39:23'),
+(18, 'reports_profits', 'Отчетность о прибыли', '2024-05-26 02:39:23', '2024-05-26 02:39:23')
+;
 
 -- --------------------------------------------------------
 
@@ -390,7 +393,9 @@ INSERT INTO `users_users_params` (`user_id`, `param_id`) VALUES
 (1, 13),
 (1, 14),
 (1, 15),
-(1, 16);
+(1, 16),
+(1, 17),
+(1, 18);
 
 create table users_authorization
 (
@@ -398,9 +403,7 @@ create table users_authorization
         primary key,
     user_id    bigint unsigned                        not null,
     is_admin   tinyint(1) default 0                   not null,
-    created_at timestamp  default current_timestamp() not null,
-    constraint users_authorization_user_id_foreign
-        foreign key (user_id) references users (id)
+    created_at timestamp  default current_timestamp() not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 --
 -- Индексы сохранённых таблиц
@@ -640,6 +643,10 @@ ALTER TABLE `rooms_reservation`
 ALTER TABLE `users_users_params`
   ADD CONSTRAINT `users_users_params_param_id_foreign` FOREIGN KEY (`param_id`) REFERENCES `users_params` (`id`),
   ADD CONSTRAINT `users_users_params_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+ALTER TABLE `users_authorization`
+    ADD CONSTRAINT `users_authorization_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
