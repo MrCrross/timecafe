@@ -10,6 +10,16 @@
         <div
             class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6"
         >
+            @if (count($errors) > 0)
+                <div class="w-full px-10 py-5 bg-red-700">
+                    <strong>Ошибка:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <section
                 class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
             >

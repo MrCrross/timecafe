@@ -8,11 +8,11 @@ use App\Modules\Orders\Models\Order;
 use App\Modules\Rooms\Export\RoomsExport;
 use App\Modules\Rooms\Models\RoomsImage;
 use App\Modules\Rooms\Models\RoomsReservation;
-use App\Modules\Stocks\Requests\RoomsImagesRequest;
-use App\Modules\Stocks\Requests\StocksStoreRequest;
-use App\Modules\Stocks\Requests\StocksUpdateRequest;
 use App\Modules\Rooms\Models\Room;
 use App\Modules\Rooms\Models\RoomsRate;
+use App\Modules\Rooms\Requests\RoomsImagesRequest;
+use App\Modules\Rooms\Requests\RoomsStoreRequest;
+use App\Modules\Rooms\Requests\RoomsUpdateRequest;
 use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -164,7 +164,7 @@ class RoomsController extends Controller
         ]);
     }
 
-    public function store(StocksStoreRequest $request): RedirectResponse
+    public function store(RoomsStoreRequest $request): RedirectResponse
     {
         $fields = [
             'name' => $request->post('name'),
@@ -198,7 +198,7 @@ class RoomsController extends Controller
         ]);
     }
 
-    public function update(StocksUpdateRequest $request, int $id): RedirectResponse
+    public function update(RoomsUpdateRequest $request, int $id): RedirectResponse
     {
         $fields = [
             'name' => $request->post('name'),

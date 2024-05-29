@@ -4,7 +4,7 @@ namespace App\Modules\Rooms\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Modules\Rooms\Models\RoomsRate;
-use App\Modules\Stocks\Requests\RoomsRatesRequest;
+use App\Modules\Rooms\Requests\RoomsRatesRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
