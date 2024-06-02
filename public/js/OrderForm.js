@@ -16,6 +16,7 @@ class OrderForm {
         const addBtns = document.querySelectorAll(OrderForm.btnAddLineSelector);
         const removeBtns = document.querySelectorAll(OrderForm.btnRemoveLineSelector);
         const inputCheckBox = document.querySelectorAll('.input_checkbox');
+        const containerLines = document.querySelectorAll('.' + OrderForm.lineOrderClass);
 
         if (addBtns) {
             addBtns.forEach((btn) => {
@@ -37,6 +38,21 @@ class OrderForm {
                         target.value = 1;
                     }
                 });
+            })
+        }
+
+        if (containerLines) {
+            containerLines.forEach((line) => {
+                const productID = line.querySelector('#product_id');
+                const productPrice = productID.selectedOptions[0].getAttribute('data-price')
+                const productPriceElement = line.querySelector('#product_price');
+                const productCount = line.querySelector('#count');
+
+                productID.addEventListener('change', (event) => OrderForm.refreshProductPrice(event));
+                productCount.addEventListener('change', (event) => OrderForm.refreshProductPrice(event));
+
+                productPriceElement.innerHTML = +productPrice * +productCount.value;
+                OrderForm.refreshOrderPrice()
             })
         }
     }
@@ -68,6 +84,8 @@ class OrderForm {
         OrderForm.keyLine++;
         const clone = document.querySelector(OrderForm.lineOrderCloneSelector).cloneNode(true);
         const productID = clone.querySelector('#product_id');
+        const productPrice = productID.selectedOptions[0].getAttribute('data-price')
+        const productPriceElement = clone.querySelector('#product_price');
         const count = clone.querySelector('#count');
         const addBtn = clone.querySelector(OrderForm.btnAddLineSelector);
         const removeBtn = clone.querySelector(OrderForm.btnRemoveLineSelector);
@@ -78,6 +96,10 @@ class OrderForm {
         removeBtn.classList.remove('hidden');
         productID.setAttribute('name', "products[" + OrderForm.keyLine + "][id]");
         count.setAttribute('name', "products[" + OrderForm.keyLine + "][count]");
+        count.addEventListener('change', (event) => OrderForm.refreshProductPrice(event));
+
+        productPriceElement.innerHTML = +productPrice * +count.value;
+        OrderForm.refreshOrderPrice()
         return clone;
     }
 
@@ -102,5 +124,29 @@ class OrderForm {
             cloneEmptyInput.value = line.value
             reservationProductsContainer.append(cloneEmptyInput)
         })
+    }
+
+    static refreshProductPrice(event)
+    {
+        const line = OrderForm.getLineOrder(event.target)
+        const productID = line.querySelector('#product_id');
+        const productCount = line.querySelector('#count');
+        const productPrice = productID.selectedOptions[0].getAttribute('data-price')
+        const productPriceElement = line.querySelector('#product_price');
+
+        productPriceElement.innerHTML = +productPrice * +productCount.value;
+        OrderForm.refreshOrderPrice()
+    }
+
+    static refreshOrderPrice()
+    {
+        const orderPriceElement = document.querySelector('span#order_price')
+        let orderPrice = 0
+        const containerLines = document.querySelectorAll('.' + OrderForm.lineOrderClass);
+        containerLines.forEach((line) => {
+            const productPrice = line.querySelector('#product_price')
+            orderPrice += +productPrice.innerHTML
+        })
+        orderPriceElement.innerHTML = orderPrice
     }
 }

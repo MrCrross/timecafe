@@ -25,7 +25,7 @@ class ProductsUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'integer'],
+            'price' => ['required', 'decimal:2'],
             'image' => ['image', 'nullable'],
             'type_id' => ['required', 'integer', 'min:1', Rule::exists(ProductsType::class, 'id')]
         ];

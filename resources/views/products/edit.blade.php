@@ -72,7 +72,8 @@
                             name="price"
                             type="number"
                             class="mt-1 block w-full"
-                            min="0"
+                            min="0.00"
+                            step="0.01"
                             value="{{$product->price}}"
                             required
                             autofocus

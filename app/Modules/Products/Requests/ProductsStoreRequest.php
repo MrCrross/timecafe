@@ -26,7 +26,7 @@ class ProductsStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique(Product::class, 'name')],
-            'price' => ['required', 'integer'],
+            'price' => ['required', 'decimal:2'],
             'image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'type_id' => ['required', 'integer', 'min:1', Rule::exists(ProductsType::class, 'id')]
         ];

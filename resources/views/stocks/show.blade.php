@@ -8,6 +8,8 @@
                 <div class="flex flex-col justify-center items-start gap-2">
                     <x-item-p label="Название" value="{{$stock->name}}"></x-item-p>
                     <x-item-p label="Описание" value="{{$stock->description}}"></x-item-p>
+                    <x-item-p label="Скидка" value="{{$stock->price}} р."></x-item-p>
+                    <x-item-p label="Действует до" value="{{\Illuminate\Support\Carbon::parse($stock->expired_date)->format('d.m.Y H:i')}}"></x-item-p>
                     <div class="flex flex-row w-full justify-center items-center gap-2">
                         <x-primary-a :href="route('stocks.edit', $stock->id)">{{__('Редактировать')}}</x-primary-a>
                         <x-danger-button type="button"

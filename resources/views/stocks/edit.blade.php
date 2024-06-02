@@ -10,6 +10,11 @@
         <div
             class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6"
         >
+            @if ($message = Session::get('error'))
+                <div class="w-full px-10 py-5 bg-red-500">
+                    <p>{{ $message }}</p>
+                </div>
+            @endif
             <section
                 class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
             >
@@ -53,12 +58,60 @@
                         >{{$stock->description}}</x-textarea>
                         <x-input-error
                             class="mt-2"
-                            :messages="$errors->get('capacity')"
+                            :messages="$errors->get('description')"
                         />
                     </div>
 
                     <div
-                        class="flex items-center gap-4"
+                        class="py-4"
+                    >
+                        <x-input-label
+                            for="price"
+                            :value="__('Стоимость')"
+                        />
+                        <x-text-input
+                            id="price"
+                            name="price"
+                            type="number"
+                            class="mt-1 block w-full"
+                            min="0.00"
+                            step="0.01"
+                            :value="$stock->price"
+                            required
+                        />
+                        <x-input-error
+                            class="mt-2"
+                            :messages="$errors->get('price')"
+                        />
+                    </div>
+
+                    <div class="py-4">
+                        <x-input-label
+                            for="product_id"
+                            :value="__('Товар')"
+                        />
+                        <x-select
+                            id="product_id"
+                            name="product_id"
+                            class="mt-1 block w-full"
+                            :data="$products"
+                            :selected="$stock->product_id"
+                            required
+                        />
+                        <x-input-error
+                            class="mt-2"
+                            :messages="$errors->get('product_id')"
+                        />
+                    </div>
+
+                    <div class="py-4">
+                        <x-input-label for="expired_date" :value="__('Действует до')" />
+                        <x-text-input id="expired_date" name="expired_date" type="datetime-local" class="mt-1 block w-full" :value="\Illuminate\Support\Carbon::parse($stock->expired_date)->format('Y-m-d H:i')" required/>
+                        <x-input-error class="mt-2" :messages="$errors->get('expired_date')" />
+                    </div>
+
+                    <div
+                        class="mt-2"
                     >
                         <x-primary-button>
                             {{ __('Сохранить') }}

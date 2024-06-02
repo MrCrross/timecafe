@@ -3,6 +3,7 @@
 namespace App\Modules\Stocks\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Modules\Products\Models\Product;
 use App\Modules\Stocks\Requests\StocksStoreRequest;
 use App\Modules\Stocks\Requests\StocksUpdateRequest;
 use App\Modules\Stocks\Models\Stock;
@@ -10,6 +11,7 @@ use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +24,8 @@ class StocksController extends Controller
      */
     public function welcome(Request $request): Response
     {
-        $stocks = Stock::when($request->filled('name'), function ($query) use ($request) {
+        $stocks = Stock::with('product')
+            ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->query('name')}%");
             })
             ->when((int)$request->query('order_name') !== 0, function ($query) use ($request) {
@@ -49,7 +52,7 @@ class StocksController extends Controller
      */
     public function index(): Response
     {
-        $stocks = Stock::get();
+        $stocks = Stock::with('product')->get();
 
         return response()->view('stocks.index', [
             'stocks' => $stocks
@@ -61,7 +64,15 @@ class StocksController extends Controller
      */
     public function create(): Response
     {
-        return response()->view('stocks.create');
+        $products = Product::selectRaw('
+            products.id as value,
+            CONCAT(products_types.name, " ", products.name) as label
+        ')
+            ->join('products_types', 'products_types.id', '=', 'products.type_id')
+            ->orderBy('products.name')
+            ->get();
+
+        return response()->view('stocks.create', compact('products'));
     }
 
     /**
@@ -71,8 +82,28 @@ class StocksController extends Controller
     {
         $fields = [
             'name' => $request->post('name'),
+            'product_id' => (int)$request->post('product_id'),
             'description' => $request->post('description'),
+            'price' => $request->post('price'),
+            'expired_date' => Carbon::parse($request->post('expired_date'))->toDateTimeString(),
         ];
+        $productPrice = Product::query()
+            ->selectRaw('
+            (
+               products.price -
+               IFNULL(
+                       (SELECT SUM(stocks.price)
+                        FROM stocks
+                        WHERE stocks.product_id = products.id
+                          and stocks.expired_date > now()),
+                       0
+               )
+           ) as price
+            ')
+            ->find($fields['product_id'])->price;
+        if ($productPrice < $fields['price']) {
+            return Redirect::route('stocks.create')->with('error', 'Цена акции больше стоимости товара с учетом имеющихся действующих акций.');
+        }
 
         Stock::query()->create($fields)->id;
 
@@ -97,9 +128,17 @@ class StocksController extends Controller
     public function edit(int $id): Response
     {
         $stock = Stock::find($id);
+        $products = Product::selectRaw('
+            products.id as value,
+            CONCAT(products_types.name, " ", products.name) as label
+        ')
+            ->join('products_types', 'products_types.id', '=', 'products.type_id')
+            ->orderBy('products.name')
+            ->get();
 
         return response()->view('stocks.edit', [
-            'stock' => $stock
+            'stock' => $stock,
+            'products' => $products,
         ]);
     }
 
@@ -113,7 +152,28 @@ class StocksController extends Controller
         $fields = [
             'name' => $request->post('name'),
             'description' => $request->post('description'),
+            'product_id' => $request->post('product_id'),
+            'price' => $request->post('price'),
+            'expired_date' => Carbon::parse($request->post('expired_date'))->toDateTimeString(),
         ];
+
+        $productPrice = Product::query()
+            ->selectRaw('
+            (
+               products.price -
+               IFNULL(
+                       (SELECT SUM(stocks.price)
+                        FROM stocks
+                        WHERE stocks.product_id = products.id
+                          and stocks.expired_date > now()),
+                       0
+               )
+           ) as price
+            ')
+            ->find($fields['product_id'])->price;
+        if ($productPrice < $fields['price']) {
+            return Redirect::route('stocks.edit', $id)->with('error', 'Цена акции больше стоимости товара с учетом имеющихся действующих акций.');
+        }
 
         Stock::query()->find($id)->update($fields);
 

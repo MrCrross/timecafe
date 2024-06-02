@@ -28,7 +28,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/reservation', [ReservationController::class, 'index'])->name('reservation.index');
     });
     Route::middleware('param:reservation_edit')->group(function () {
+        Route::get('/reservation/create', [ReservationController::class, 'create'])->name('reservation.create');
         Route::get('/reservation/{id}/edit', [ReservationController::class, 'edit'])->name('reservation.edit');
+        Route::post('/reservation/store', [ReservationController::class, 'storeAdmin'])->name('reservation.storeAdmin');
         Route::patch('/reservation/{id}', [ReservationController::class, 'update'])->name('reservation.update');
         Route::delete('/reservation/{id}', [ReservationController::class, 'destroy'])->name('reservation.destroy');
         Route::delete('/reservation/welcome/{id}', [ReservationController::class, 'destroyWelcome'])->name('reservation.destroyWelcome');

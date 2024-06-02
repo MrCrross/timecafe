@@ -13,6 +13,7 @@
             class="mt-1 block w-full"
             :data="$products"
             :selected="!empty($productID) ? $productID : 0"
+            :additionalFields="['price',]"
             required
         />
     </div>
@@ -33,6 +34,8 @@
             autofocus
         />
     </div>
+    <span class="pl-5 pt-4">=</span>
+    <span id="product_price" class="pl-5 pt-4">0</span>
 
     <div class="flex flex-row justify-end items-end">
         <x-green-button

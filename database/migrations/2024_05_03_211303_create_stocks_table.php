@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
             $table->string('name');
+            $table->decimal('price');
             $table->string('description');
+            $table->dateTime('expired_date');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

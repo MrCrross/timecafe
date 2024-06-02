@@ -9,13 +9,11 @@ use App\Modules\Orders\Requests\OrdersStoreRequest;
 use App\Modules\Orders\Requests\OrdersUpdateRequest;
 use App\Modules\Products\Models\Product;
 use App\Modules\Rooms\Models\Room;
-use App\Modules\Rooms\Models\RoomsReservation;
 use App\OrderTrait;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class OrdersController extends Controller
@@ -91,11 +89,22 @@ class OrdersController extends Controller
             ->get();
         $products = Product::selectRaw('
             products.id as value,
-            CONCAT(products_types.name, " ", products.name) as label
+            CONCAT(products_types.name, " ", products.name) as label,
+            (
+               products.price -
+               IFNULL(
+                       (SELECT SUM(stocks.price)
+                        FROM stocks
+                        WHERE stocks.product_id = products.id
+                          and stocks.expired_date > now()),
+                       0
+               )
+            ) as price
         ')
             ->join('products_types', 'products_types.id', '=', 'products.type_id')
             ->orderBy('products.name')
             ->get();
+
         return response()->view('orders.create', [
             'rooms' => $rooms,
             'products' => $products,
@@ -153,11 +162,22 @@ class OrdersController extends Controller
             ->get();
         $products = Product::selectRaw('
             products.id as value,
-            CONCAT(products_types.name, " ", products.name) as label
+            CONCAT(products_types.name, " ", products.name) as label,
+            (
+               products.price -
+               IFNULL(
+                       (SELECT SUM(stocks.price)
+                        FROM stocks
+                        WHERE stocks.product_id = products.id
+                          and stocks.expired_date > now()),
+                       0
+               )
+            ) as price
         ')
             ->join('products_types', 'products_types.id', '=', 'products.type_id')
             ->orderBy('products.name')
             ->get();
+
         return response()->view('orders.edit', [
             'order' => $order,
             'rooms' => $rooms,

@@ -2,7 +2,9 @@
 
 namespace App\Modules\Stocks\Requests;
 
+use App\Modules\Products\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StocksUpdateRequest extends FormRequest
 {
@@ -24,6 +26,9 @@ class StocksUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
+            'product_id' => ['required', 'integer', Rule::exists(Product::class, 'id')],
+            'expired_date' => ['required', 'date'],
+            'price' => ['required', 'decimal:2', 'min:0'],
         ];
     }
 }

@@ -181,7 +181,7 @@
                                 <x-slot name="trigger">
                                     <button
                                         class="tm-text-gold pb-1 md:pb-3 px-4 inline-flex items-center border border-transparent rounded-md bg-transparent transition ease-in-out duration-150">
-                                        <div>{{ Auth::user()->login }}</div>
+                                        <div>{{ Auth::user()->fio }}</div>
 
                                         <div class="ml-1">
                                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
@@ -218,22 +218,6 @@
             </ul>
         </div>
     </nav>
-    <div class="tm-container mx-auto pt-20 flex justify-end">
-        <div class="flex flex-row justify-end z-50">
-            <a
-                href="https://vk.com"
-                class="bg-black bg-opacity-70 rounded-lg px-3 py-1 mr-3 font-semibold tm-text-2xl tm-text-gold hover:text-gray-200"
-            >
-                <i class="fab fa-vk"></i>
-            </a>
-            <a
-                href="https://t.me/Alex_STN"
-                class="bg-black bg-opacity-70 rounded-lg px-3 py-1 mr-3 font-semibold tm-text-2xl tm-text-gold hover:text-gray-200"
-            >
-                <i class="fab fa-telegram"></i>
-            </a>
-        </div>
-    </div>
     <div class="container mx-auto px-2 tm-intro-width">
         <div class="sm:pb-60 sm:pt-48 py-20">
             <div class="bg-black bg-opacity-70 p-12 mb-5 text-center">

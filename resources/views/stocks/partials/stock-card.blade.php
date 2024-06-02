@@ -33,6 +33,12 @@
             </h1>
         </a>
     </div>
+    <div class="px-4 py-2">
+        {{$stock->price}} р.
+    </div>
+    <div class="px-4 py-2">
+        {{\Illuminate\Support\Carbon::parse($stock->expired_date)->format('d.m.Y H:i')}}
+    </div>
 
     <div
         class="flex items-center justify-between px-4 py-2 bg-gray-900"

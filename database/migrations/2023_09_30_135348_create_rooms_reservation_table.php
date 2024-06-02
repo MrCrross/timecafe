@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('capacity');
             $table->dateTime('date_reserve');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('room_id')->on('rooms')->references('id');
         });

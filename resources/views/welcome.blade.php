@@ -29,6 +29,7 @@
                             <div class="ml-3 sm:ml-6">
                                 <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{$room->name}}</h3>
                                 <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->capacity}} чел.</div>
+                                <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->rate->price}} руб.</div>
                             </div>
                         </div>
                     @endforeach
@@ -39,6 +40,7 @@
                             <div class="text-right mr-6">
                                 <h3 class="text-lg sm:text-xl mb-2 sm:mb-3 tm-text-yellow">{{$room->name}}</h3>
                                 <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->capacity}} чел.</div>
+                                <div class="text-white text-md sm:text-lg font-light mb-1">{{$room->rate->price}} руб.</div>
                             </div>
                             <img
                                 src="{{$room->image}}"
@@ -229,15 +231,43 @@
                             name="fio"
                             class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
                             placeholder="ФИО"
+                            @auth
+                                value="{{\Illuminate\Support\Facades\Auth::user()->fio}}"
+                                hidden
+                            @endauth
                             required
                         />
+                        @auth
+                        <input
+                            type="text"
+                            name=""
+                            class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                            placeholder=""
+                            value="{{\Illuminate\Support\Facades\Auth::user()->fio}}"
+                            disabled
+                        />
+                        @endauth
                         <input
                             type="email"
                             name="email"
                             class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
                             placeholder="Почта"
+                            @auth
+                                value="{{\Illuminate\Support\Facades\Auth::user()->email}}"
+                                hidden
+                            @endauth
                             required
                         />
+                        @auth
+                            <input
+                                type="text"
+                                name=""
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder=""
+                                value="{{\Illuminate\Support\Facades\Auth::user()->email}}"
+                                disabled
+                            />
+                        @endauth
                         <select
                             name="room_id"
                             class="select-gold input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
@@ -299,6 +329,15 @@
                             >Отправить
                             </button>
                         </div>
+                        @if (session('error') === 'closed')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 5000)"
+                                class="text-sm text-gray-600 dark:text-gray-400"
+                            >{{ __('Уже занято.') }}</p>
+                        @endif
                         @if (session('status') === 'reservation')
                             <p
                                 x-data="{ show: true }"

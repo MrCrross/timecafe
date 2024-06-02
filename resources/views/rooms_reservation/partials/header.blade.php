@@ -7,6 +7,15 @@
 <h2 class="font-semibold text-xl {{ $textColor }} leading-tight">
     <div class="flex flex-row items-center justify-between">
         <h1>{{ __('Бронь') }}</h1>
+        @auth
+            @if(Auth::user()->params()->has('reservation_edit'))
+                <div class="flex flex-row items-center justify-between">
+                    <x-nav-link :href="route('reservation.create')" :active="request()->routeIs('reservation.create')">
+                        {{__('Добавить')}}
+                    </x-nav-link>
+                </div>
+            @endif
+        @endauth
         @if(isset($attributes['welcome']))
             <a
                     href="#contact"

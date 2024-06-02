@@ -4,6 +4,7 @@ namespace App\Modules\ProductsTypes\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\FilesModel;
+use App\Modules\Products\Models\Product;
 use App\Modules\ProductsTypes\Models\ProductsType;
 use App\Modules\ProductsTypes\Requests\ProductsTypesStoreRequest;
 use App\Modules\ProductsTypes\Requests\ProductsTypesUpdateRequest;
@@ -76,9 +77,12 @@ class ProductsTypesController extends Controller
         return Redirect::route('products_types.edit', $id)->with('status', 'products_type-updated');
     }
 
-    public function destroy(string $id): RedirectResponse
+    public function destroy(int $id): RedirectResponse
     {
-        ProductsType::deleteByID($id);
+        $check = Product::query()->where('type_id', $id)->value('id');
+        if (!empty($check)) {
+            return redirect()->route('products_types.index')->with('error', 'Нельзя удалить.');
+        }
 
         return redirect()->route('products_types.index');
     }

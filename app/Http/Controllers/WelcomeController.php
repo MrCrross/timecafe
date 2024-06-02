@@ -18,6 +18,7 @@ class WelcomeController extends Controller
             ->get();
 
         $previewRooms = Room::query()
+            ->with('rate')
             ->orderBy('name')
             ->limit(8)
             ->get();
