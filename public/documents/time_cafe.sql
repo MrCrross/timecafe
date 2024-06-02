@@ -110,7 +110,7 @@ CREATE TABLE `password_reset_tokens` (
 CREATE TABLE `products` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
-  `price` int(11) NOT NULL,
+  `price` decimal(8,2) UNSIGNED NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `type_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -272,28 +272,15 @@ CREATE TABLE `rooms_reservation` (
 
 CREATE TABLE `stocks` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
+  `price` decimal(8,2) NOT NULL,
   `description` varchar(255) NOT NULL,
+  `expired_date` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Дамп данных таблицы `stocks`
---
-
-INSERT INTO `stocks` (`id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'hic', 'Asperiores assumenda sit asperiores quae ad ipsum maiores velit. Inventore ullam dolor quaerat praesentium sunt. Nam vel quasi possimus rerum unde eius. Esse deleniti architecto sit quia.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(2, 'quo', 'Laudantium odio voluptatem pariatur quasi natus quia. Aut aliquam provident quo qui aut aut est. Autem expedita assumenda quaerat id.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(3, 'rerum', 'Ut explicabo illo et doloremque voluptatem accusamus. Dolorem repudiandae saepe quae reiciendis. Quidem labore sequi nostrum ipsum voluptas veritatis. Vitae praesentium at rerum similique aliquam.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(4, 'eveniet', 'Expedita sunt maiores aliquam ut maiores facere. Et molestiae eligendi quidem occaecati ut sunt id.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(5, 'quae', 'Modi in quas adipisci maxime repellendus ut. Optio veniam eaque iusto sint corrupti. Dolores cumque ut autem qui soluta quam aliquam. Minima culpa perferendis est vero ab.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(6, 'quidem', 'Labore eveniet ex qui voluptatem aliquam placeat quia. Et id maiores sunt nulla consectetur molestiae aliquam similique. Ratione ipsa ea debitis voluptatem deleniti omnis cum.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(7, 'cumque', 'Dolore possimus et totam voluptas. Est vel id eum perspiciatis. Deleniti ullam saepe nihil sint sit. Sapiente in architecto quia quis.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(8, 'omnis', 'Doloremque voluptate rerum consequuntur eum quibusdam dolorum cumque. Aut praesentium fuga quia facilis quo nemo numquam doloremque.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(9, 'in', 'Quo quia ratione vero qui in enim. Consequatur accusamus vero ea similique. Nisi sed voluptas sunt at in nihil dolor mollitia. Facere placeat officiis odio sint rerum dolorem voluptas.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL),
-(10, 'repudiandae', 'Aliquid accusantium qui voluptas modi suscipit totam. Ab excepturi magni provident est. Aut perferendis mollitia quibusdam. Sunt est ab quia quod.', '2024-05-04 07:37:07', '2024-05-04 07:37:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -496,7 +483,8 @@ ALTER TABLE `rooms_reservation`
 -- Индексы таблицы `stocks`
 --
 ALTER TABLE `stocks`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `stocks_product_id_foreign` (`product_id`);
 
 --
 -- Индексы таблицы `users`
