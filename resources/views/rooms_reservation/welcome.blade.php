@@ -200,19 +200,47 @@
                     >
                         @csrf
                         <input
+                            type="text"
+                            name="fio"
+                            class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                            placeholder="ФИО"
+                            @auth
+                                value="{{\Illuminate\Support\Facades\Auth::user()->fio}}"
+                            hidden
+                            @endauth
+                            required
+                        />
+                        @auth
+                            <input
                                 type="text"
-                                name="fio"
+                                name=""
                                 class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
-                                placeholder="ФИО"
-                                required
-                        />
+                                placeholder=""
+                                value="{{\Illuminate\Support\Facades\Auth::user()->fio}}"
+                                disabled
+                            />
+                        @endauth
                         <input
-                                type="email"
-                                name="email"
-                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
-                                placeholder="Почта"
-                                required
+                            type="email"
+                            name="email"
+                            class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                            placeholder="Почта"
+                            @auth
+                                value="{{\Illuminate\Support\Facades\Auth::user()->email}}"
+                            hidden
+                            @endauth
+                            required
                         />
+                        @auth
+                            <input
+                                type="text"
+                                name=""
+                                class="input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
+                                placeholder=""
+                                value="{{\Illuminate\Support\Facades\Auth::user()->email}}"
+                                disabled
+                            />
+                        @endauth
                         <select
                                 name="room_id"
                                 class="select-gold input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"

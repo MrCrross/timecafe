@@ -448,7 +448,8 @@ ALTER TABLE `products_types`
 -- Индексы таблицы `reviews`
 --
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `reviews_user_id_foreign` (`user_id`);
 
 --
 -- Индексы таблицы `rooms`

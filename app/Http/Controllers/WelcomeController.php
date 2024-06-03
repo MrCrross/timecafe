@@ -29,7 +29,17 @@ class WelcomeController extends Controller
 
         $products = Product::selectRaw('
             products.id as value,
-            CONCAT(products_types.name, " ", products.name) as label
+            CONCAT(products_types.name, " ", products.name) as label,
+            (
+               products.price -
+               IFNULL(
+                       (SELECT SUM(stocks.price)
+                        FROM stocks
+                        WHERE stocks.product_id = products.id
+                          and stocks.expired_date > now()),
+                       0
+               )
+           ) as price
         ')
             ->join('products_types', 'products_types.id', '=', 'products.type_id')
             ->orderBy('products.name')

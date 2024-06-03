@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
@@ -81,6 +82,9 @@ class ReservationController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        if (!Auth::check()) {
+            return redirect()->route('welcome')->with('error', 'no_auth');
+        }
         $request->validate([
             'fio' => ['required', 'string', 'max:255'],
             'room_id' => ['required', 'integer', Rule::exists(Room::class, 'id')],
@@ -105,7 +109,9 @@ class ReservationController extends Controller
 
         $check = RoomsReservation::query()
             ->where('room_id', '=', $fields['room_id'])
-            ->where('date_reserve', 'like', '%' . Carbon::parse($request->post('date_reserve'))->toDateString() . '%')
+            ->whereRaw('
+                (DATE_ADD(date_reserve, INTERVAL hours HOUR) >= ? OR DATE_ADD(?, INTERVAL ? HOUR) <= date_reserve)
+            ', [Carbon::parse($request->post('date_reserve'))->toDateTimeString(), Carbon::parse($request->post('date_reserve'))->toDateTimeString(), $request->post('hours')])
             ->first();
         if (!empty($check)) {
             return redirect()->route('welcome')->with('error', 'closed');
@@ -176,7 +182,9 @@ class ReservationController extends Controller
 
         $check = RoomsReservation::query()
             ->where('room_id', '=', $fields['room_id'])
-            ->where('date_reserve', 'like', '%' . Carbon::parse($request->post('date_reserve'))->toDateString() . '%')
+            ->whereRaw('
+                (DATE_ADD(date_reserve, INTERVAL hours HOUR) >= ? OR DATE_ADD(?, INTERVAL ? HOUR) <= date_reserve)
+            ', [Carbon::parse($request->post('date_reserve'))->toDateTimeString(), Carbon::parse($request->post('date_reserve'))->toDateTimeString(), $request->post('hours')])
             ->first();
         if (!empty($check)) {
             return redirect()->route('reservation.create')->with('error', 'Уже занято');

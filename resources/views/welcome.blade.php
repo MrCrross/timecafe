@@ -219,7 +219,12 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex-1 rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container">
+                <div class="flex-1 rounded-xl p-12 pb-14 m-5 bg-black bg-opacity-50 tm-item-container relative">
+                    @guest
+                        <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-70 bg-gray-100 z-50 font-black rounded-xl text-2xl">
+                            Войдите или зарегистрируйтесь
+                        </div>
+                    @endguest
                     <form
                         action="{{route('reservation.store')}}"
                         method="POST"
@@ -329,6 +334,15 @@
                             >Отправить
                             </button>
                         </div>
+                        @if (session('error') === 'no_auth')
+                            <p
+                                x-data="{ show: true }"
+                                x-show="show"
+                                x-transition
+                                x-init="setTimeout(() => show = false, 5000)"
+                                class="text-sm text-gray-600 dark:text-gray-400"
+                            >{{ __('Войдите или зарегистрирутесь.') }}</p>
+                        @endif
                         @if (session('error') === 'closed')
                             <p
                                 x-data="{ show: true }"
@@ -363,6 +377,7 @@
         </div>
 
         <div class="m-6 flex justify-end">
+            <span id="order_price" class="pl-5">0</span><span class="pl-5">руб.</span>
             <x-primary-button type="button" class="mx-2" id="reservationProductsSubmit" x-on:click="$dispatch('close')">
                 {{ __('Добавить') }}
             </x-primary-button>
