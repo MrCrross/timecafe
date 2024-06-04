@@ -615,6 +615,12 @@ ALTER TABLE `products`
   ADD CONSTRAINT `products_type_id_foreign` FOREIGN KEY (`type_id`) REFERENCES `products_types` (`id`);
 
 --
+-- Ограничения внешнего ключа таблицы `reviews`
+--
+ALTER TABLE `reviews`
+    ADD CONSTRAINT `reviews_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
 -- Ограничения внешнего ключа таблицы `rooms`
 --
 ALTER TABLE `rooms`
@@ -632,6 +638,11 @@ ALTER TABLE `rooms_images`
 ALTER TABLE `rooms_reservation`
   ADD CONSTRAINT `rooms_reservation_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`);
 
+--
+-- Ограничения внешнего ключа таблицы `stocks`
+--
+ALTER TABLE `stocks`
+    ADD CONSTRAINT `stocks_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 --
 -- Ограничения внешнего ключа таблицы `users_users_params`
 --
