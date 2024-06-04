@@ -59,6 +59,7 @@
                             <x-slot name="options">
                                 <option
                                     value=""
+                                    data-price="0"
                                     disabled
                                     selected
                                 >
@@ -67,6 +68,7 @@
                                 @foreach($rooms as $room)
                                     <option
                                         value="{{$room->id}}"
+                                        data-price="{{$room->rate->price}}"
                                     >
                                         {{$room->name . ' ' . $room->rate->price . ' руб/час'}}
                                     </option>

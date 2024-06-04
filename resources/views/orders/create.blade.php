@@ -10,10 +10,10 @@
         <div
             class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6"
         >
+            <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
             <section
                 class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800"
             >
-                <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
                 <form method="post" action="{{ route('orders.store') }}">
                     @csrf
 
@@ -27,11 +27,32 @@
                             name="room_id"
                             class="mt-1 block w-full"
                             :data="$rooms"
+                            :additionalFields="['price']"
                             required
                         />
                         <x-input-error
                             class="mt-2"
                             :messages="$errors->get('room_id')"
+                        />
+                    </div>
+
+                    <div class="py-4">
+                        <x-input-label
+                            for="hours"
+                            :value="__('Количество часов')"
+                        />
+                        <x-text-input
+                            id="hours"
+                            name="hours"
+                            type="number"
+                            class="mt-1 block w-full"
+                            min="1"
+                            value="1"
+                            required
+                        />
+                        <x-input-error
+                            class="mt-2"
+                            :messages="$errors->get('hours')"
                         />
                     </div>
 
@@ -48,7 +69,7 @@
                             {{ __('Сохранить') }}
                         </x-primary-button>
                         <span id="order_price" class="pl-5">0</span><span class="pl-5">руб.</span>
-                        @if (session('status') === 'orders-created')
+                        @if (session('status') === 'order-created')
                             <p
                                 x-data="{ show: true }"
                                 x-show="show"

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('room_id');
+            $table->unsignedTinyInteger('hours');
             $table->unsignedTinyInteger('status');
             $table->dateTime('date_order');
             $table->timestamps();

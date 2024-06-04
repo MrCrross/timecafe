@@ -15,8 +15,9 @@ class OrderForm {
     {
         const addBtns = document.querySelectorAll(OrderForm.btnAddLineSelector);
         const removeBtns = document.querySelectorAll(OrderForm.btnRemoveLineSelector);
-        const inputCheckBox = document.querySelectorAll('.input_checkbox');
-        const containerLines = document.querySelectorAll('.' + OrderForm.lineOrderClass);
+        const containerLines = document.querySelector(OrderForm.containerLineSelector).querySelectorAll('.' + OrderForm.lineOrderClass);
+        const inputRoomID = document.querySelector('#room_id')
+        const inputRoomHours = document.querySelector('#hours')
 
         if (addBtns) {
             addBtns.forEach((btn) => {
@@ -28,17 +29,11 @@ class OrderForm {
                 btn.addEventListener('click', (event) => OrderForm.removeLine(event));
             });
         }
-        if (inputCheckBox) {
-            inputCheckBox.forEach((checkBox) => {
-                checkBox.addEventListener('change', (event) => {
-                    const target = event.target;
-                    if (target.checked) {
-                        target.value = 2;
-                    } else {
-                        target.value = 1;
-                    }
-                });
-            })
+        if (inputRoomID) {
+            inputRoomID.addEventListener('change', (event) => OrderForm.refreshOrderPrice())
+        }
+        if (inputRoomHours) {
+            inputRoomHours.addEventListener('change', (event) => OrderForm.refreshOrderPrice())
         }
 
         if (containerLines) {
@@ -141,12 +136,15 @@ class OrderForm {
     static refreshOrderPrice()
     {
         const orderPriceElement = document.querySelector('span#order_price')
+        const orderRoomPrice = document.querySelector('#room_id').selectedOptions[0].getAttribute('data-price')
+        const orderRoomHours = document.querySelector('#hours').value
         let orderPrice = 0
-        const containerLines = document.querySelectorAll('.' + OrderForm.lineOrderClass);
+        const containerLines = document.querySelector(OrderForm.containerLineSelector).querySelectorAll('.' + OrderForm.lineOrderClass)
         containerLines.forEach((line) => {
             const productPrice = line.querySelector('#product_price')
             orderPrice += +productPrice.innerHTML
         })
-        orderPriceElement.innerHTML = orderPrice
+
+        orderPriceElement.innerHTML = (+orderRoomPrice * +orderRoomHours) + orderPrice
     }
 }

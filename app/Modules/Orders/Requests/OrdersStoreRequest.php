@@ -26,6 +26,7 @@ class OrdersStoreRequest extends FormRequest
     {
         return [
             'room_id' => ['required', 'integer', 'min:1', Rule::exists(Room::class, 'id')],
+            'hours' => ['required', 'integer'],
             'products' => ['required', 'array'],
             'products.*' => ['required', 'array'],
             'products.*.id' => ['required', 'integer', 'min:1', Rule::exists(Product::class, 'id')],

@@ -66,6 +66,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `room_id` bigint(20) UNSIGNED NOT NULL,
+  `hours` tinyint(3) UNSIGNED NOT NULL,
   `status` tinyint(3) UNSIGNED NOT NULL,
   `date_order` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,

@@ -11,6 +11,7 @@
                     <x-item-p label="Дата" value="{{\Illuminate\Support\Carbon::parse($order->date_order)->format('d.m.Y H:i')}}"></x-item-p>
                     <x-item-p label="Статус" value="{{$order->status_name}}"></x-item-p>
                     <x-item-p label="Комната" value="{{$order->room->name}}"></x-item-p>
+                    <x-item-p label="Количество часов" value="{{$order->hours}}"></x-item-p>
                     <div class="text-gray-800">
                         <p class="font-bold">Состав:</p>
                         @php $orderPrice = 0; @endphp

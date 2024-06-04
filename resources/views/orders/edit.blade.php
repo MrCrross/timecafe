@@ -34,6 +34,7 @@
                             class="mt-1 block w-full"
                             :data="$rooms"
                             :selected="$order->room_id"
+                            :additionalFields="['price']"
                             required
                         />
                         <x-input-error
@@ -41,6 +42,27 @@
                             :messages="$errors->get('room_id')"
                         />
                     </div>
+
+                    <div class="py-4">
+                        <x-input-label
+                            for="hours"
+                            :value="__('Количество часов')"
+                        />
+                        <x-text-input
+                            id="hours"
+                            name="hours"
+                            type="number"
+                            class="mt-1 block w-full"
+                            min="1"
+                            :value="$order->hours"
+                            required
+                        />
+                        <x-input-error
+                            class="mt-2"
+                            :messages="$errors->get('hours')"
+                        />
+                    </div>
+
                     <div class="py-4 flex flex-row gap-2 items-center justify-start">
                         <x-input-label
                             for="status"

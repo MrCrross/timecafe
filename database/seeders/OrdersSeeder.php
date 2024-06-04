@@ -14,6 +14,7 @@ class OrdersSeeder extends Seeder
         $orders = [
             [
                 'room_id' => 1,
+                'hours' => 3,
                 'status' => 1,
                 'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [
@@ -36,6 +37,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'room_id' => 2,
+                'hours' => 3,
                 'status' => 1,
                 'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [
@@ -58,6 +60,7 @@ class OrdersSeeder extends Seeder
             ],
             [
                 'room_id' => 3,
+                'hours' => 3,
                 'status' => 1,
                 'date_order' => Carbon::now()->subDays(rand(0, 5))->toDateTimeString(),
                 'products' => [

@@ -84,8 +84,9 @@ class OrdersController extends Controller
      */
     public function create(): Response
     {
-        $rooms = Room::select('id as value', 'name as label')
-            ->orderBy('name')
+        $rooms = Room::select('rooms.id as value', 'rooms.name as label', 'rooms_rates.price')
+            ->join('rooms_rates', 'rooms_rates.id', '=', 'rooms.rate_id')
+            ->orderBy('rooms.name')
             ->get();
         $products = Product::selectRaw('
             products.id as value,
@@ -118,19 +119,24 @@ class OrdersController extends Controller
     {
         $fields = [
             'room_id' => $request->post('room_id'),
+            'hours' => $request->post('hours'),
             'status' => 1,
-            'date_order' => Carbon::now()->toDateTime(),
+            'date_order' => Carbon::now()->toDateTimeString(),
         ];
 
         $orderID = Order::restore(0, $fields);
 
+        $products = [];
         foreach ($request->post('products') as $product) {
-            $orderProductFields = [
-                'order_id' => $orderID,
-                'product_id' => $product['id'],
-                'count' => $product['count'],
-            ];
-            OrdersProduct::restore(0, $orderProductFields);
+            if (!in_array($product['id'], $products)) {
+                $orderProductFields = [
+                    'order_id' => $orderID,
+                    'product_id' => $product['id'],
+                    'count' => $product['count'],
+                ];
+                OrdersProduct::restore(0, $orderProductFields);
+                $products[] = $product['id'];
+            }
         }
 
         return Redirect::route('orders.create')->with('status', 'order-created');
@@ -157,8 +163,9 @@ class OrdersController extends Controller
     {
         $order = Order::with('room', 'products')
             ->find($id);
-        $rooms = Room::select('id as value', 'name as label')
-            ->orderBy('name')
+        $rooms = Room::select('rooms.id as value', 'rooms.name as label', 'rooms_rates.price')
+            ->join('rooms_rates', 'rooms_rates.id', '=', 'rooms.rate_id')
+            ->orderBy('rooms.name')
             ->get();
         $products = Product::selectRaw('
             products.id as value,
@@ -196,6 +203,9 @@ class OrdersController extends Controller
 
         if ($request->has('room_id')) {
             $fields['room_id'] = $request->post('room_id');
+        }
+        if ($request->has('hours')) {
+            $fields['hours'] = $request->post('hours');
         }
 
         Order::restore($id, $fields);
