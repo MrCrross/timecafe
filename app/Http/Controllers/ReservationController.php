@@ -121,6 +121,7 @@ class ReservationController extends Controller
         if ($request->filled('products')) {
             $orderID = Order::restore(0, [
                 'room_id' => $request->post('room_id'),
+                'hours' => $request->post('hours'),
                 'status' => 1,
                 'date_order' => $fields['date_reserve'],
             ]);

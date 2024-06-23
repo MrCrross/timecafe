@@ -274,12 +274,14 @@
                             />
                         @endauth
                         <select
+                            id="room_id"
                             name="room_id"
                             class="select-gold input w-full bg-black border-b bg-opacity-0 text-white px-1 py-4 mb-4 tm-border-gold"
                             required
                         >
                             <option
                                 value=""
+                                data-price="0"
                                 disabled
                                 selected
                             >
@@ -288,12 +290,14 @@
                             @foreach($rooms as $room)
                                 <option
                                     value="{{$room->id}}"
+                                    data-price="{{$room->rate->price}}"
                                 >
                                     {{$room->name . ' ' . $room->rate->price . ' руб/час'}}
                                 </option>
                             @endforeach
                         </select>
                         <input
+                            id="hours"
                             type="number"
                             name="hours"
                             min="1"
@@ -361,31 +365,32 @@
                                 class="text-sm text-gray-600 dark:text-gray-400"
                             >{{ __('Форма отправлена.') }}</p>
                         @endif
+                        <x-modal id="modal_reservationProducts" name="modal_reservationProducts" focusable>
+                            <div class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+                                <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
+                                <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Товары/Услуги</h1>
+
+                                <div class="py-4 flex flex-col justify-items-stretch container-line-Order">
+                                    <x-order-product-card key="0" :products="$products"></x-order-product-card>
+                                </div>
+                            </div>
+
+                            <div class="m-6 flex justify-end">
+                                <span id="order_price" class="pl-5">0</span><span class="pl-5">руб.</span>
+                                <x-primary-button type="button" class="mx-2" id="reservationProductsSubmit" x-on:click="$dispatch('close')">
+                                    {{ __('Добавить') }}
+                                </x-primary-button>
+                                <x-secondary-button x-on:click="$dispatch('close')">
+                                    {{ __('Отмена') }}
+                                </x-secondary-button>
+                            </div>
+                        </x-modal>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <x-modal id="modal_reservationProducts" name="modal_reservationProducts" focusable>
-        <div class="p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
-            <x-order-product-card key="0" clone="1" :products="$products"></x-order-product-card>
-            <h1 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Товары/Услуги</h1>
 
-            <div class="py-4 flex flex-col justify-items-stretch container-line-Order">
-                <x-order-product-card key="0" :products="$products"></x-order-product-card>
-            </div>
-        </div>
-
-        <div class="m-6 flex justify-end">
-            <span id="order_price" class="pl-5">0</span><span class="pl-5">руб.</span>
-            <x-primary-button type="button" class="mx-2" id="reservationProductsSubmit" x-on:click="$dispatch('close')">
-                {{ __('Добавить') }}
-            </x-primary-button>
-            <x-secondary-button x-on:click="$dispatch('close')">
-                {{ __('Отмена') }}
-            </x-secondary-button>
-        </div>
-    </x-modal>
     <script src="{{asset('/js/OrderForm.js')}}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
